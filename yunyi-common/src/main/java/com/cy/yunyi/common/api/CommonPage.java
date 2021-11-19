@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @Author: chx
- * @Description: TODO 分页数据封装类
+ * @Description: 分页数据封装类
  * @DateTime: 2021/11/15 22:25
  **/
 @Data

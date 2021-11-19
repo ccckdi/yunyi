@@ -22,7 +22,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * @Author: chx
- * @Description: TODO 资源服务器配置
+ * @Description: 资源服务器配置
  * @DateTime: 2021/11/17 21:21
  **/
 @AllArgsConstructor

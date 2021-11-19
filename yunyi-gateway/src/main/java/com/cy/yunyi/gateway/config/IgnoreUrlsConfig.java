@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @Author: chx
- * @Description: TODO 网关白名单配置
+ * @Description: 网关白名单配置
  * @DateTime: 2021/11/17 22:17
  **/
 @Data

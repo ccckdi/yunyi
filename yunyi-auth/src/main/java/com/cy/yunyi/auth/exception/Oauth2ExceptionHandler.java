@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 全局处理Oauth2抛出的异常
- * Created by macro on 2020/7/17.
- */
+ * @Author: chx
+ * @Description: 全局处理Oauth2抛出的异常
+ * @DateTime: 2021/11/10 21:18
+ **/
 @ControllerAdvice
 public class Oauth2ExceptionHandler {
     @ResponseBody

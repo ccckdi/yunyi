@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * 登录用户信息
- * Created by macro on 2020/6/19.
- */
+ * @Author: chx
+ * @Description: 登录用户信息
+ * @DateTime: 2021/11/10 21:18
+ **/
 @Data
 public class SecurityUser implements UserDetails {
 

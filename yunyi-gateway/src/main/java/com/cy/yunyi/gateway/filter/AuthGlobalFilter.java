@@ -16,7 +16,7 @@ import java.text.ParseException;
 
 /**
  * @Author: chx
- * @Description: TODO 将登录用户的JWT转换成用户信息的全局过滤器
+ * @Description: 将登录用户的JWT转换成用户信息的全局过滤器
  * @DateTime: 2021/11/17 21:52
  **/
 @Component

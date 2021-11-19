@@ -2,7 +2,7 @@ package com.cy.yunyi.common.api;
 
 /**
  * @Author: chx
- * @Description: TODO
+ * @Description: 封装API的返回结果
  * @DateTime: 2021/11/15 23:18
  **/
 public enum ResultCode implements IErrorCode {

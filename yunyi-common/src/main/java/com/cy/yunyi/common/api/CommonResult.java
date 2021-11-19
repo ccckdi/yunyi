@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @Author: chx
- * @Description: TODO 通用返回对象
+ * @Description: 通用返回对象
  * @DateTime: 2021/11/15 23:17
  **/
 @Data

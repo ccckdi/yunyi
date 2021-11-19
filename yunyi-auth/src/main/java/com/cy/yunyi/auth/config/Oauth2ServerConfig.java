@@ -1,7 +1,7 @@
 package com.cy.yunyi.auth.config;
 
 import com.cy.yunyi.auth.component.JwtTokenEnhancer;
-import com.cy.yunyi.auth.service.UserServiceImpl;
+import com.cy.yunyi.auth.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * @Author: chx
- * @Description: TODO 认证服务器配置
+ * @Description: 认证服务器配置
  * @DateTime: 2021/11/16 0:53
  **/
 @AllArgsConstructor
@@ -37,10 +37,15 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenEnhancer jwtTokenEnhancer;
 
+    /***
+     * 配置客户端详情服务
+     * @param clients
+     * @throws Exception
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("client-app")
+                .withClient("admin-app")
                 .secret(passwordEncoder.encode("123456"))
                 .scopes("all")
                 .authorizedGrantTypes("password", "refresh_token")
@@ -48,6 +53,11 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .refreshTokenValiditySeconds(86400);
     }
 
+    /***
+     * 装载Endpoints所有相关的类配置
+     * @param endpoints
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
@@ -55,12 +65,17 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         delegates.add(jwtTokenEnhancer);
         delegates.add(accessTokenConverter());
         enhancerChain.setTokenEnhancers(delegates); //配置JWT的内容增强器
-        endpoints.authenticationManager(authenticationManager)
+        endpoints.authenticationManager(authenticationManager) //处理认证请求接口
                 .userDetailsService(userDetailsService) //配置加载用户信息的服务
-                .accessTokenConverter(accessTokenConverter())
+                .accessTokenConverter(accessTokenConverter()) //生产token的转换器
                 .tokenEnhancer(enhancerChain);
     }
 
+    /***
+     * 配置AuthorizationServer的端点安全访问规则
+     * @param security
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.allowFormAuthenticationForClients();

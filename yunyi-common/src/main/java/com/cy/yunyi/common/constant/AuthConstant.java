@@ -2,7 +2,7 @@ package com.cy.yunyi.common.constant;
 
 /**
  * @Author: chx
- * @Description: TODO 权限相关常量定义
+ * @Description: 权限相关常量定义
  * @DateTime: 2021/11/16 9:47
  **/
 public interface AuthConstant {

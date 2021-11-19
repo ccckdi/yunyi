@@ -1,9 +1,10 @@
 package com.cy.yunyi.auth.constant;
 
 /**
- * 消息常量
- * Created by macro on 2020/6/19.
- */
+ * @Author: chx
+ * @Description: 消息常量
+ * @DateTime: 2021/11/16 11:55
+ **/
 public class MessageConstant {
 
     public static final String LOGIN_SUCCESS = "登录成功!";

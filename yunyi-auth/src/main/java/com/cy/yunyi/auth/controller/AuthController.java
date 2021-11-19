@@ -18,9 +18,10 @@ import java.security.Principal;
 import java.util.Map;
 
 /**
- * 自定义Oauth2获取令牌接口
- * Created by macro on 2020/7/17.
- */
+ * @Author: chx
+ * @Description: 自定义Oauth2获取令牌接口
+ * @DateTime: 2021/11/16 11:57
+ **/
 @RestController
 @Api(tags = "AuthController", description = "认证中心登录认证")
 @RequestMapping("/oauth")

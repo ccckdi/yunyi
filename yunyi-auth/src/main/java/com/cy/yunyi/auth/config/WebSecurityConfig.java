@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @Author: chx
- * @Description: TODO SpringSecurity配置
+ * @Description: SpringSecurity配置
  * @DateTime: 2021/11/16 11:09
  **/
 @Configuration

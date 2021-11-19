@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Oauth2获取Token返回信息封装
- * Created by macro on 2020/7/17.
- */
+ * @Author: chx
+ * @Description: Oauth2获取Token返回信息封装
+ * @DateTime: 2021/11/10 21:43
+ **/
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Builder

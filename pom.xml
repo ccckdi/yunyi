@@ -12,6 +12,7 @@
     <modules>
         <module>yunyi-common</module>
         <module>yunyi-auth</module>
+        <module>yunyi-mbg</module>
     </modules>
 
     <parent>
@@ -103,11 +104,11 @@
                 <version>${yunyi-common.version}</version>
             </dependency>
             <!--mall中MBG生成模块-->
-<!--            <dependency>-->
-<!--                <groupId>com.cy.yunyi</groupId>-->
-<!--                <artifactId>yunyi-mbg</artifactId>-->
-<!--                <version>${yunyi-mbg.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>com.cy.yunyi</groupId>
+                <artifactId>yunyi-mbg</artifactId>
+                <version>${yunyi-mbg.version}</version>
+            </dependency>
             <!--MyBatis分页插件starter-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>

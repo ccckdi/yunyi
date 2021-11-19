@@ -1,12 +1,12 @@
 package com.cy.yunyi.auth;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
+@EnableFeignClients
 @SpringBootApplication
-@MapperScan("com.cy.yunyi.auth.mapper")
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class AuthApplication {
 

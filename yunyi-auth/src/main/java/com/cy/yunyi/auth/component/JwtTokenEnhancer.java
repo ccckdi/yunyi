@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * JWT内容增强器
- * Created by macro on 2020/6/19.
- */
+ * @Author: chx
+ * @Description: JWT内容增强器
+ * @DateTime: 2021/11/16 0:24
+ **/
 @Component
 public class JwtTokenEnhancer implements TokenEnhancer {
     @Override
