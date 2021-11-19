@@ -1,10 +1,13 @@
 package com.cy.yunyi.common.api;
 
+import lombok.Data;
+
 /**
  * @Author: chx
  * @Description: TODO 通用返回对象
  * @DateTime: 2021/11/15 23:17
  **/
+@Data
 public class CommonResult<T> {
     private long code;
     private String message;

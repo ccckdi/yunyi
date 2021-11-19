@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
 
-    <name>common</name>
+    <name>yunyi-common</name>
     <description>yunyi-common project for mall</description>
 
     <parent>

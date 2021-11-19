@@ -8,10 +8,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @SpringBootApplication
 @MapperScan("com.cy.yunyi.auth.mapper")
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
-public class YunyiAuthApplication {
+public class AuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(YunyiAuthApplication.class, args);
+        SpringApplication.run(AuthApplication.class, args);
     }
 
 }
