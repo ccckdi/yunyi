@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.yunyi.admin.dao.UmsAdminRoleRelationDao">
+
+    <select id="getRoleList" resultType="com.cy.yunyi.model.UmsRole">
+        SELECT r.* FROM ums_admin_role_relation ar
+        LEFT JOIN ums_role r ON r.id = ar.role_id
+        WHERE ar.admin_id = #{adminId};
+    </select>
+    <select id="getResourceList" resultType="com.cy.yunyi.model.UmsResource">
+        SELECT re.* FROM ums_admin_role_relation ar
+        LEFT JOIN ums_role ro ON ro.id = ar.role_id
+        LEFT JOIN ums_role_resource_relation rr ON rr.role_id = ro.id
+        LEFT JOIN ums_resource re ON rr.resource_id = re.id
+        WHERE ar.admin_id = #{adminId};
+    </select>
+    <select id="getAdminIdList" resultType="java.lang.Long">
+        SELECT
+        DISTINCT ar.admin_id
+        FROM ums_role_resource_relation rr
+        LEFT JOIN ums_admin_role_relation ar ON rr.role_id = ar.role_id
+        WHERE rr.resource_id = #{resourceId};
+    </select>
+</mapper>

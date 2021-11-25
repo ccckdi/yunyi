@@ -3,11 +3,11 @@
 <mapper namespace="com.cy.yunyi.mapper.UmsResourceMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.UmsResource">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, category_id, create_time, name, url, description
+    id, name, url, description, category_id, create_time
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.UmsResourceExample" resultMap="BaseResultMap">
     select
@@ -104,10 +104,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_resource (category_id, create_time, name, 
-      url, description)
-    values (#{categoryId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+    insert into ums_resource (name, url, description, 
+      category_id, create_time)
+    values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.UmsResource">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -115,12 +115,6 @@
     </selectKey>
     insert into ums_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="categoryId != null">
-        category_id,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -130,14 +124,14 @@
       <if test="description != null">
         description,
       </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="categoryId != null">
-        #{categoryId,jdbcType=BIGINT},
+        category_id,
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        create_time,
       </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -146,6 +140,12 @@
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -161,12 +161,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.categoryId != null">
-        category_id = #{record.categoryId,jdbcType=BIGINT},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -176,6 +170,12 @@
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -184,11 +184,11 @@
   <update id="updateByExample" parameterType="map">
     update ums_resource
     set id = #{record.id,jdbcType=BIGINT},
-      category_id = #{record.categoryId,jdbcType=BIGINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       name = #{record.name,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR}
+      description = #{record.description,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -196,12 +196,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cy.yunyi.model.UmsResource">
     update ums_resource
     <set>
-      <if test="categoryId != null">
-        category_id = #{categoryId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -211,16 +205,22 @@
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.UmsResource">
     update ums_resource
-    set category_id = #{categoryId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      name = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR}
+      description = #{description,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

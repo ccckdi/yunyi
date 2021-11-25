@@ -18,7 +18,7 @@
     <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cy.yunyi.model.PmsGoods">
     <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
@@ -83,7 +83,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, 
-    sort_order, pic_url, unit, counter_price, retail_price, add_time, update_time, deleted
+    sort_order, pic_url, unit, counter_price, retail_price, add_time, update_time, status
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -145,13 +145,13 @@
       brief, is_on_sale, sort_order, 
       pic_url, unit, counter_price, 
       retail_price, add_time, update_time, 
-      deleted, detail)
+      status, detail)
     values (#{goodsSn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
       #{brandId,jdbcType=INTEGER}, #{gallery,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
       #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=BIT}, #{sortOrder,jdbcType=SMALLINT}, 
       #{picUrl,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, 
       #{retailPrice,jdbcType=DECIMAL}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleted,jdbcType=BIT}, #{detail,jdbcType=LONGVARCHAR})
+      #{status,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -204,8 +204,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="deleted != null">
-        deleted,
+      <if test="status != null">
+        status,
       </if>
       <if test="detail != null">
         detail,
@@ -257,8 +257,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="detail != null">
         #{detail,jdbcType=LONGVARCHAR},
@@ -322,8 +322,8 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.deleted != null">
-        deleted = #{record.deleted,jdbcType=BIT},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.detail != null">
         detail = #{record.detail,jdbcType=LONGVARCHAR},
@@ -351,7 +351,7 @@
       retail_price = #{record.retailPrice,jdbcType=DECIMAL},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      deleted = #{record.deleted,jdbcType=BIT},
+      status = #{record.status,jdbcType=INTEGER},
       detail = #{record.detail,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -375,7 +375,7 @@
       retail_price = #{record.retailPrice,jdbcType=DECIMAL},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      deleted = #{record.deleted,jdbcType=BIT}
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -428,8 +428,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        deleted = #{deleted,jdbcType=BIT},
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="detail != null">
         detail = #{detail,jdbcType=LONGVARCHAR},
@@ -454,7 +454,7 @@
       retail_price = #{retailPrice,jdbcType=DECIMAL},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT},
+      status = #{status,jdbcType=INTEGER},
       detail = #{detail,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -475,7 +475,7 @@
       retail_price = #{retailPrice,jdbcType=DECIMAL},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT}
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

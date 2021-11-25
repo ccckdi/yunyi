@@ -20,6 +20,10 @@
     <dependencies>
         <dependency>
             <groupId>com.cy.yunyi</groupId>
+            <artifactId>yunyi-mbg</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cy.yunyi</groupId>
             <artifactId>yunyi-common</artifactId>
         </dependency>
         <dependency>

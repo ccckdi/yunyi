@@ -1,9 +1,8 @@
 package com.cy.yunyi.auth.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.cy.yunyi.auth.constant.MessageConstant;
 import com.cy.yunyi.auth.domain.SecurityUser;
-import com.cy.yunyi.auth.service.UmsAdminService;
+import com.cy.yunyi.auth.service.feign.UmsAdminService;
 import com.cy.yunyi.common.constant.AuthConstant;
 import com.cy.yunyi.common.domain.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

@@ -32,7 +32,7 @@ public class UmsAdmin implements Serializable {
     private Date loginTime;
 
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
-    private Boolean deleted;
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 
@@ -108,12 +108,12 @@ public class UmsAdmin implements Serializable {
         this.loginTime = loginTime;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class UmsAdmin implements Serializable {
         sb.append(", note=").append(note);
         sb.append(", createTime=").append(createTime);
         sb.append(", loginTime=").append(loginTime);
-        sb.append(", deleted=").append(deleted);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

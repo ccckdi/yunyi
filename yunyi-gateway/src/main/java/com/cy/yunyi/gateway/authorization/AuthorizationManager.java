@@ -2,6 +2,7 @@ package com.cy.yunyi.gateway.authorization;
 
 import cn.hutool.core.convert.Convert;
 import com.cy.yunyi.common.constant.AuthConstant;
+import com.cy.yunyi.common.service.RedisService;
 import com.cy.yunyi.gateway.config.IgnoreUrlsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,15 +31,15 @@ import java.util.stream.Collectors;
 @Component
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
-    @Resource
-    private RedisTemplate<String,Object> redisTemplate;
+    @Autowired
+    private RedisService redisService;
+
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
-        //从Redis中获取当前路径可访问角色列表
         URI uri = request.getURI();
         PathMatcher pathMatcher = new AntPathMatcher();
         //白名单路径直接放行
@@ -52,8 +53,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         if(request.getMethod()== HttpMethod.OPTIONS){
             return Mono.just(new AuthorizationDecision(true));
         }
-
-        Object obj = redisTemplate.opsForHash().get(AuthConstant.RESOURCE_ROLES_MAP_KEY, uri.getPath());
+        //从Redis中获取当前路径可访问角色列表
+        Object obj = redisService.hGet(AuthConstant.RESOURCE_ROLES_MAP_KEY, uri.getPath());
         List<String> authorities = Convert.toList(String.class,obj);
         authorities = authorities.stream().map(i -> i = AuthConstant.AUTHORITY_PREFIX + i).collect(Collectors.toList());
         //认证通过且角色匹配的用户可访问当前路径

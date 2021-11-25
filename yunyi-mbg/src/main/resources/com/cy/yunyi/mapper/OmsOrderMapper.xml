@@ -28,7 +28,7 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -92,7 +92,7 @@
     id, user_id, order_sn, order_status, aftersale_status, consignee, mobile, address, 
     message, goods_price, freight_price, order_price, actual_price, pay_id, pay_time, 
     ship_sn, ship_channel, ship_time, refund_amount, refund_type, refund_content, refund_time, 
-    confirm_time, end_time, add_time, update_time, deleted
+    confirm_time, end_time, add_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.OmsOrderExample" resultMap="BaseResultMap">
     select
@@ -136,7 +136,7 @@
       ship_channel, ship_time, refund_amount, 
       refund_type, refund_content, refund_time, 
       confirm_time, end_time, add_time, 
-      update_time, deleted)
+      update_time, status)
     values (#{userId,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=SMALLINT}, 
       #{aftersaleStatus,jdbcType=SMALLINT}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
@@ -145,7 +145,7 @@
       #{shipChannel,jdbcType=VARCHAR}, #{shipTime,jdbcType=TIMESTAMP}, #{refundAmount,jdbcType=DECIMAL}, 
       #{refundType,jdbcType=VARCHAR}, #{refundContent,jdbcType=VARCHAR}, #{refundTime,jdbcType=TIMESTAMP}, 
       #{confirmTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.OmsOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -228,8 +228,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="deleted != null">
-        deleted,
+      <if test="status != null">
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -308,8 +308,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -400,8 +400,8 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.deleted != null">
-        deleted = #{record.deleted,jdbcType=BIT},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -436,7 +436,7 @@
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      deleted = #{record.deleted,jdbcType=BIT}
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -519,8 +519,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        deleted = #{deleted,jdbcType=BIT},
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -552,7 +552,7 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT}
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -23,7 +23,7 @@
             <artifactId>yunyi-common</artifactId>
         </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.macro.mall</groupId>-->
+<!--            <groupId>com.cy.yunyi</groupId>-->
 <!--            <artifactId>mall-mbg</artifactId>-->
 <!--        </dependency>-->
         <dependency>

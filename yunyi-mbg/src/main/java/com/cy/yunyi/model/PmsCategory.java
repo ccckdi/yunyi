@@ -36,8 +36,8 @@ public class PmsCategory implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
-    @ApiModelProperty(value = "逻辑删除")
-    private Boolean deleted;
+    @ApiModelProperty(value = "启用状态：0->禁用；1->启用")
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 
@@ -129,12 +129,12 @@ public class PmsCategory implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
@@ -154,7 +154,7 @@ public class PmsCategory implements Serializable {
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", addTime=").append(addTime);
         sb.append(", updateTime=").append(updateTime);
-        sb.append(", deleted=").append(deleted);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
