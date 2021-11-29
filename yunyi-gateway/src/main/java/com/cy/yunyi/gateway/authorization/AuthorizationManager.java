@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.net.URI;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     @Autowired
-    private RedisService redisService;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
@@ -54,8 +54,15 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             return Mono.just(new AuthorizationDecision(true));
         }
         //从Redis中获取当前路径可访问角色列表
-        Object obj = redisService.hGet(AuthConstant.RESOURCE_ROLES_MAP_KEY, uri.getPath());
-        List<String> authorities = Convert.toList(String.class,obj);
+        Map<Object,Object> resourceRolesMap = (Map<Object,Object>) redisTemplate.opsForHash().entries(AuthConstant.RESOURCE_ROLES_MAP_KEY);
+        List<String> authorities = new ArrayList<>();
+        Iterator<Object> iterator = resourceRolesMap.keySet().iterator();
+        while (iterator.hasNext()){
+            String path = (String) iterator.next();
+            if (pathMatcher.match(path,uri.getPath())){
+                authorities.addAll(Convert.toList(String.class,resourceRolesMap.get(path)));
+            }
+        }
         authorities = authorities.stream().map(i -> i = AuthConstant.AUTHORITY_PREFIX + i).collect(Collectors.toList());
         //认证通过且角色匹配的用户可访问当前路径
         return mono

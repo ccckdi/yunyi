@@ -21,4 +21,11 @@
         LEFT JOIN ums_admin_role_relation ar ON rr.role_id = ar.role_id
         WHERE rr.resource_id = #{resourceId};
     </select>
+    <insert id="insertList">
+        INSERT INTO ums_admin_role_relation (admin_id, role_id) VALUES
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.adminId,jdbcType=BIGINT},
+            #{item.roleId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
 </mapper>

@@ -21,11 +21,17 @@ spring:
     database: 0 # Redis数据库索引（默认为0）
     port: 6379 # Redis服务器连接端口
     password: chxredis # Redis服务器连接密码（默认为空）
-#    timeout: 300ms # 连接超时时间（毫秒）
+    timeout: 3000ms # 连接超时时间（毫秒）
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:com/**/mapper/*.xml
+redis:
+  database: yunyi
+  key:
+    admin: 'ums:admin'
+  expire:
+    common: 86400 # 24小时
 management:
   endpoints:
     web:

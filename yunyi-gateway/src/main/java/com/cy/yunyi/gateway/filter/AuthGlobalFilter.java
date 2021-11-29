@@ -1,6 +1,7 @@
 package com.cy.yunyi.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
+import com.cy.yunyi.common.constant.AuthConstant;
 import com.nimbusds.jose.JWSObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             JWSObject jwsObject = JWSObject.parse(realToken);
             String userStr = jwsObject.getPayload().toString();
             LOGGER.info("AuthGlobalFilter.filter() user:{}",userStr);
-            ServerHttpRequest request = exchange.getRequest().mutate().header("user", userStr).build();
+            ServerHttpRequest request = exchange.getRequest().mutate().header(AuthConstant.USER_TOKEN_HEADER, userStr).build();
             exchange = exchange.mutate().request(request).build();
         } catch (ParseException e) {
             e.printStackTrace();

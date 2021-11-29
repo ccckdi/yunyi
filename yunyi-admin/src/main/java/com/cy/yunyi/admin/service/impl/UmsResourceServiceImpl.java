@@ -35,6 +35,9 @@ public class UmsResourceServiceImpl implements UmsResourceService {
     @Autowired
     private RedisService redisService;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     @Override
     public int create(UmsResource umsResource) {
         umsResource.setCreateTime(new Date());
@@ -94,7 +97,7 @@ public class UmsResourceServiceImpl implements UmsResourceService {
         for (UmsResource resource : resourceList) {
             Set<Long> roleIds = relationList.stream().filter(item -> item.getResourceId().equals(resource.getId())).map(UmsRoleResourceRelation::getRoleId).collect(Collectors.toSet());
             List<String> roleNames = roleList.stream().filter(item -> roleIds.contains(item.getId())).map(item -> item.getId() + "_" + item.getName()).collect(Collectors.toList());
-            resourceRoleMap.put(resource.getUrl(),roleNames);
+            resourceRoleMap.put("/"+applicationName+resource.getUrl(),roleNames);
         }
         redisService.del(AuthConstant.RESOURCE_ROLES_MAP_KEY);
         redisService.hSetAll(AuthConstant.RESOURCE_ROLES_MAP_KEY, resourceRoleMap);

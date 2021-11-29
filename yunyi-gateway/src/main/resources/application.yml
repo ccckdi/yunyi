@@ -20,7 +20,13 @@ spring:
         - id: yunyi-auth-route
           uri: lb://yunyi-auth
           predicates:
-            - Path=/auth/**
+            - Path=/yunyi-auth/**
+          filters:
+            - StripPrefix=1
+        - id: yunyi-admin-route
+          uri: lb://yunyi-admin
+          predicates:
+            - Path=/yunyi-admin/**
           filters:
             - StripPrefix=1
       discovery:
@@ -41,5 +47,6 @@ secure:
   ignore:
     urls: #配置白名单路径
       - "/actuator/**"
-      - "/auth/oauth/token"
       - "/auth/test/hello"
+      - "/yunyi-auth/oauth/token"
+      - "/yunyi-auth/admin/login"
