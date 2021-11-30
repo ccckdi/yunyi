@@ -1,23 +1,5 @@
 package com.cy.yunyi.auth.service.impl;
 
-import com.cy.yunyi.common.constant.AuthConstant;
-import com.cy.yunyi.common.service.RedisService;
-import com.cy.yunyi.mapper.UmsResourceMapper;
-import com.cy.yunyi.mapper.UmsRoleMapper;
-import com.cy.yunyi.mapper.UmsRoleResourceRelationMapper;
-import com.cy.yunyi.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
-
 /**
  * @Author: chx
  * @Description: 资源与角色匹配关系管理业务类
