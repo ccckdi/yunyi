@@ -23,25 +23,25 @@ import java.util.stream.Collectors;
 
 /**
  * @Author: chx
- * @Description: 后台用户管理
+ * @Description: 后台管理员管理
  * @DateTime: 2021/11/19 23:04
  **/
 @RestController
-@Api(tags = "UmsAdminController", description = "后台用户管理")
+@Api(tags = "UmsAdminController", description = "后台管理员管理")
 @RequestMapping("/admin")
 public class UmsAdminController {
 
     @Autowired
     private UmsAdminService adminService;
 
-    @ApiOperation("根据用户名获取通用户信息")
+    @ApiOperation("根据管理员名获取通管理员信息")
     @GetMapping("/loadByUsername")
     public UserDto loadUserByUsername(@RequestParam String username) {
         UserDto userDTO = adminService.loadUserByUsername(username);
         return userDTO;
     }
 
-    @ApiOperation(value = "用户注册")
+    @ApiOperation(value = "管理员注册")
     @PostMapping("/register")
     public CommonResult<UmsAdmin> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
         UmsAdmin umsAdmin = adminService.register(umsAdminParam);
@@ -57,7 +57,7 @@ public class UmsAdminController {
         return adminService.login(umsAdminLoginParam.getUsername(),umsAdminLoginParam.getPassword());
     }
 
-    @ApiOperation(value = "获取当前登录用户信息")
+    @ApiOperation(value = "获取当前登录管理员信息")
     @GetMapping("/info")
     public CommonResult getAdminInfo() {
         UmsAdmin umsAdmin = adminService.getCurrentAdmin();
@@ -80,7 +80,7 @@ public class UmsAdminController {
         return CommonResult.success(null);
     }
 
-    @ApiOperation("根据用户名或姓名分页获取用户列表")
+    @ApiOperation("根据管理员名或姓名分页获取管理员列表")
     @GetMapping("/list")
     public CommonResult<CommonPage<UmsAdmin>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -89,14 +89,14 @@ public class UmsAdminController {
         return CommonResult.success(CommonPage.restPage(adminList));
     }
 
-    @ApiOperation("获取指定用户信息")
+    @ApiOperation("获取指定管理员信息")
     @GetMapping("/{id}")
     public CommonResult<UmsAdmin> getAdmin(@PathVariable Long id) {
         UmsAdmin admin = adminService.getAdmin(id);
         return CommonResult.success(admin);
     }
 
-    @ApiOperation("修改指定用户信息")
+    @ApiOperation("修改指定管理员信息")
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody UmsAdmin admin) {
         int count = adminService.update(id, admin);
@@ -106,7 +106,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改指定用户密码")
+    @ApiOperation("修改指定管理员密码")
     @PostMapping("/updatePassword")
     public CommonResult updatePassword(@RequestBody UpdateAdminPasswordParam updatePasswordParam) {
         int status = adminService.updatePassword(updatePasswordParam);
@@ -115,7 +115,7 @@ public class UmsAdminController {
         } else if (status == -1) {
             return CommonResult.failed("提交参数不合法");
         } else if (status == -2) {
-            return CommonResult.failed("找不到该用户");
+            return CommonResult.failed("找不到该管理员");
         } else if (status == -3) {
             return CommonResult.failed("旧密码错误");
         } else {
@@ -123,7 +123,7 @@ public class UmsAdminController {
         }
     }
 
-    @ApiOperation("删除指定用户信息")
+    @ApiOperation("删除指定管理员信息")
     @PostMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         int count = adminService.delete(id);
@@ -145,7 +145,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("给用户分配角色")
+    @ApiOperation("给管理员分配角色")
     @PostMapping("/role/update")
     public CommonResult updateRole(@RequestParam("adminId") Long adminId,
                                    @RequestParam("roleIds") List<Long> roleIds) {
@@ -156,7 +156,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("获取指定用户的角色")
+    @ApiOperation("获取指定管理员的角色")
     @GetMapping("/role/{adminId}")
     public CommonResult<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
         List<UmsRole> roleList = adminService.getRoleList(adminId);

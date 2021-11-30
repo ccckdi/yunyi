@@ -1,6 +1,5 @@
 package com.cy.yunyi.admin.controller;
 
-import com.cy.yunyi.admin.service.UmsResourceService;
 import com.cy.yunyi.admin.service.UmsRoleService;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
@@ -12,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+
 /**
 * @Author: chx
 * @Description: 后台角色管理Controller

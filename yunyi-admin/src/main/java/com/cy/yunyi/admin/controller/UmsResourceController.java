@@ -3,11 +3,9 @@ package com.cy.yunyi.admin.controller;
 import com.cy.yunyi.admin.service.UmsResourceService;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
-import com.cy.yunyi.mapper.UmsResourceMapper;
 import com.cy.yunyi.model.UmsResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
