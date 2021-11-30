@@ -10,7 +10,7 @@ public interface UmsUserMapper {
 
     int deleteByExample(UmsUserExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(UmsUser record);
 
@@ -18,7 +18,7 @@ public interface UmsUserMapper {
 
     List<UmsUser> selectByExample(UmsUserExample example);
 
-    UmsUser selectByPrimaryKey(Integer id);
+    UmsUser selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") UmsUser record, @Param("example") UmsUserExample example);
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PmsCategory implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "类目名称")
     private String name;
@@ -23,12 +23,12 @@ public class PmsCategory implements Serializable {
     private String iconUrl;
 
     @ApiModelProperty(value = "类目图片")
-    private String picUrl;
+    private String icon;
 
     private String level;
 
     @ApiModelProperty(value = "排序")
-    private Byte sortOrder;
+    private Integer sortOrder;
 
     @ApiModelProperty(value = "创建时间")
     private Date addTime;
@@ -41,11 +41,11 @@ public class PmsCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,12 +89,12 @@ public class PmsCategory implements Serializable {
         this.iconUrl = iconUrl;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getLevel() {
@@ -105,11 +105,11 @@ public class PmsCategory implements Serializable {
         this.level = level;
     }
 
-    public Byte getSortOrder() {
+    public Integer getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(Byte sortOrder) {
+    public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
     }
 
@@ -149,7 +149,7 @@ public class PmsCategory implements Serializable {
         sb.append(", desc=").append(desc);
         sb.append(", pid=").append(pid);
         sb.append(", iconUrl=").append(iconUrl);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", icon=").append(icon);
         sb.append(", level=").append(level);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", addTime=").append(addTime);

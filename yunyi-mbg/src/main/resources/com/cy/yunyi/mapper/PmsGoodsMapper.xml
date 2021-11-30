@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cy.yunyi.mapper.PmsGoodsMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.PmsGoods">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
@@ -10,9 +10,9 @@
     <result column="gallery" jdbcType="VARCHAR" property="gallery" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
-    <result column="is_on_sale" jdbcType="BIT" property="isOnSale" />
+    <result column="is_on_sale" jdbcType="INTEGER" property="isOnSale" />
     <result column="sort_order" jdbcType="SMALLINT" property="sortOrder" />
-    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
     <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
@@ -83,7 +83,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, 
-    sort_order, pic_url, unit, counter_price, retail_price, add_time, update_time, status
+    sort_order, icon, unit, counter_price, retail_price, add_time, update_time, status
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -118,17 +118,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from pms_goods
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from pms_goods
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.cy.yunyi.model.PmsGoodsExample">
     delete from pms_goods
@@ -137,24 +137,24 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cy.yunyi.model.PmsGoods">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods (goods_sn, name, category_id, 
       brand_id, gallery, keywords, 
       brief, is_on_sale, sort_order, 
-      pic_url, unit, counter_price, 
+      icon, unit, counter_price, 
       retail_price, add_time, update_time, 
       status, detail)
     values (#{goodsSn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
       #{brandId,jdbcType=INTEGER}, #{gallery,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=BIT}, #{sortOrder,jdbcType=SMALLINT}, 
-      #{picUrl,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, 
+      #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=INTEGER}, #{sortOrder,jdbcType=SMALLINT}, 
+      #{icon,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, 
       #{retailPrice,jdbcType=DECIMAL}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoods">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods
@@ -186,8 +186,8 @@
       <if test="sortOrder != null">
         sort_order,
       </if>
-      <if test="picUrl != null">
-        pic_url,
+      <if test="icon != null">
+        icon,
       </if>
       <if test="unit != null">
         unit,
@@ -234,13 +234,13 @@
         #{brief,jdbcType=VARCHAR},
       </if>
       <if test="isOnSale != null">
-        #{isOnSale,jdbcType=BIT},
+        #{isOnSale,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=SMALLINT},
       </if>
-      <if test="picUrl != null">
-        #{picUrl,jdbcType=VARCHAR},
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
@@ -275,7 +275,7 @@
     update pms_goods
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.goodsSn != null">
         goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
@@ -299,13 +299,13 @@
         brief = #{record.brief,jdbcType=VARCHAR},
       </if>
       <if test="record.isOnSale != null">
-        is_on_sale = #{record.isOnSale,jdbcType=BIT},
+        is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=SMALLINT},
       </if>
-      <if test="record.picUrl != null">
-        pic_url = #{record.picUrl,jdbcType=VARCHAR},
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
       </if>
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
@@ -335,7 +335,7 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update pms_goods
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=INTEGER},
@@ -343,9 +343,9 @@
       gallery = #{record.gallery,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
-      is_on_sale = #{record.isOnSale,jdbcType=BIT},
+      is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=SMALLINT},
-      pic_url = #{record.picUrl,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       counter_price = #{record.counterPrice,jdbcType=DECIMAL},
       retail_price = #{record.retailPrice,jdbcType=DECIMAL},
@@ -359,7 +359,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update pms_goods
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=INTEGER},
@@ -367,9 +367,9 @@
       gallery = #{record.gallery,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
-      is_on_sale = #{record.isOnSale,jdbcType=BIT},
+      is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=SMALLINT},
-      pic_url = #{record.picUrl,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       counter_price = #{record.counterPrice,jdbcType=DECIMAL},
       retail_price = #{record.retailPrice,jdbcType=DECIMAL},
@@ -405,13 +405,13 @@
         brief = #{brief,jdbcType=VARCHAR},
       </if>
       <if test="isOnSale != null">
-        is_on_sale = #{isOnSale,jdbcType=BIT},
+        is_on_sale = #{isOnSale,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=SMALLINT},
       </if>
-      <if test="picUrl != null">
-        pic_url = #{picUrl,jdbcType=VARCHAR},
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
       </if>
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
@@ -435,7 +435,7 @@
         detail = #{detail,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cy.yunyi.model.PmsGoods">
     update pms_goods
@@ -446,9 +446,9 @@
       gallery = #{gallery,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
-      is_on_sale = #{isOnSale,jdbcType=BIT},
+      is_on_sale = #{isOnSale,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=SMALLINT},
-      pic_url = #{picUrl,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       counter_price = #{counterPrice,jdbcType=DECIMAL},
       retail_price = #{retailPrice,jdbcType=DECIMAL},
@@ -456,7 +456,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       detail = #{detail,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.PmsGoods">
     update pms_goods
@@ -467,15 +467,15 @@
       gallery = #{gallery,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
-      is_on_sale = #{isOnSale,jdbcType=BIT},
+      is_on_sale = #{isOnSale,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=SMALLINT},
-      pic_url = #{picUrl,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       counter_price = #{counterPrice,jdbcType=DECIMAL},
       retail_price = #{retailPrice,jdbcType=DECIMAL},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cy.yunyi.mapper.PmsGoodsAttributeMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.PmsGoodsAttribute">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
     <result column="attribute" jdbcType="VARCHAR" property="attribute" />
     <result column="value" jdbcType="VARCHAR" property="value" />
@@ -85,15 +85,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from pms_goods_attribute
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from pms_goods_attribute
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.cy.yunyi.model.PmsGoodsAttributeExample">
     delete from pms_goods_attribute
@@ -102,7 +102,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cy.yunyi.model.PmsGoodsAttribute">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods_attribute (goods_id, attribute, value, 
@@ -113,7 +113,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoodsAttribute">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods_attribute
@@ -168,7 +168,7 @@
     update pms_goods_attribute
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.goodsId != null">
         goods_id = #{record.goodsId,jdbcType=INTEGER},
@@ -195,7 +195,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update pms_goods_attribute
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       goods_id = #{record.goodsId,jdbcType=INTEGER},
       attribute = #{record.attribute,jdbcType=VARCHAR},
       value = #{record.value,jdbcType=VARCHAR},
@@ -228,7 +228,7 @@
         status = #{status,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.PmsGoodsAttribute">
     update pms_goods_attribute
@@ -238,6 +238,6 @@
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

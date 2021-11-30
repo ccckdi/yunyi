@@ -10,7 +10,7 @@ public interface OmsOrderGoodsMapper {
 
     int deleteByExample(OmsOrderGoodsExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(OmsOrderGoods record);
 
@@ -18,7 +18,7 @@ public interface OmsOrderGoodsMapper {
 
     List<OmsOrderGoods> selectByExample(OmsOrderGoodsExample example);
 
-    OmsOrderGoods selectByPrimaryKey(Integer id);
+    OmsOrderGoods selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") OmsOrderGoods record, @Param("example") OmsOrderGoodsExample example);
 

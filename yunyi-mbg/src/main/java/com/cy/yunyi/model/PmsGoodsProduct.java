@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PmsGoodsProduct implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "商品表的商品ID")
     private Integer goodsId;
@@ -21,7 +21,7 @@ public class PmsGoodsProduct implements Serializable {
     private Integer number;
 
     @ApiModelProperty(value = "商品货品图片")
-    private String url;
+    private String icon;
 
     @ApiModelProperty(value = "创建时间")
     private Date addTime;
@@ -34,11 +34,11 @@ public class PmsGoodsProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -74,12 +74,12 @@ public class PmsGoodsProduct implements Serializable {
         this.number = number;
     }
 
-    public String getUrl() {
-        return url;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Date getAddTime() {
@@ -117,7 +117,7 @@ public class PmsGoodsProduct implements Serializable {
         sb.append(", specifications=").append(specifications);
         sb.append(", price=").append(price);
         sb.append(", number=").append(number);
-        sb.append(", url=").append(url);
+        sb.append(", icon=").append(icon);
         sb.append(", addTime=").append(addTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);

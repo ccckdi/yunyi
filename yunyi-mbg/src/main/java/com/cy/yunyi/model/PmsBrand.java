@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PmsBrand implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "品牌商名称")
     private String name;
@@ -15,9 +15,9 @@ public class PmsBrand implements Serializable {
     private String desc;
 
     @ApiModelProperty(value = "品牌商页的品牌商图片")
-    private String picUrl;
+    private String icon;
 
-    private Byte sortOrder;
+    private Integer sortOrder;
 
     @ApiModelProperty(value = "品牌商的商品低价，仅用于页面展示")
     private BigDecimal floorPrice;
@@ -33,11 +33,11 @@ public class PmsBrand implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,19 +57,19 @@ public class PmsBrand implements Serializable {
         this.desc = desc;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
-    public Byte getSortOrder() {
+    public Integer getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(Byte sortOrder) {
+    public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
     }
 
@@ -114,7 +114,7 @@ public class PmsBrand implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", desc=").append(desc);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", icon=").append(icon);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", floorPrice=").append(floorPrice);
         sb.append(", addTime=").append(addTime);

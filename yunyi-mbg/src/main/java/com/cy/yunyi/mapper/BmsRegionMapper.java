@@ -10,7 +10,7 @@ public interface BmsRegionMapper {
 
     int deleteByExample(BmsRegionExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(BmsRegion record);
 
@@ -18,7 +18,7 @@ public interface BmsRegionMapper {
 
     List<BmsRegion> selectByExample(BmsRegionExample example);
 
-    BmsRegion selectByPrimaryKey(Integer id);
+    BmsRegion selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") BmsRegion record, @Param("example") BmsRegionExample example);
 

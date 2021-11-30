@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class UmsUser implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "用户名称")
     private String username;
@@ -14,7 +14,7 @@ public class UmsUser implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "性别：0 未知， 1男， 1 女")
-    private Byte gender;
+    private Integer gender;
 
     @ApiModelProperty(value = "生日")
     private Date birthday;
@@ -35,7 +35,10 @@ public class UmsUser implements Serializable {
     private String mobile;
 
     @ApiModelProperty(value = "用户头像图片")
-    private String avatar;
+    private String icon;
+
+    @ApiModelProperty(value = "邮箱")
+    private String email;
 
     @ApiModelProperty(value = "微信登录openid")
     private String weixinOpenid;
@@ -54,11 +57,11 @@ public class UmsUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -78,11 +81,11 @@ public class UmsUser implements Serializable {
         this.password = password;
     }
 
-    public Byte getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(Byte gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
@@ -134,12 +137,20 @@ public class UmsUser implements Serializable {
         this.mobile = mobile;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getWeixinOpenid() {
@@ -198,7 +209,8 @@ public class UmsUser implements Serializable {
         sb.append(", userLevel=").append(userLevel);
         sb.append(", nickname=").append(nickname);
         sb.append(", mobile=").append(mobile);
-        sb.append(", avatar=").append(avatar);
+        sb.append(", icon=").append(icon);
+        sb.append(", email=").append(email);
         sb.append(", weixinOpenid=").append(weixinOpenid);
         sb.append(", sessionKey=").append(sessionKey);
         sb.append(", addTime=").append(addTime);

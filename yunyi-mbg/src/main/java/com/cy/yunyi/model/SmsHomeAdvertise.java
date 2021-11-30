@@ -24,8 +24,8 @@ public class SmsHomeAdvertise implements Serializable {
     @ApiModelProperty(value = "下单数")
     private Integer orderCount;
 
-    @ApiModelProperty(value = "链接地址")
-    private String url;
+    @ApiModelProperty(value = "图片链接地址")
+    private String icon;
 
     @ApiModelProperty(value = "备注")
     private String note;
@@ -102,12 +102,12 @@ public class SmsHomeAdvertise implements Serializable {
         this.orderCount = orderCount;
     }
 
-    public String getUrl() {
-        return url;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getNote() {
@@ -148,7 +148,7 @@ public class SmsHomeAdvertise implements Serializable {
         sb.append(", endTime=").append(endTime);
         sb.append(", clickCount=").append(clickCount);
         sb.append(", orderCount=").append(orderCount);
-        sb.append(", url=").append(url);
+        sb.append(", icon=").append(icon);
         sb.append(", note=").append(note);
         sb.append(", sort=").append(sort);
         sb.append(", status=").append(status);

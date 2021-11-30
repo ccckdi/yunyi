@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PmsGoodsSpecification implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "商品表的商品ID")
     private Integer goodsId;
@@ -17,7 +17,7 @@ public class PmsGoodsSpecification implements Serializable {
     private String value;
 
     @ApiModelProperty(value = "商品规格图片")
-    private String picUrl;
+    private String icon;
 
     @ApiModelProperty(value = "创建时间")
     private Date addTime;
@@ -30,11 +30,11 @@ public class PmsGoodsSpecification implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,12 +62,12 @@ public class PmsGoodsSpecification implements Serializable {
         this.value = value;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Date getAddTime() {
@@ -104,7 +104,7 @@ public class PmsGoodsSpecification implements Serializable {
         sb.append(", goodsId=").append(goodsId);
         sb.append(", specification=").append(specification);
         sb.append(", value=").append(value);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", icon=").append(icon);
         sb.append(", addTime=").append(addTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);

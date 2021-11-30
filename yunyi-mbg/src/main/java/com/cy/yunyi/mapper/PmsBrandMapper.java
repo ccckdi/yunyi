@@ -10,7 +10,7 @@ public interface PmsBrandMapper {
 
     int deleteByExample(PmsBrandExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(PmsBrand record);
 
@@ -18,7 +18,7 @@ public interface PmsBrandMapper {
 
     List<PmsBrand> selectByExample(PmsBrandExample example);
 
-    PmsBrand selectByPrimaryKey(Integer id);
+    PmsBrand selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") PmsBrand record, @Param("example") PmsBrandExample example);
 

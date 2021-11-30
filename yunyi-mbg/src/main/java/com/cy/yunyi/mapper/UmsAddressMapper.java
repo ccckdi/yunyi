@@ -10,7 +10,7 @@ public interface UmsAddressMapper {
 
     int deleteByExample(UmsAddressExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(UmsAddress record);
 
@@ -18,7 +18,7 @@ public interface UmsAddressMapper {
 
     List<UmsAddress> selectByExample(UmsAddressExample example);
 
-    UmsAddress selectByPrimaryKey(Integer id);
+    UmsAddress selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") UmsAddress record, @Param("example") UmsAddressExample example);
 

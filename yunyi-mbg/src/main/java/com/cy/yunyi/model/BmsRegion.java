@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class BmsRegion implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "行政区域父ID，例如区县的pid指向市，市的pid指向省，省的pid则是0")
     private Integer pid;
@@ -13,18 +13,18 @@ public class BmsRegion implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "行政区域类型，如如1则是省， 如果是2则是市，如果是3则是区县")
-    private Byte type;
+    private Integer type;
 
     @ApiModelProperty(value = "行政区域编码")
     private Integer code;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,11 +44,11 @@ public class BmsRegion implements Serializable {
         this.name = name;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

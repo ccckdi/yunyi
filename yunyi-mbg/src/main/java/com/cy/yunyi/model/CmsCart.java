@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CmsCart implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "用户表的用户ID")
     private Integer userId;
@@ -33,10 +33,10 @@ public class CmsCart implements Serializable {
     private String specifications;
 
     @ApiModelProperty(value = "购物车中商品是否选择状态")
-    private Boolean checked;
+    private Integer checked;
 
     @ApiModelProperty(value = "商品图片或者商品货品图片")
-    private String picUrl;
+    private String icon;
 
     @ApiModelProperty(value = "创建时间")
     private Date addTime;
@@ -49,11 +49,11 @@ public class CmsCart implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -121,20 +121,20 @@ public class CmsCart implements Serializable {
         this.specifications = specifications;
     }
 
-    public Boolean getChecked() {
+    public Integer getChecked() {
         return checked;
     }
 
-    public void setChecked(Boolean checked) {
+    public void setChecked(Integer checked) {
         this.checked = checked;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Date getAddTime() {
@@ -177,7 +177,7 @@ public class CmsCart implements Serializable {
         sb.append(", number=").append(number);
         sb.append(", specifications=").append(specifications);
         sb.append(", checked=").append(checked);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", icon=").append(icon);
         sb.append(", addTime=").append(addTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);

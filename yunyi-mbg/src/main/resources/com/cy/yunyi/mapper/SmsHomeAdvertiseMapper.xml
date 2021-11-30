@@ -10,7 +10,7 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="click_count" jdbcType="INTEGER" property="clickCount" />
     <result column="order_count" jdbcType="INTEGER" property="orderCount" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -74,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, type, pic, start_time, end_time, click_count, order_count, url, note, sort, 
-    status
+    id, name, type, pic, start_time, end_time, click_count, order_count, icon, note, 
+    sort, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.SmsHomeAdvertiseExample" resultMap="BaseResultMap">
     select
@@ -113,11 +113,11 @@
     </selectKey>
     insert into sms_home_advertise (name, type, pic, 
       start_time, end_time, click_count, 
-      order_count, url, note, 
+      order_count, icon, note, 
       sort, status)
     values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{clickCount,jdbcType=INTEGER}, 
-      #{orderCount,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{orderCount,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.SmsHomeAdvertise">
@@ -147,8 +147,8 @@
       <if test="orderCount != null">
         order_count,
       </if>
-      <if test="url != null">
-        url,
+      <if test="icon != null">
+        icon,
       </if>
       <if test="note != null">
         note,
@@ -182,8 +182,8 @@
       <if test="orderCount != null">
         #{orderCount,jdbcType=INTEGER},
       </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
       </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
@@ -229,8 +229,8 @@
       <if test="record.orderCount != null">
         order_count = #{record.orderCount,jdbcType=INTEGER},
       </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
       </if>
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
@@ -256,7 +256,7 @@
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       click_count = #{record.clickCount,jdbcType=INTEGER},
       order_count = #{record.orderCount,jdbcType=INTEGER},
-      url = #{record.url,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER}
@@ -288,8 +288,8 @@
       <if test="orderCount != null">
         order_count = #{orderCount,jdbcType=INTEGER},
       </if>
-      <if test="url != null">
-        url = #{url,jdbcType=VARCHAR},
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
       </if>
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
@@ -312,7 +312,7 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       click_count = #{clickCount,jdbcType=INTEGER},
       order_count = #{orderCount,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}

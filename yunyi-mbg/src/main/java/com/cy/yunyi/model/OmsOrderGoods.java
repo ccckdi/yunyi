@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OmsOrderGoods implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "订单表的订单ID")
     private Integer orderId;
@@ -33,7 +33,7 @@ public class OmsOrderGoods implements Serializable {
     private String specifications;
 
     @ApiModelProperty(value = "商品货品图片或者商品图片")
-    private String picUrl;
+    private String icon;
 
     @ApiModelProperty(value = "订单商品评论，如果是-1，则超期不能评价；如果是0，则可以评价；如果其他值，则是comment表里面的评论ID。")
     private Integer comment;
@@ -49,11 +49,11 @@ public class OmsOrderGoods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -121,12 +121,12 @@ public class OmsOrderGoods implements Serializable {
         this.specifications = specifications;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Integer getComment() {
@@ -176,7 +176,7 @@ public class OmsOrderGoods implements Serializable {
         sb.append(", number=").append(number);
         sb.append(", price=").append(price);
         sb.append(", specifications=").append(specifications);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", icon=").append(icon);
         sb.append(", comment=").append(comment);
         sb.append(", addTime=").append(addTime);
         sb.append(", updateTime=").append(updateTime);

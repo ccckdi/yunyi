@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OmsOrder implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "用户表的用户ID")
     private Integer userId;
@@ -88,11 +88,11 @@ public class OmsOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

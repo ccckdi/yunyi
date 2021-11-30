@@ -10,7 +10,7 @@ public interface CmsCartMapper {
 
     int deleteByExample(CmsCartExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(CmsCart record);
 
@@ -18,7 +18,7 @@ public interface CmsCartMapper {
 
     List<CmsCart> selectByExample(CmsCartExample example);
 
-    CmsCart selectByPrimaryKey(Integer id);
+    CmsCart selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") CmsCart record, @Param("example") CmsCartExample example);
 

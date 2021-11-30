@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PmsGoods implements Serializable {
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "商品编号")
     private String goodsSn;
@@ -29,12 +29,12 @@ public class PmsGoods implements Serializable {
     private String brief;
 
     @ApiModelProperty(value = "是否上架")
-    private Boolean isOnSale;
+    private Integer isOnSale;
 
     private Short sortOrder;
 
     @ApiModelProperty(value = "商品页面商品图片")
-    private String picUrl;
+    private String icon;
 
     @ApiModelProperty(value = "商品单位，例如件、盒")
     private String unit;
@@ -59,11 +59,11 @@ public class PmsGoods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -123,11 +123,11 @@ public class PmsGoods implements Serializable {
         this.brief = brief;
     }
 
-    public Boolean getIsOnSale() {
+    public Integer getIsOnSale() {
         return isOnSale;
     }
 
-    public void setIsOnSale(Boolean isOnSale) {
+    public void setIsOnSale(Integer isOnSale) {
         this.isOnSale = isOnSale;
     }
 
@@ -139,12 +139,12 @@ public class PmsGoods implements Serializable {
         this.sortOrder = sortOrder;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getUnit() {
@@ -219,7 +219,7 @@ public class PmsGoods implements Serializable {
         sb.append(", brief=").append(brief);
         sb.append(", isOnSale=").append(isOnSale);
         sb.append(", sortOrder=").append(sortOrder);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", icon=").append(icon);
         sb.append(", unit=").append(unit);
         sb.append(", counterPrice=").append(counterPrice);
         sb.append(", retailPrice=").append(retailPrice);

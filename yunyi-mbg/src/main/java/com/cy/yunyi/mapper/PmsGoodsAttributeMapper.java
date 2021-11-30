@@ -10,7 +10,7 @@ public interface PmsGoodsAttributeMapper {
 
     int deleteByExample(PmsGoodsAttributeExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(PmsGoodsAttribute record);
 
@@ -18,7 +18,7 @@ public interface PmsGoodsAttributeMapper {
 
     List<PmsGoodsAttribute> selectByExample(PmsGoodsAttributeExample example);
 
-    PmsGoodsAttribute selectByPrimaryKey(Integer id);
+    PmsGoodsAttribute selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") PmsGoodsAttribute record, @Param("example") PmsGoodsAttributeExample example);
 

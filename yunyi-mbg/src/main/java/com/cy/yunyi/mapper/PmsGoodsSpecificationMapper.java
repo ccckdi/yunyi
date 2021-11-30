@@ -10,7 +10,7 @@ public interface PmsGoodsSpecificationMapper {
 
     int deleteByExample(PmsGoodsSpecificationExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(PmsGoodsSpecification record);
 
@@ -18,7 +18,7 @@ public interface PmsGoodsSpecificationMapper {
 
     List<PmsGoodsSpecification> selectByExample(PmsGoodsSpecificationExample example);
 
-    PmsGoodsSpecification selectByPrimaryKey(Integer id);
+    PmsGoodsSpecification selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") PmsGoodsSpecification record, @Param("example") PmsGoodsSpecificationExample example);
 

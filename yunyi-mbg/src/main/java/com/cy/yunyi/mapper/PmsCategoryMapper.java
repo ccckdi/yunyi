@@ -10,7 +10,7 @@ public interface PmsCategoryMapper {
 
     int deleteByExample(PmsCategoryExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(PmsCategory record);
 
@@ -18,7 +18,7 @@ public interface PmsCategoryMapper {
 
     List<PmsCategory> selectByExample(PmsCategoryExample example);
 
-    PmsCategory selectByPrimaryKey(Integer id);
+    PmsCategory selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") PmsCategory record, @Param("example") PmsCategoryExample example);
 
