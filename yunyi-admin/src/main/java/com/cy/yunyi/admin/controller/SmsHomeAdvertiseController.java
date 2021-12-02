@@ -1,9 +1,9 @@
 package com.cy.yunyi.admin.controller;
 
-import com.cy.yunyi.admin.service.PmsBrandService;
+import com.cy.yunyi.admin.service.SmsHomeAdvertiseService;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
-import com.cy.yunyi.model.PmsBrand;
+import com.cy.yunyi.model.SmsHomeAdvertise;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,62 +13,62 @@ import java.util.List;
 
 /**
 * @Author: chx
-* @Description: 商品品牌管理Controller
-* @DateTime: 2021/11/30 10:29
+* @Description: 广告管理Controller
+* @DateTime: 2021/12/1 22:29
 **/
 @RestController
-@Api(tags = "PmsBrandController", description = "商品品牌管理")
-@RequestMapping("/brand")
-public class PmsBrandController {
+@Api(tags = "SmsHomeAdvertiseController", description = "广告管理")
+@RequestMapping("/advertise")
+public class SmsHomeAdvertiseController {
 
     @Autowired
-    private PmsBrandService brandService;
+    private SmsHomeAdvertiseService advertiseService;
 
-    @ApiOperation("添加品牌")
+    @ApiOperation("添加广告")
     @PostMapping("/create")
-    public CommonResult create(@RequestBody PmsBrand brand) {
-        int count = brandService.create(brand);
+    public CommonResult create(@RequestBody SmsHomeAdvertise advertise) {
+        int count = advertiseService.create(advertise);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改品牌")
+    @ApiOperation("修改广告")
     @PostMapping("/update/{id}")
-    public CommonResult update(@PathVariable Long id, @RequestBody PmsBrand brand) {
-        int count = brandService.update(id, brand);
+    public CommonResult update(@PathVariable Long id, @RequestBody SmsHomeAdvertise advertise) {
+        int count = advertiseService.update(id, advertise);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
 
-    @ApiOperation("根据品牌名称分页获取品牌列表")
+    @ApiOperation("根据广告名称分页获取广告列表")
     @GetMapping("list")
-    public CommonResult<CommonPage<PmsBrand>> list(@RequestParam(value = "keyword", required = false) String keyword,
+    public CommonResult<CommonPage<SmsHomeAdvertise>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<PmsBrand> brandList = brandService.list(keyword, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(brandList));
+        List<SmsHomeAdvertise> advertiseList = advertiseService.list(keyword, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(advertiseList));
     }
 
-    @ApiOperation("修改品牌状态")
+    @ApiOperation("修改广告状态")
     @PostMapping("/updateStatus/{id}")
     public CommonResult updateStatus(@PathVariable Long id, @RequestParam(value = "status") Integer status) {
-        PmsBrand umsRole = new PmsBrand();
+        SmsHomeAdvertise umsRole = new SmsHomeAdvertise();
         umsRole.setStatus(status);
-        int count = brandService.update(id, umsRole);
+        int count = advertiseService.update(id, umsRole);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
 
-    @ApiOperation("删除品牌")
+    @ApiOperation("删除广告")
     @PostMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
-        int count = brandService.delete(id);
+        int count = advertiseService.delete(id);
         if (count > 0) {
             return CommonResult.success(count);
         }

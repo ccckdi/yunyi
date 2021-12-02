@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @Author: chx
- * @Description: 品牌管理Service
+ * @Description: 商品品牌管理Service
  * @DateTime: 2021/11/30 11:00
  **/
 public interface PmsBrandService {

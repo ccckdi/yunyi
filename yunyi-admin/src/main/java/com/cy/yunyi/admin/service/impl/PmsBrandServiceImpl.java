@@ -4,8 +4,6 @@ import com.cy.yunyi.admin.service.PmsBrandService;
 import com.cy.yunyi.mapper.PmsBrandMapper;
 import com.cy.yunyi.model.PmsBrand;
 import com.cy.yunyi.model.PmsBrandExample;
-import com.cy.yunyi.model.UmsUser;
-import com.cy.yunyi.model.UmsUserExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,7 @@ import java.util.List;
 
 /**
  * @Author: chx
- * @Description: 品牌管理Service实现类
+ * @Description: 商品品牌管理Service实现类
  * @DateTime: 2021/11/30 11:01
  **/
 @Service
@@ -26,8 +24,10 @@ public class PmsBrandServiceImpl implements PmsBrandService {
 
     @Override
     public int create(PmsBrand brand) {
-        brand.setSortOrder(0);
-        brand.setAddTime(new Date());
+        if (null == brand.getSortOrder()){
+            brand.setSortOrder(0);
+        }
+        brand.setCreateTime(new Date());
         brand.setStatus(1);
         int count = brandMapper.insert(brand);
         return count;
@@ -44,6 +44,7 @@ public class PmsBrandServiceImpl implements PmsBrandService {
     @Override
     public List<PmsBrand> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
+        PageHelper.orderBy("sort_order asc");
         PmsBrandExample example = new PmsBrandExample();
         example.createCriteria().andNameEqualTo("%" + keyword + "%");
         List<PmsBrand> brandList = brandMapper.selectByExample(example);
