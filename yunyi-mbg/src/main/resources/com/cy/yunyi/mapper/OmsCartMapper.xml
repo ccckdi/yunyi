@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cy.yunyi.mapper.CmsCartMapper">
-  <resultMap id="BaseResultMap" type="com.cy.yunyi.model.CmsCart">
+<mapper namespace="com.cy.yunyi.mapper.OmsCartMapper">
+  <resultMap id="BaseResultMap" type="com.cy.yunyi.model.OmsCart">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
-    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="number" jdbcType="SMALLINT" property="number" />
+    <result column="number" jdbcType="INTEGER" property="number" />
     <result column="specifications" jdbcType="VARCHAR" property="specifications" />
     <result column="checked" jdbcType="INTEGER" property="checked" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -77,15 +77,15 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, 
-    checked, icon, add_time, update_time, status
+    checked, icon, create_time, update_time, status
   </sql>
-  <select id="selectByExample" parameterType="com.cy.yunyi.model.CmsCartExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cy.yunyi.model.OmsCartExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cms_cart
+    from oms_cart
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,39 +96,39 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cms_cart
+    from oms_cart
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from cms_cart
+    delete from oms_cart
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cy.yunyi.model.CmsCartExample">
-    delete from cms_cart
+  <delete id="deleteByExample" parameterType="com.cy.yunyi.model.OmsCartExample">
+    delete from oms_cart
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cy.yunyi.model.CmsCart">
+  <insert id="insert" parameterType="com.cy.yunyi.model.OmsCart">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cms_cart (user_id, goods_id, goods_sn, 
+    insert into oms_cart (user_id, goods_id, goods_sn, 
       goods_name, product_id, price, 
       number, specifications, checked, 
-      icon, add_time, update_time, 
+      icon, create_time, update_time, 
       status)
-    values (#{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{goodsSn,jdbcType=VARCHAR}, 
-      #{goodsName,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
-      #{number,jdbcType=SMALLINT}, #{specifications,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER}, 
-      #{icon,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{userId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{goodsSn,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, #{price,jdbcType=DECIMAL}, 
+      #{number,jdbcType=INTEGER}, #{specifications,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.cy.yunyi.model.CmsCart">
+  <insert id="insertSelective" parameterType="com.cy.yunyi.model.OmsCart">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cms_cart
+    insert into oms_cart
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         user_id,
@@ -160,8 +160,8 @@
       <if test="icon != null">
         icon,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -172,10 +172,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="goodsId != null">
-        #{goodsId,jdbcType=INTEGER},
+        #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsSn != null">
         #{goodsSn,jdbcType=VARCHAR},
@@ -184,13 +184,13 @@
         #{goodsName,jdbcType=VARCHAR},
       </if>
       <if test="productId != null">
-        #{productId,jdbcType=INTEGER},
+        #{productId,jdbcType=BIGINT},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
       </if>
       <if test="number != null">
-        #{number,jdbcType=SMALLINT},
+        #{number,jdbcType=INTEGER},
       </if>
       <if test="specifications != null">
         #{specifications,jdbcType=VARCHAR},
@@ -201,8 +201,8 @@
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -212,23 +212,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cy.yunyi.model.CmsCartExample" resultType="java.lang.Long">
-    select count(*) from cms_cart
+  <select id="countByExample" parameterType="com.cy.yunyi.model.OmsCartExample" resultType="java.lang.Long">
+    select count(*) from oms_cart
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cms_cart
+    update oms_cart
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsId != null">
-        goods_id = #{record.goodsId,jdbcType=INTEGER},
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsSn != null">
         goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
@@ -237,13 +237,13 @@
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
       </if>
       <if test="record.productId != null">
-        product_id = #{record.productId,jdbcType=INTEGER},
+        product_id = #{record.productId,jdbcType=BIGINT},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
       </if>
       <if test="record.number != null">
-        number = #{record.number,jdbcType=SMALLINT},
+        number = #{record.number,jdbcType=INTEGER},
       </if>
       <if test="record.specifications != null">
         specifications = #{record.specifications,jdbcType=VARCHAR},
@@ -254,8 +254,8 @@
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -269,33 +269,33 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cms_cart
+    update oms_cart
     set id = #{record.id,jdbcType=BIGINT},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      goods_id = #{record.goodsId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      product_id = #{record.productId,jdbcType=INTEGER},
+      product_id = #{record.productId,jdbcType=BIGINT},
       price = #{record.price,jdbcType=DECIMAL},
-      number = #{record.number,jdbcType=SMALLINT},
+      number = #{record.number,jdbcType=INTEGER},
       specifications = #{record.specifications,jdbcType=VARCHAR},
       checked = #{record.checked,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cy.yunyi.model.CmsCart">
-    update cms_cart
+  <update id="updateByPrimaryKeySelective" parameterType="com.cy.yunyi.model.OmsCart">
+    update oms_cart
     <set>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="goodsId != null">
-        goods_id = #{goodsId,jdbcType=INTEGER},
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsSn != null">
         goods_sn = #{goodsSn,jdbcType=VARCHAR},
@@ -304,13 +304,13 @@
         goods_name = #{goodsName,jdbcType=VARCHAR},
       </if>
       <if test="productId != null">
-        product_id = #{productId,jdbcType=INTEGER},
+        product_id = #{productId,jdbcType=BIGINT},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
       <if test="number != null">
-        number = #{number,jdbcType=SMALLINT},
+        number = #{number,jdbcType=INTEGER},
       </if>
       <if test="specifications != null">
         specifications = #{specifications,jdbcType=VARCHAR},
@@ -321,8 +321,8 @@
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -333,19 +333,19 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.CmsCart">
-    update cms_cart
-    set user_id = #{userId,jdbcType=INTEGER},
-      goods_id = #{goodsId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.OmsCart">
+    update oms_cart
+    set user_id = #{userId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
       goods_sn = #{goodsSn,jdbcType=VARCHAR},
       goods_name = #{goodsName,jdbcType=VARCHAR},
-      product_id = #{productId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=BIGINT},
       price = #{price,jdbcType=DECIMAL},
-      number = #{number,jdbcType=SMALLINT},
+      number = #{number,jdbcType=INTEGER},
       specifications = #{specifications,jdbcType=VARCHAR},
       checked = #{checked,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

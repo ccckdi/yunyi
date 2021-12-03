@@ -78,7 +78,7 @@ public class OmsOrder implements Serializable {
     private Date endTime;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -280,12 +280,12 @@ public class OmsOrder implements Serializable {
         this.endTime = endTime;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -334,7 +334,7 @@ public class OmsOrder implements Serializable {
         sb.append(", refundTime=").append(refundTime);
         sb.append(", confirmTime=").append(confirmTime);
         sb.append(", endTime=").append(endTime);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

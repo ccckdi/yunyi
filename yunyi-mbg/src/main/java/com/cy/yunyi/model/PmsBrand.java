@@ -23,7 +23,7 @@ public class PmsBrand implements Serializable {
     private BigDecimal floorPrice;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -81,12 +81,12 @@ public class PmsBrand implements Serializable {
         this.floorPrice = floorPrice;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -117,7 +117,7 @@ public class PmsBrand implements Serializable {
         sb.append(", icon=").append(icon);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", floorPrice=").append(floorPrice);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

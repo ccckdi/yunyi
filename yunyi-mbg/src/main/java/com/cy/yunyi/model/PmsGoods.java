@@ -15,9 +15,10 @@ public class PmsGoods implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "商品所属类目ID")
-    private Integer categoryId;
+    private Long categoryId;
 
-    private Integer brandId;
+    @ApiModelProperty(value = "商品品牌ID")
+    private Long brandId;
 
     @ApiModelProperty(value = "商品宣传图片列表，采用JSON数组格式")
     private String gallery;
@@ -31,10 +32,14 @@ public class PmsGoods implements Serializable {
     @ApiModelProperty(value = "是否上架")
     private Integer isOnSale;
 
-    private Short sortOrder;
+    private Integer sortOrder;
 
     @ApiModelProperty(value = "商品页面商品图片")
     private String icon;
+
+    private Integer isNew;
+
+    private Integer isHot;
 
     @ApiModelProperty(value = "商品单位，例如件、盒")
     private String unit;
@@ -46,7 +51,7 @@ public class PmsGoods implements Serializable {
     private BigDecimal retailPrice;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -83,19 +88,19 @@ public class PmsGoods implements Serializable {
         this.name = name;
     }
 
-    public Integer getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
-    public Integer getBrandId() {
+    public Long getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(Integer brandId) {
+    public void setBrandId(Long brandId) {
         this.brandId = brandId;
     }
 
@@ -131,11 +136,11 @@ public class PmsGoods implements Serializable {
         this.isOnSale = isOnSale;
     }
 
-    public Short getSortOrder() {
+    public Integer getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(Short sortOrder) {
+    public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
     }
 
@@ -145,6 +150,22 @@ public class PmsGoods implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Integer getIsNew() {
+        return isNew;
+    }
+
+    public void setIsNew(Integer isNew) {
+        this.isNew = isNew;
+    }
+
+    public Integer getIsHot() {
+        return isHot;
+    }
+
+    public void setIsHot(Integer isHot) {
+        this.isHot = isHot;
     }
 
     public String getUnit() {
@@ -171,12 +192,12 @@ public class PmsGoods implements Serializable {
         this.retailPrice = retailPrice;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -220,10 +241,12 @@ public class PmsGoods implements Serializable {
         sb.append(", isOnSale=").append(isOnSale);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", icon=").append(icon);
+        sb.append(", isNew=").append(isNew);
+        sb.append(", isHot=").append(isHot);
         sb.append(", unit=").append(unit);
         sb.append(", counterPrice=").append(counterPrice);
         sb.append(", retailPrice=").append(retailPrice);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", detail=").append(detail);

@@ -17,7 +17,7 @@ public class PmsCategory implements Serializable {
     private String desc;
 
     @ApiModelProperty(value = "父类目ID")
-    private Integer pid;
+    private Long pid;
 
     @ApiModelProperty(value = "类目图标")
     private String iconUrl;
@@ -31,7 +31,7 @@ public class PmsCategory implements Serializable {
     private Integer sortOrder;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -73,11 +73,11 @@ public class PmsCategory implements Serializable {
         this.desc = desc;
     }
 
-    public Integer getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
@@ -113,12 +113,12 @@ public class PmsCategory implements Serializable {
         this.sortOrder = sortOrder;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -152,7 +152,7 @@ public class PmsCategory implements Serializable {
         sb.append(", icon=").append(icon);
         sb.append(", level=").append(level);
         sb.append(", sortOrder=").append(sortOrder);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

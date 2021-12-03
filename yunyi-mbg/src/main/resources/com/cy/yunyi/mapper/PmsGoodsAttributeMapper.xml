@@ -3,10 +3,10 @@
 <mapper namespace="com.cy.yunyi.mapper.PmsGoodsAttributeMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.PmsGoodsAttribute">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="attribute" jdbcType="VARCHAR" property="attribute" />
     <result column="value" jdbcType="VARCHAR" property="value" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, goods_id, attribute, value, add_time, update_time, status
+    id, goods_id, attribute, value, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.PmsGoodsAttributeExample" resultMap="BaseResultMap">
     select
@@ -106,10 +106,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods_attribute (goods_id, attribute, value, 
-      add_time, update_time, status
+      create_time, update_time, status
       )
-    values (#{goodsId,jdbcType=INTEGER}, #{attribute,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+    values (#{goodsId,jdbcType=BIGINT}, #{attribute,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoodsAttribute">
@@ -127,8 +127,8 @@
       <if test="value != null">
         value,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -139,7 +139,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="goodsId != null">
-        #{goodsId,jdbcType=INTEGER},
+        #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="attribute != null">
         #{attribute,jdbcType=VARCHAR},
@@ -147,8 +147,8 @@
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -171,7 +171,7 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.goodsId != null">
-        goods_id = #{record.goodsId,jdbcType=INTEGER},
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
       </if>
       <if test="record.attribute != null">
         attribute = #{record.attribute,jdbcType=VARCHAR},
@@ -179,8 +179,8 @@
       <if test="record.value != null">
         value = #{record.value,jdbcType=VARCHAR},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -196,10 +196,10 @@
   <update id="updateByExample" parameterType="map">
     update pms_goods_attribute
     set id = #{record.id,jdbcType=BIGINT},
-      goods_id = #{record.goodsId,jdbcType=INTEGER},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
       attribute = #{record.attribute,jdbcType=VARCHAR},
       value = #{record.value,jdbcType=VARCHAR},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -210,7 +210,7 @@
     update pms_goods_attribute
     <set>
       <if test="goodsId != null">
-        goods_id = #{goodsId,jdbcType=INTEGER},
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="attribute != null">
         attribute = #{attribute,jdbcType=VARCHAR},
@@ -218,8 +218,8 @@
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -232,10 +232,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.PmsGoodsAttribute">
     update pms_goods_attribute
-    set goods_id = #{goodsId,jdbcType=INTEGER},
+    set goods_id = #{goodsId,jdbcType=BIGINT},
       attribute = #{attribute,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

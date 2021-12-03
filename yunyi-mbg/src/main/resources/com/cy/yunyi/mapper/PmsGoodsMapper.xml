@@ -5,18 +5,20 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
     <result column="gallery" jdbcType="VARCHAR" property="gallery" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
     <result column="is_on_sale" jdbcType="INTEGER" property="isOnSale" />
-    <result column="sort_order" jdbcType="SMALLINT" property="sortOrder" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="is_new" jdbcType="INTEGER" property="isNew" />
+    <result column="is_hot" jdbcType="INTEGER" property="isHot" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
     <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -83,7 +85,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, 
-    sort_order, icon, unit, counter_price, retail_price, add_time, update_time, status
+    sort_order, icon, is_new, is_hot, unit, counter_price, retail_price, create_time, 
+    update_time, status
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -143,15 +146,17 @@
     insert into pms_goods (goods_sn, name, category_id, 
       brand_id, gallery, keywords, 
       brief, is_on_sale, sort_order, 
-      icon, unit, counter_price, 
-      retail_price, add_time, update_time, 
-      status, detail)
-    values (#{goodsSn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
-      #{brandId,jdbcType=INTEGER}, #{gallery,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=INTEGER}, #{sortOrder,jdbcType=SMALLINT}, 
-      #{icon,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, 
-      #{retailPrice,jdbcType=DECIMAL}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR})
+      icon, is_new, is_hot, 
+      unit, counter_price, retail_price, 
+      create_time, update_time, status, 
+      detail)
+    values (#{goodsSn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, 
+      #{brandId,jdbcType=BIGINT}, #{gallery,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR}, #{isNew,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, 
+      #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{detail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -189,6 +194,12 @@
       <if test="icon != null">
         icon,
       </if>
+      <if test="isNew != null">
+        is_new,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
       <if test="unit != null">
         unit,
       </if>
@@ -198,8 +209,8 @@
       <if test="retailPrice != null">
         retail_price,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -219,10 +230,10 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="categoryId != null">
-        #{categoryId,jdbcType=INTEGER},
+        #{categoryId,jdbcType=BIGINT},
       </if>
       <if test="brandId != null">
-        #{brandId,jdbcType=INTEGER},
+        #{brandId,jdbcType=BIGINT},
       </if>
       <if test="gallery != null">
         #{gallery,jdbcType=VARCHAR},
@@ -237,10 +248,16 @@
         #{isOnSale,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
-        #{sortOrder,jdbcType=SMALLINT},
+        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isNew != null">
+        #{isNew,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=INTEGER},
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
@@ -251,8 +268,8 @@
       <if test="retailPrice != null">
         #{retailPrice,jdbcType=DECIMAL},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -284,10 +301,10 @@
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.categoryId != null">
-        category_id = #{record.categoryId,jdbcType=INTEGER},
+        category_id = #{record.categoryId,jdbcType=BIGINT},
       </if>
       <if test="record.brandId != null">
-        brand_id = #{record.brandId,jdbcType=INTEGER},
+        brand_id = #{record.brandId,jdbcType=BIGINT},
       </if>
       <if test="record.gallery != null">
         gallery = #{record.gallery,jdbcType=VARCHAR},
@@ -302,10 +319,16 @@
         is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=SMALLINT},
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isNew != null">
+        is_new = #{record.isNew,jdbcType=INTEGER},
+      </if>
+      <if test="record.isHot != null">
+        is_hot = #{record.isHot,jdbcType=INTEGER},
       </if>
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
@@ -316,8 +339,8 @@
       <if test="record.retailPrice != null">
         retail_price = #{record.retailPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -338,18 +361,20 @@
     set id = #{record.id,jdbcType=BIGINT},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
-      category_id = #{record.categoryId,jdbcType=INTEGER},
-      brand_id = #{record.brandId,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=BIGINT},
+      brand_id = #{record.brandId,jdbcType=BIGINT},
       gallery = #{record.gallery,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
       is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=SMALLINT},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
+      is_new = #{record.isNew,jdbcType=INTEGER},
+      is_hot = #{record.isHot,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
       counter_price = #{record.counterPrice,jdbcType=DECIMAL},
       retail_price = #{record.retailPrice,jdbcType=DECIMAL},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER},
       detail = #{record.detail,jdbcType=LONGVARCHAR}
@@ -362,18 +387,20 @@
     set id = #{record.id,jdbcType=BIGINT},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
-      category_id = #{record.categoryId,jdbcType=INTEGER},
-      brand_id = #{record.brandId,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=BIGINT},
+      brand_id = #{record.brandId,jdbcType=BIGINT},
       gallery = #{record.gallery,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
       is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=SMALLINT},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
+      is_new = #{record.isNew,jdbcType=INTEGER},
+      is_hot = #{record.isHot,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
       counter_price = #{record.counterPrice,jdbcType=DECIMAL},
       retail_price = #{record.retailPrice,jdbcType=DECIMAL},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -390,10 +417,10 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="categoryId != null">
-        category_id = #{categoryId,jdbcType=INTEGER},
+        category_id = #{categoryId,jdbcType=BIGINT},
       </if>
       <if test="brandId != null">
-        brand_id = #{brandId,jdbcType=INTEGER},
+        brand_id = #{brandId,jdbcType=BIGINT},
       </if>
       <if test="gallery != null">
         gallery = #{gallery,jdbcType=VARCHAR},
@@ -408,10 +435,16 @@
         is_on_sale = #{isOnSale,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=SMALLINT},
+        sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isNew != null">
+        is_new = #{isNew,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=INTEGER},
       </if>
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
@@ -422,8 +455,8 @@
       <if test="retailPrice != null">
         retail_price = #{retailPrice,jdbcType=DECIMAL},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -441,18 +474,20 @@
     update pms_goods
     set goods_sn = #{goodsSn,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=INTEGER},
-      brand_id = #{brandId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      brand_id = #{brandId,jdbcType=BIGINT},
       gallery = #{gallery,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       is_on_sale = #{isOnSale,jdbcType=INTEGER},
-      sort_order = #{sortOrder,jdbcType=SMALLINT},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
+      is_new = #{isNew,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
       counter_price = #{counterPrice,jdbcType=DECIMAL},
       retail_price = #{retailPrice,jdbcType=DECIMAL},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       detail = #{detail,jdbcType=LONGVARCHAR}
@@ -462,18 +497,20 @@
     update pms_goods
     set goods_sn = #{goodsSn,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=INTEGER},
-      brand_id = #{brandId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      brand_id = #{brandId,jdbcType=BIGINT},
       gallery = #{gallery,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       is_on_sale = #{isOnSale,jdbcType=INTEGER},
-      sort_order = #{sortOrder,jdbcType=SMALLINT},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
+      is_new = #{isNew,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
       counter_price = #{counterPrice,jdbcType=DECIMAL},
       retail_price = #{retailPrice,jdbcType=DECIMAL},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

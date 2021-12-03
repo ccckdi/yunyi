@@ -26,7 +26,7 @@
     <result column="refund_time" jdbcType="TIMESTAMP" property="refundTime" />
     <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -92,7 +92,7 @@
     id, user_id, order_sn, order_status, aftersale_status, consignee, mobile, address, 
     message, goods_price, freight_price, order_price, actual_price, pay_id, pay_time, 
     ship_sn, ship_channel, ship_time, refund_amount, refund_type, refund_content, refund_time, 
-    confirm_time, end_time, add_time, update_time, status
+    confirm_time, end_time, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.OmsOrderExample" resultMap="BaseResultMap">
     select
@@ -135,7 +135,7 @@
       pay_id, pay_time, ship_sn, 
       ship_channel, ship_time, refund_amount, 
       refund_type, refund_content, refund_time, 
-      confirm_time, end_time, add_time, 
+      confirm_time, end_time, create_time, 
       update_time, status)
     values (#{userId,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=SMALLINT}, 
       #{aftersaleStatus,jdbcType=SMALLINT}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
@@ -144,7 +144,7 @@
       #{payId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{shipSn,jdbcType=VARCHAR}, 
       #{shipChannel,jdbcType=VARCHAR}, #{shipTime,jdbcType=TIMESTAMP}, #{refundAmount,jdbcType=DECIMAL}, 
       #{refundType,jdbcType=VARCHAR}, #{refundContent,jdbcType=VARCHAR}, #{refundTime,jdbcType=TIMESTAMP}, 
-      #{confirmTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{confirmTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.OmsOrder">
@@ -222,8 +222,8 @@
       <if test="endTime != null">
         end_time,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -302,8 +302,8 @@
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -394,8 +394,8 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -434,7 +434,7 @@
       refund_time = #{record.refundTime,jdbcType=TIMESTAMP},
       confirm_time = #{record.confirmTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -513,8 +513,8 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -550,7 +550,7 @@
       refund_time = #{refundTime,jdbcType=TIMESTAMP},
       confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

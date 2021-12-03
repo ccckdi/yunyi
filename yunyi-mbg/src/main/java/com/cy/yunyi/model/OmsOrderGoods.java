@@ -9,10 +9,10 @@ public class OmsOrderGoods implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "订单表的订单ID")
-    private Integer orderId;
+    private Long orderId;
 
     @ApiModelProperty(value = "商品表的商品ID")
-    private Integer goodsId;
+    private Long goodsId;
 
     @ApiModelProperty(value = "商品名称")
     private String goodsName;
@@ -21,10 +21,10 @@ public class OmsOrderGoods implements Serializable {
     private String goodsSn;
 
     @ApiModelProperty(value = "商品货品表的货品ID")
-    private Integer productId;
+    private Long productId;
 
     @ApiModelProperty(value = "商品货品的购买数量")
-    private Short number;
+    private Integer number;
 
     @ApiModelProperty(value = "商品货品的售价")
     private BigDecimal price;
@@ -39,7 +39,7 @@ public class OmsOrderGoods implements Serializable {
     private Integer comment;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -57,19 +57,19 @@ public class OmsOrderGoods implements Serializable {
         this.id = id;
     }
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public Integer getGoodsId() {
+    public Long getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(Integer goodsId) {
+    public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
     }
 
@@ -89,19 +89,19 @@ public class OmsOrderGoods implements Serializable {
         this.goodsSn = goodsSn;
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
-    public Short getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(Short number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -137,12 +137,12 @@ public class OmsOrderGoods implements Serializable {
         this.comment = comment;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -178,7 +178,7 @@ public class OmsOrderGoods implements Serializable {
         sb.append(", specifications=").append(specifications);
         sb.append(", icon=").append(icon);
         sb.append(", comment=").append(comment);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

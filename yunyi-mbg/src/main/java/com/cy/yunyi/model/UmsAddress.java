@@ -11,7 +11,7 @@ public class UmsAddress implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "用户表的用户ID")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty(value = "行政区域表的省ID")
     private String province;
@@ -35,10 +35,10 @@ public class UmsAddress implements Serializable {
     private String tel;
 
     @ApiModelProperty(value = "是否默认地址")
-    private Boolean isDefault;
+    private Integer isDefault;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -64,11 +64,11 @@ public class UmsAddress implements Serializable {
         this.name = name;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -128,20 +128,20 @@ public class UmsAddress implements Serializable {
         this.tel = tel;
     }
 
-    public Boolean getIsDefault() {
+    public Integer getIsDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(Boolean isDefault) {
+    public void setIsDefault(Integer isDefault) {
         this.isDefault = isDefault;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -177,7 +177,7 @@ public class UmsAddress implements Serializable {
         sb.append(", postalCode=").append(postalCode);
         sb.append(", tel=").append(tel);
         sb.append(", isDefault=").append(isDefault);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

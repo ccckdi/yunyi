@@ -26,7 +26,7 @@ public class UmsUser implements Serializable {
     private String lastLoginIp;
 
     @ApiModelProperty(value = "0 普通用户，1 VIP用户，2 高级VIP用户")
-    private Byte userLevel;
+    private Integer userLevel;
 
     @ApiModelProperty(value = "用户昵称或网络名称")
     private String nickname;
@@ -47,7 +47,7 @@ public class UmsUser implements Serializable {
     private String sessionKey;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -113,11 +113,11 @@ public class UmsUser implements Serializable {
         this.lastLoginIp = lastLoginIp;
     }
 
-    public Byte getUserLevel() {
+    public Integer getUserLevel() {
         return userLevel;
     }
 
-    public void setUserLevel(Byte userLevel) {
+    public void setUserLevel(Integer userLevel) {
         this.userLevel = userLevel;
     }
 
@@ -169,12 +169,12 @@ public class UmsUser implements Serializable {
         this.sessionKey = sessionKey;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -213,7 +213,7 @@ public class UmsUser implements Serializable {
         sb.append(", email=").append(email);
         sb.append(", weixinOpenid=").append(weixinOpenid);
         sb.append(", sessionKey=").append(sessionKey);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

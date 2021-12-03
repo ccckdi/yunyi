@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.UmsAddress">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="county" jdbcType="VARCHAR" property="county" />
@@ -12,8 +12,8 @@
     <result column="area_code" jdbcType="CHAR" property="areaCode" />
     <result column="postal_code" jdbcType="CHAR" property="postalCode" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
-    <result column="is_default" jdbcType="BIT" property="isDefault" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="is_default" jdbcType="INTEGER" property="isDefault" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -77,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, user_id, province, city, county, address_detail, area_code, postal_code, 
-    tel, is_default, add_time, update_time, status
+    tel, is_default, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.UmsAddressExample" resultMap="BaseResultMap">
     select
@@ -116,12 +116,12 @@
     insert into ums_address (name, user_id, province, 
       city, county, address_detail, 
       area_code, postal_code, tel, 
-      is_default, add_time, update_time, 
+      is_default, create_time, update_time, 
       status)
-    values (#{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
+    values (#{name,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR}, 
       #{areaCode,jdbcType=CHAR}, #{postalCode,jdbcType=CHAR}, #{tel,jdbcType=VARCHAR}, 
-      #{isDefault,jdbcType=BIT}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDefault,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.UmsAddress">
@@ -160,8 +160,8 @@
       <if test="isDefault != null">
         is_default,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -175,7 +175,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="province != null">
         #{province,jdbcType=VARCHAR},
@@ -199,10 +199,10 @@
         #{tel,jdbcType=VARCHAR},
       </if>
       <if test="isDefault != null">
-        #{isDefault,jdbcType=BIT},
+        #{isDefault,jdbcType=INTEGER},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -228,7 +228,7 @@
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.province != null">
         province = #{record.province,jdbcType=VARCHAR},
@@ -252,10 +252,10 @@
         tel = #{record.tel,jdbcType=VARCHAR},
       </if>
       <if test="record.isDefault != null">
-        is_default = #{record.isDefault,jdbcType=BIT},
+        is_default = #{record.isDefault,jdbcType=INTEGER},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -272,7 +272,7 @@
     update ums_address
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      user_id = #{record.userId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=BIGINT},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       county = #{record.county,jdbcType=VARCHAR},
@@ -280,8 +280,8 @@
       area_code = #{record.areaCode,jdbcType=CHAR},
       postal_code = #{record.postalCode,jdbcType=CHAR},
       tel = #{record.tel,jdbcType=VARCHAR},
-      is_default = #{record.isDefault,jdbcType=BIT},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      is_default = #{record.isDefault,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -295,7 +295,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="province != null">
         province = #{province,jdbcType=VARCHAR},
@@ -319,10 +319,10 @@
         tel = #{tel,jdbcType=VARCHAR},
       </if>
       <if test="isDefault != null">
-        is_default = #{isDefault,jdbcType=BIT},
+        is_default = #{isDefault,jdbcType=INTEGER},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -336,7 +336,7 @@
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.UmsAddress">
     update ums_address
     set name = #{name,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       county = #{county,jdbcType=VARCHAR},
@@ -344,8 +344,8 @@
       area_code = #{areaCode,jdbcType=CHAR},
       postal_code = #{postalCode,jdbcType=CHAR},
       tel = #{tel,jdbcType=VARCHAR},
-      is_default = #{isDefault,jdbcType=BIT},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      is_default = #{isDefault,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

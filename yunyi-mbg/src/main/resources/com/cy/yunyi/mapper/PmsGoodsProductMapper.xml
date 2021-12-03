@@ -3,12 +3,12 @@
 <mapper namespace="com.cy.yunyi.mapper.PmsGoodsProductMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.PmsGoodsProduct">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="specifications" jdbcType="VARCHAR" property="specifications" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="number" jdbcType="INTEGER" property="number" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, goods_id, specifications, price, number, icon, add_time, update_time, status
+    id, goods_id, specifications, price, number, icon, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.PmsGoodsProductExample" resultMap="BaseResultMap">
     select
@@ -108,10 +108,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods_product (goods_id, specifications, price, 
-      number, icon, add_time, 
+      number, icon, create_time, 
       update_time, status)
-    values (#{goodsId,jdbcType=INTEGER}, #{specifications,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{number,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{goodsId,jdbcType=BIGINT}, #{specifications,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{number,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoodsProduct">
@@ -135,8 +135,8 @@
       <if test="icon != null">
         icon,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -147,7 +147,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="goodsId != null">
-        #{goodsId,jdbcType=INTEGER},
+        #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="specifications != null">
         #{specifications,jdbcType=VARCHAR},
@@ -161,8 +161,8 @@
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -185,7 +185,7 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.goodsId != null">
-        goods_id = #{record.goodsId,jdbcType=INTEGER},
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
       </if>
       <if test="record.specifications != null">
         specifications = #{record.specifications,jdbcType=VARCHAR},
@@ -199,8 +199,8 @@
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -216,12 +216,12 @@
   <update id="updateByExample" parameterType="map">
     update pms_goods_product
     set id = #{record.id,jdbcType=BIGINT},
-      goods_id = #{record.goodsId,jdbcType=INTEGER},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
       specifications = #{record.specifications,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       number = #{record.number,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -232,7 +232,7 @@
     update pms_goods_product
     <set>
       <if test="goodsId != null">
-        goods_id = #{goodsId,jdbcType=INTEGER},
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="specifications != null">
         specifications = #{specifications,jdbcType=VARCHAR},
@@ -246,8 +246,8 @@
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -260,12 +260,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.PmsGoodsProduct">
     update pms_goods_product
-    set goods_id = #{goodsId,jdbcType=INTEGER},
+    set goods_id = #{goodsId,jdbcType=BIGINT},
       specifications = #{specifications,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       number = #{number,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

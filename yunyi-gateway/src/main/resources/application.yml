@@ -49,4 +49,4 @@ secure:
       - "/actuator/**"
       - "/auth/test/hello"
       - "/yunyi-auth/oauth/token"
-      - "/yunyi-auth/admin/login"
+      - "/yunyi-admin/admin/login"

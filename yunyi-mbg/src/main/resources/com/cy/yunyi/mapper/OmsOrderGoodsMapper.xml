@@ -3,17 +3,17 @@
 <mapper namespace="com.cy.yunyi.mapper.OmsOrderGoodsMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.OmsOrderGoods">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="order_id" jdbcType="INTEGER" property="orderId" />
-    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
-    <result column="product_id" jdbcType="INTEGER" property="productId" />
-    <result column="number" jdbcType="SMALLINT" property="number" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="number" jdbcType="INTEGER" property="number" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="specifications" jdbcType="VARCHAR" property="specifications" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="comment" jdbcType="INTEGER" property="comment" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
@@ -77,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications, 
-    icon, comment, add_time, update_time, status
+    icon, comment, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.OmsOrderGoodsExample" resultMap="BaseResultMap">
     select
@@ -116,12 +116,12 @@
     insert into oms_order_goods (order_id, goods_id, goods_name, 
       goods_sn, product_id, number, 
       price, specifications, icon, 
-      comment, add_time, update_time, 
+      comment, create_time, update_time, 
       status)
-    values (#{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, 
-      #{goodsSn,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, #{number,jdbcType=SMALLINT}, 
+    values (#{orderId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsSn,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, #{number,jdbcType=INTEGER}, 
       #{price,jdbcType=DECIMAL}, #{specifications,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
-      #{comment,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{comment,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.OmsOrderGoods">
@@ -160,8 +160,8 @@
       <if test="comment != null">
         comment,
       </if>
-      <if test="addTime != null">
-        add_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -172,10 +172,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
-        #{orderId,jdbcType=INTEGER},
+        #{orderId,jdbcType=BIGINT},
       </if>
       <if test="goodsId != null">
-        #{goodsId,jdbcType=INTEGER},
+        #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsName != null">
         #{goodsName,jdbcType=VARCHAR},
@@ -184,10 +184,10 @@
         #{goodsSn,jdbcType=VARCHAR},
       </if>
       <if test="productId != null">
-        #{productId,jdbcType=INTEGER},
+        #{productId,jdbcType=BIGINT},
       </if>
       <if test="number != null">
-        #{number,jdbcType=SMALLINT},
+        #{number,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -201,8 +201,8 @@
       <if test="comment != null">
         #{comment,jdbcType=INTEGER},
       </if>
-      <if test="addTime != null">
-        #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -225,10 +225,10 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.orderId != null">
-        order_id = #{record.orderId,jdbcType=INTEGER},
+        order_id = #{record.orderId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsId != null">
-        goods_id = #{record.goodsId,jdbcType=INTEGER},
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsName != null">
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
@@ -237,10 +237,10 @@
         goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       </if>
       <if test="record.productId != null">
-        product_id = #{record.productId,jdbcType=INTEGER},
+        product_id = #{record.productId,jdbcType=BIGINT},
       </if>
       <if test="record.number != null">
-        number = #{record.number,jdbcType=SMALLINT},
+        number = #{record.number,jdbcType=INTEGER},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
@@ -254,8 +254,8 @@
       <if test="record.comment != null">
         comment = #{record.comment,jdbcType=INTEGER},
       </if>
-      <if test="record.addTime != null">
-        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -271,17 +271,17 @@
   <update id="updateByExample" parameterType="map">
     update oms_order_goods
     set id = #{record.id,jdbcType=BIGINT},
-      order_id = #{record.orderId,jdbcType=INTEGER},
-      goods_id = #{record.goodsId,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
-      product_id = #{record.productId,jdbcType=INTEGER},
-      number = #{record.number,jdbcType=SMALLINT},
+      product_id = #{record.productId,jdbcType=BIGINT},
+      number = #{record.number,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       specifications = #{record.specifications,jdbcType=VARCHAR},
       icon = #{record.icon,jdbcType=VARCHAR},
       comment = #{record.comment,jdbcType=INTEGER},
-      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -292,10 +292,10 @@
     update oms_order_goods
     <set>
       <if test="orderId != null">
-        order_id = #{orderId,jdbcType=INTEGER},
+        order_id = #{orderId,jdbcType=BIGINT},
       </if>
       <if test="goodsId != null">
-        goods_id = #{goodsId,jdbcType=INTEGER},
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsName != null">
         goods_name = #{goodsName,jdbcType=VARCHAR},
@@ -304,10 +304,10 @@
         goods_sn = #{goodsSn,jdbcType=VARCHAR},
       </if>
       <if test="productId != null">
-        product_id = #{productId,jdbcType=INTEGER},
+        product_id = #{productId,jdbcType=BIGINT},
       </if>
       <if test="number != null">
-        number = #{number,jdbcType=SMALLINT},
+        number = #{number,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -321,8 +321,8 @@
       <if test="comment != null">
         comment = #{comment,jdbcType=INTEGER},
       </if>
-      <if test="addTime != null">
-        add_time = #{addTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -335,17 +335,17 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.OmsOrderGoods">
     update oms_order_goods
-    set order_id = #{orderId,jdbcType=INTEGER},
-      goods_id = #{goodsId,jdbcType=INTEGER},
+    set order_id = #{orderId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
       goods_name = #{goodsName,jdbcType=VARCHAR},
       goods_sn = #{goodsSn,jdbcType=VARCHAR},
-      product_id = #{productId,jdbcType=INTEGER},
-      number = #{number,jdbcType=SMALLINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      number = #{number,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       specifications = #{specifications,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       comment = #{comment,jdbcType=INTEGER},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

@@ -9,7 +9,7 @@ public class PmsGoodsProduct implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "商品表的商品ID")
-    private Integer goodsId;
+    private Long goodsId;
 
     @ApiModelProperty(value = "商品规格值列表，采用JSON数组格式")
     private String specifications;
@@ -24,7 +24,7 @@ public class PmsGoodsProduct implements Serializable {
     private String icon;
 
     @ApiModelProperty(value = "创建时间")
-    private Date addTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
@@ -42,11 +42,11 @@ public class PmsGoodsProduct implements Serializable {
         this.id = id;
     }
 
-    public Integer getGoodsId() {
+    public Long getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(Integer goodsId) {
+    public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
     }
 
@@ -82,12 +82,12 @@ public class PmsGoodsProduct implements Serializable {
         this.icon = icon;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -118,7 +118,7 @@ public class PmsGoodsProduct implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", number=").append(number);
         sb.append(", icon=").append(icon);
-        sb.append(", addTime=").append(addTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
