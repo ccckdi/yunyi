@@ -4,6 +4,7 @@ import com.cy.yunyi.admin.dao.UmsRoleDao;
 import com.cy.yunyi.admin.service.UmsResourceService;
 import com.cy.yunyi.admin.service.UmsRoleService;
 import com.cy.yunyi.mapper.UmsRoleMapper;
+import com.cy.yunyi.mapper.UmsRoleMenuRelationMapper;
 import com.cy.yunyi.mapper.UmsRoleResourceRelationMapper;
 import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
@@ -26,6 +27,9 @@ public class UmsRoleServiceImpl implements UmsRoleService {
 
     @Autowired
     private UmsRoleResourceRelationMapper roleResourceRelationMapper;
+
+    @Autowired
+    private UmsRoleMenuRelationMapper roleMenuRelationMapper;
 
     @Autowired
     private UmsRoleDao roleDao;
@@ -91,5 +95,31 @@ public class UmsRoleServiceImpl implements UmsRoleService {
         }
         resourceService.initResourceRolesMap();
         return resourceIds.size();
+    }
+
+    @Override
+    public List<UmsMenu> getMenuList(Long adminId) {
+        return roleDao.getMenuList(adminId);
+    }
+
+    @Override
+    public List<UmsMenu> listMenu(Long roleId) {
+        return roleDao.getMenuListByRoleId(roleId);
+    }
+
+    @Override
+    public int allocMenu(Long roleId, List<Long> menuIds) {
+        //先删除原有关系
+        UmsRoleMenuRelationExample example=new UmsRoleMenuRelationExample();
+        example.createCriteria().andRoleIdEqualTo(roleId);
+        roleMenuRelationMapper.deleteByExample(example);
+        //批量插入新关系
+        for (Long menuId : menuIds) {
+            UmsRoleMenuRelation relation = new UmsRoleMenuRelation();
+            relation.setRoleId(roleId);
+            relation.setMenuId(menuId);
+            roleMenuRelationMapper.insert(relation);
+        }
+        return menuIds.size();
     }
 }

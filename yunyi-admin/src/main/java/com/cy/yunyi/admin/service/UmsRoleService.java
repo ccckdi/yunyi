@@ -1,5 +1,6 @@
 package com.cy.yunyi.admin.service;
 
+import com.cy.yunyi.model.UmsMenu;
 import com.cy.yunyi.model.UmsResource;
 import com.cy.yunyi.model.UmsRole;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,20 +49,20 @@ public interface UmsRoleService {
     @Transactional
     int allocResource(Long roleId, List<Long> resourceIds);
 
-//    /**
-//     * 根据管理员ID获取对应菜单
-//     */
-//    List<UmsMenu> getMenuList(Long adminId);
+    /**
+     * 根据管理员ID获取对应菜单
+     */
+    List<UmsMenu> getMenuList(Long adminId);
 
-//    /**
-//     * 获取角色相关菜单
-//     */
-//    List<UmsMenu> listMenu(Long roleId);
+    /**
+     * 获取角色相关菜单
+     */
+    List<UmsMenu> listMenu(Long roleId);
 
-//    /**
-//     * 给角色分配菜单
-//     */
-//    @Transactional
-//    int allocMenu(Long roleId, List<Long> menuIds);
+    /**
+     * 给角色分配菜单
+     */
+    @Transactional
+    int allocMenu(Long roleId, List<Long> menuIds);
 
 }

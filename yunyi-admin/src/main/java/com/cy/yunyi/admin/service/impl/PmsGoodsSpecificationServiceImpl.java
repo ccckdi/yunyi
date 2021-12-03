@@ -6,6 +6,7 @@ import com.cy.yunyi.model.PmsGoodsSpecificationExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -48,7 +49,9 @@ public class PmsGoodsSpecificationServiceImpl implements PmsGoodsSpecificationSe
     @Override
     public List<PmsGoodsSpecification> listByGoodId(Long goodsId) {
         PmsGoodsSpecificationExample example = new PmsGoodsSpecificationExample();
-        example.createCriteria().andGoodsIdEqualTo(goodsId);
+        if (!(goodsId == null) && !(goodsId == 0)){
+            example.createCriteria().andGoodsIdEqualTo(goodsId);
+        }
         List<PmsGoodsSpecification> specificationList = specificationMapper.selectByExample(example);
         return specificationList;
     }

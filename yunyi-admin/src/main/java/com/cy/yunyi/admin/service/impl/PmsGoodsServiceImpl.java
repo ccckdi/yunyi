@@ -267,7 +267,9 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
         PageHelper.startPage(pageNum,pageSize);
         PageHelper.orderBy("sort_order asc");
         PmsGoodsExample example = new PmsGoodsExample();
-        example.createCriteria().andNameLike("%" + keyword + "%");
+        if (!StringUtils.isEmpty(keyword)){
+            example.createCriteria().andNameLike("%" + keyword + "%");
+        }
         List<PmsGoods> goodsList = goodsMapper.selectByExample(example);
         return goodsList;
     }

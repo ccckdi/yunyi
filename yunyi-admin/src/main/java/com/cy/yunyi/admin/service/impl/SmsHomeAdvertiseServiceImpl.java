@@ -8,6 +8,7 @@ import com.cy.yunyi.model.SmsHomeAdvertiseExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,9 @@ public class SmsHomeAdvertiseServiceImpl implements SmsHomeAdvertiseService {
     public List<SmsHomeAdvertise> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
         SmsHomeAdvertiseExample example = new SmsHomeAdvertiseExample();
-        example.createCriteria().andNameEqualTo("%" + keyword + "%");
+        if (!StringUtils.isEmpty(keyword)) {
+            example.createCriteria().andNameLike("%" + keyword + "%");
+        }
         List<SmsHomeAdvertise> brandList = advertiseMapper.selectByExample(example);
         return brandList;
     }

@@ -30,7 +30,9 @@ public class UmsUserServiceImpl implements UmsUserService {
     public List<UmsUser> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
         UmsUserExample example = new UmsUserExample();
-        example.createCriteria().andUsernameLike("%" + keyword + "%");
+        if (!org.springframework.util.StringUtils.isEmpty(keyword)) {
+            example.createCriteria().andUsernameLike("%" + keyword + "%");
+        }
         List<UmsUser> userList = userMapper.selectByExample(example);
         return userList;
     }

@@ -5,6 +5,7 @@ import com.cy.yunyi.admin.dto.UmsAdminLoginParam;
 import com.cy.yunyi.admin.dto.UmsAdminParam;
 import com.cy.yunyi.admin.dto.UpdateAdminPasswordParam;
 import com.cy.yunyi.admin.service.UmsAdminService;
+import com.cy.yunyi.admin.service.UmsRoleService;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
 import com.cy.yunyi.common.domain.UserDto;
@@ -33,6 +34,9 @@ public class UmsAdminController {
 
     @Autowired
     private UmsAdminService adminService;
+
+    @Autowired
+    private UmsRoleService roleService;
 
     @ApiOperation("根据管理员名获取通管理员信息")
     @GetMapping("/loadByUsername")
@@ -63,7 +67,7 @@ public class UmsAdminController {
         UmsAdmin umsAdmin = adminService.getCurrentAdmin();
         Map<String, Object> data = new HashMap<>();
         data.put("username", umsAdmin.getUsername());
-        //data.put("menus", roleService.getMenuList(umsAdmin.getId()));
+        data.put("menus", roleService.getMenuList(umsAdmin.getId()));
         data.put("icon", umsAdmin.getIcon());
         List<UmsRole> roleList = adminService.getRoleList(umsAdmin.getId());
         if(CollUtil.isNotEmpty(roleList)){
@@ -74,8 +78,7 @@ public class UmsAdminController {
     }
 
     @ApiOperation(value = "登出功能")
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/logout")
     public CommonResult logout() {
         return CommonResult.success(null);
     }

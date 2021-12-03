@@ -22,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -135,9 +136,11 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     public List<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         UmsAdminExample example = new UmsAdminExample();
-        UmsAdminExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameLike("%" + keyword + "%");
-        example.or(example.createCriteria().andNickNameLike("%" + keyword + "%"));
+        if (!StringUtils.isEmpty(keyword)){
+            UmsAdminExample.Criteria criteria = example.createCriteria();
+            criteria.andUsernameLike("%" + keyword + "%");
+            example.or(example.createCriteria().andNickNameLike("%" + keyword + "%"));
+        }
         return adminMapper.selectByExample(example);
     }
 

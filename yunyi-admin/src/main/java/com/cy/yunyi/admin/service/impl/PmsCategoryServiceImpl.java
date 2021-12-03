@@ -7,6 +7,7 @@ import com.cy.yunyi.model.PmsCategoryExample;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -46,7 +47,9 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
         PageHelper.startPage(pageNum,pageSize);
         PageHelper.orderBy("sort_order asc");
         PmsCategoryExample example = new PmsCategoryExample();
-        example.createCriteria().andNameEqualTo("%" + keyword + "%");
+        if (!StringUtils.isEmpty(keyword)) {
+            example.createCriteria().andNameLike("%" + keyword + "%");
+        }
         List<PmsCategory> categoryList = categoryMapper.selectByExample(example);
         return categoryList;
     }
