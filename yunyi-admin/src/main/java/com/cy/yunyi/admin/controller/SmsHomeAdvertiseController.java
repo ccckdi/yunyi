@@ -34,6 +34,13 @@ public class SmsHomeAdvertiseController {
         return CommonResult.failed();
     }
 
+    @ApiOperation("广告详情")
+    @GetMapping("/{id}")
+    public CommonResult info(@PathVariable Long id) {
+        SmsHomeAdvertise smsHomeAdvertise = advertiseService.info(id);
+        return CommonResult.success(smsHomeAdvertise);
+    }
+
     @ApiOperation("修改广告")
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody SmsHomeAdvertise advertise) {
@@ -46,10 +53,12 @@ public class SmsHomeAdvertiseController {
 
     @ApiOperation("根据广告名称分页获取广告列表")
     @GetMapping("list")
-    public CommonResult<CommonPage<SmsHomeAdvertise>> list(@RequestParam(value = "keyword", required = false) String keyword,
+    public CommonResult<CommonPage<SmsHomeAdvertise>> list(@RequestParam(value = "name", required = false) String name,
+                                                           @RequestParam(value = "type", required = false) Integer type,
+                                                           @RequestParam(value = "endTime", required = false) String endTime,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<SmsHomeAdvertise> advertiseList = advertiseService.list(keyword, pageSize, pageNum);
+        List<SmsHomeAdvertise> advertiseList = advertiseService.list(name, type, endTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(advertiseList));
     }
 

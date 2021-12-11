@@ -55,6 +55,9 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
         PmsGoodsProduct[] products = goodsAllParam.getProducts();
 
         String name = goods.getName();
+        Date createTime = new Date();
+        Integer status = goods.getStatus();
+
         if (listByName(name).size() > 0) {
             return CommonResult.failed(ResultCode.FAILED, "商品名已经存在");
         }
@@ -68,6 +71,7 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
             }
         }
         goods.setRetailPrice(retailPrice);
+        goods.setCreateTime(createTime);
 
         // 商品基本信息表pms_goods
         goodsMapper.insert(goods);
@@ -84,18 +88,24 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
         // 商品规格表pms_goods_specification
         for (PmsGoodsSpecification specification : specifications) {
             specification.setGoodsId(goods.getId());
+            specification.setCreateTime(createTime);
+            specification.setStatus(status);
             specificationMapper.insert(specification);
         }
 
         // 商品参数表pms_goods_attribute
         for (PmsGoodsAttribute attribute : attributes) {
             attribute.setGoodsId(goods.getId());
+            attribute.setCreateTime(createTime);
+            attribute.setStatus(status);
             attributeMapper.insert(attribute);
         }
 
         // 商品货品表pms_product
         for (PmsGoodsProduct product : products) {
             product.setGoodsId(goods.getId());
+            product.setCreateTime(createTime);
+            product.setStatus(status);
             productMapper.insert(product);
         }
         return CommonResult.success(goodsAllParam);
@@ -122,60 +132,58 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
                 retailPrice = productPrice;
             }
         }
+        Date createTime = goods.getCreateTime();
+        Integer status = goods.getStatus();
+        Date updateTime = new Date();
         goods.setRetailPrice(retailPrice);
+        goods.setUpdateTime(updateTime);
 
         // 商品基本信息表pms_goods
-        goodsMapper.insert(goods);
-        if (goodsMapper.updateByPrimaryKey(goods) == 0) {
+        if (goodsMapper.updateByPrimaryKeySelective(goods) == 0) {
             throw new RuntimeException("更新数据失败");
         }
 
-        //将生成的分享图片地址写入数据库
-        //String url = qCodeMapper.createGoodShareImage(goods.getId().toString(), goods.getPicUrl(), goods.getName());
-//        if (!StringUtils.isEmpty(url)) {
-//            goods.setShareUrl(url);
-//            if (goodsMapper.updateById(goods) == 0) {
-//                throw new RuntimeException("更新数据失败");
-//            }
-//        }
+        //删除原有数据
+        PmsGoodsSpecificationExample pmsGoodsSpecificationExample = new PmsGoodsSpecificationExample();
+        pmsGoodsSpecificationExample.createCriteria().andGoodsIdEqualTo(id);
+        specificationMapper.deleteByExample(pmsGoodsSpecificationExample);
+
+        PmsGoodsAttributeExample pmsGoodsAttributeExample = new PmsGoodsAttributeExample();
+        pmsGoodsAttributeExample.createCriteria().andGoodsIdEqualTo(id);
+        attributeMapper.deleteByExample(pmsGoodsAttributeExample);
+
+        PmsGoodsProductExample pmsGoodsProductExample = new PmsGoodsProductExample();
+        pmsGoodsProductExample.createCriteria().andGoodsIdEqualTo(id);
+        productMapper.deleteByExample(pmsGoodsProductExample);
+
+
 
         // 商品规格表pms_goods_specification
         for (PmsGoodsSpecification specification : specifications) {
-            // 目前只支持更新规格表的图片字段
-            if(specification.getUpdateTime() == null){
-                specification.setSpecification(null);
-                specification.setValue(null);
-                specificationMapper.updateByPrimaryKey(specification);
-            }
-        }
-
-        // 商品货品表pms_product
-        for (PmsGoodsProduct product : products) {
-            if(product.getUpdateTime() == null) {
-                productMapper.updateByPrimaryKey(product);
-            }
+            specification.setGoodsId(goods.getId());
+            specification.setCreateTime(createTime);
+            specification.setUpdateTime(updateTime);
+            specification.setStatus(status);
+            specificationMapper.insert(specification);
         }
 
         // 商品参数表pms_goods_attribute
         for (PmsGoodsAttribute attribute : attributes) {
-            if (attribute.getId() == null || attribute.getId().equals(0)){
-                attribute.setGoodsId(goods.getId());
-                attributeMapper.insert(attribute);
-            }
-            else if(attribute.getStatus() == 0){
-                attributeMapper.deleteByPrimaryKey(attribute.getId());
-            }
-            else if(attribute.getUpdateTime() == null){
-                attributeMapper.updateByPrimaryKey(attribute);
-            }
+            attribute.setGoodsId(goods.getId());
+            attribute.setCreateTime(createTime);
+            attribute.setUpdateTime(updateTime);
+            attribute.setStatus(status);
+            attributeMapper.insert(attribute);
         }
 
-        // 这里需要注意的是购物车pms_cart有些字段是拷贝商品的一些字段，因此需要及时更新
-        // 目前这些字段是goods_sn, goods_name, price, pic_url
-//        for (PmsGoodsProduct product : products) {
-//            cartService.updateProduct(product.getId(), goods.getGoodsSn(), goods.getName(), product.getPrice(), product.getUrl());
-//        }
-        
+        // 商品货品表pms_product
+        for (PmsGoodsProduct product : products) {
+            product.setGoodsId(goods.getId());
+            product.setCreateTime(createTime);
+            product.setUpdateTime(updateTime);
+            product.setStatus(status);
+            productMapper.insert(product);
+        }
         return CommonResult.success(goodsAllParam);
     }
 
@@ -183,7 +191,7 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
     public int update(Long id, PmsGoods goods) {
         goods.setId(id);
         goods.setUpdateTime(new Date());
-        int count = goodsMapper.updateByPrimaryKey(goods);
+        int count = goodsMapper.updateByPrimaryKeySelective(goods);
         return count;
     }
 
@@ -253,8 +261,8 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
                 return CommonResult.validateFailed();
             }
 
-            List<String> productSpecifications = JSONArray.parseArray(product.getSpecifications(), String.class);
-            if (productSpecifications.size() == 0) {
+            String[] specificationsArr = product.getSpecifications();
+            if (specificationsArr.length == 0) {
                 return CommonResult.validateFailed();
             }
         }
@@ -299,6 +307,30 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
         productMapper.deleteByExample(productExample);
 
         return count;
+    }
+
+    @Override
+    public PmsGoodsAllParam updateInfo(Long id) {
+        PmsGoodsAllParam pmsGoodsAllParam = new PmsGoodsAllParam();
+        PmsGoods pmsGoods = goodsMapper.selectByPrimaryKey(id);
+
+        PmsGoodsSpecificationExample pmsGoodsSpecificationExample = new PmsGoodsSpecificationExample();
+        pmsGoodsSpecificationExample.createCriteria().andGoodsIdEqualTo(id);
+        List<PmsGoodsSpecification> goodsSpecificationList = specificationMapper.selectByExample(pmsGoodsSpecificationExample);
+
+        PmsGoodsAttributeExample pmsGoodsAttributeExample = new PmsGoodsAttributeExample();
+        pmsGoodsAttributeExample.createCriteria().andGoodsIdEqualTo(id);
+        List<PmsGoodsAttribute> goodsAttributeList = attributeMapper.selectByExample(pmsGoodsAttributeExample);
+
+        PmsGoodsProductExample pmsGoodsProductExample = new PmsGoodsProductExample();
+        pmsGoodsProductExample.createCriteria().andGoodsIdEqualTo(id);
+        List<PmsGoodsProduct> goodsProductList = productMapper.selectByExample(pmsGoodsProductExample);
+
+        pmsGoodsAllParam.setGoods(pmsGoods);
+        pmsGoodsAllParam.setAttributes(goodsAttributeList.toArray(new PmsGoodsAttribute[goodsAttributeList.size()]));
+        pmsGoodsAllParam.setProducts(goodsProductList.toArray(new PmsGoodsProduct[goodsProductList.size()]));
+        pmsGoodsAllParam.setSpecifications(goodsSpecificationList.toArray(new PmsGoodsSpecification[goodsSpecificationList.size()]));
+        return pmsGoodsAllParam;
     }
 
 }

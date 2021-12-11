@@ -39,6 +39,13 @@ public class PmsGoodsController {
         return commonResult;
     }
 
+    @ApiOperation("修改商品详情")
+    @GetMapping("/updateInfo/{id}")
+    public CommonResult updateInfo(@PathVariable Long id) {
+        PmsGoodsAllParam goodsAllParam = goodsService.updateInfo(id);
+        return CommonResult.success(goodsAllParam);
+    }
+
     @ApiOperation("根据商品名称分页获取商品列表")
     @GetMapping("list")
     public CommonResult<CommonPage<PmsGoods>> list(@RequestParam(value = "keyword", required = false) String keyword,

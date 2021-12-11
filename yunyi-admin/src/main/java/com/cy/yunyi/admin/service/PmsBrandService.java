@@ -17,4 +17,6 @@ public interface PmsBrandService {
     List<PmsBrand> list(String keyword, Integer pageSize, Integer pageNum);
 
     int delete(Long id);
+
+    PmsBrand info(Long id);
 }

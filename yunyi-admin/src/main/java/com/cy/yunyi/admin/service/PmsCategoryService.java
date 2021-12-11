@@ -1,5 +1,6 @@
 package com.cy.yunyi.admin.service;
 
+import com.cy.yunyi.admin.vo.PmsCategoryVo;
 import com.cy.yunyi.model.PmsCategory;
 
 import java.util.List;
@@ -14,7 +15,11 @@ public interface PmsCategoryService {
 
     int update(Long id, PmsCategory category);
 
-    List<PmsCategory> list(String keyword, Integer pageSize, Integer pageNum);
+    List<PmsCategory> list(Long parentId,Integer pageSize, Integer pageNum);
 
     int delete(Long id);
+
+    PmsCategory info(Long id);
+
+    List<PmsCategoryVo> listWithChildren();
 }

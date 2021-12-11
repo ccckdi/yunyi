@@ -32,7 +32,7 @@ public class PmsGoodsProductServiceImpl implements PmsGoodsProductService {
     public int update(Long id, PmsGoodsProduct product) {
         product.setId(id);
         product.setUpdateTime(new Date());
-        int count = productMapper.updateByPrimaryKey(product);
+        int count = productMapper.updateByPrimaryKeySelective(product);
         return count;
     }
 

@@ -12,16 +12,28 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/yunyi_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+      #避免空闲时间过长超过最大空闲时间而被断开
+      validation-query: SELECT 1
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
   redis:
     host: 121.43.134.153 # Redis服务器地址
     database: 0 # Redis数据库索引（默认为0）
     port: 6379 # Redis服务器连接端口
     password: chxredis # Redis服务器连接密码（默认为空）
-    timeout: 3000ms # 连接超时时间（毫秒）
+    #timeout: 3000ms # 连接超时时间（毫秒）
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
@@ -32,6 +44,18 @@ redis:
     admin: 'ums:admin'
   expire:
     common: 86400 # 24小时
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com # oss对外服务的访问域名
+    accessKeyId: LTAI5tGENg3ULShaHqMnJ7fd # 访问身份验证中用到用户标识
+    accessKeySecret: AhOABwiMBepDrsrbsuXmQs8lTJHXjx # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    bucketName: yunyi-oss # oss的存储空间
+    policy:
+      expire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://4628b9j619.zicp.vip/aliyun/oss/callback # 文件上传成功后的回调地址
+    dir:
+      prefix: yunyi/images/ # 上传文件夹路径前缀
 management:
   endpoints:
     web:

@@ -1,16 +1,19 @@
 package com.cy.yunyi.admin.service.impl;
 
+import com.cy.yunyi.admin.dto.UmsMenuNode;
 import com.cy.yunyi.admin.service.PmsCategoryService;
+import com.cy.yunyi.admin.vo.PmsCategoryVo;
 import com.cy.yunyi.mapper.PmsCategoryMapper;
 import com.cy.yunyi.model.PmsCategory;
 import com.cy.yunyi.model.PmsCategoryExample;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: chx
@@ -28,6 +31,11 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
         if (null == category.getSortOrder()){
             category.setSortOrder(0);
         }
+        if (category.getPid() == 0){
+            category.setLevel("L1");
+        }else {
+            category.setLevel("L2");
+        }
         category.setCreateTime(new Date());
         category.setStatus(1);
         int count = categoryMapper.insert(category);
@@ -38,25 +46,62 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
     public int update(Long id, PmsCategory category) {
         category.setId(id);
         category.setUpdateTime(new Date());
-        int count = categoryMapper.updateByPrimaryKey(category);
+        if (category.getPid() != null && category.getPid() == 0){
+            category.setLevel("L1");
+        }else if (category.getPid() != null){
+            category.setLevel("L2");
+        }
+        int count = categoryMapper.updateByPrimaryKeySelective(category);
         return count;
     }
 
     @Override
-    public List<PmsCategory> list(String keyword, Integer pageSize, Integer pageNum) {
+    public List<PmsCategory> list(Long parentId,Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        PageHelper.orderBy("sort_order asc");
+
         PmsCategoryExample example = new PmsCategoryExample();
-        if (!StringUtils.isEmpty(keyword)) {
-            example.createCriteria().andNameLike("%" + keyword + "%");
-        }
+        example.setOrderByClause("sort_order asc");
+        example.createCriteria().andPidEqualTo(parentId);
         List<PmsCategory> categoryList = categoryMapper.selectByExample(example);
-        return categoryList;
+//        List<PmsCategoryVo> categoryVoList = categoryList.stream()
+//                .filter(category -> category.getPid().equals(0L))
+//                .map(category -> covertCategoryNode(category, categoryList)).collect(Collectors.toList());
+      return categoryList;
     }
+
 
     @Override
     public int delete(Long id) {
         int count = categoryMapper.deleteByPrimaryKey(id);
         return count;
+    }
+
+    @Override
+    public PmsCategory info(Long id) {
+        PmsCategory category = categoryMapper.selectByPrimaryKey(id);
+        return category;
+    }
+
+    @Override
+    public List<PmsCategoryVo> listWithChildren() {
+        PmsCategoryExample example = new PmsCategoryExample();
+        List<PmsCategory> categoryList = categoryMapper.selectByExample(example);
+        List<PmsCategoryVo> categoryVoList = categoryList.stream()
+                .filter(category -> category.getPid().equals(0L))
+                .map(category -> covertCategoryNode(category, categoryList)).collect(Collectors.toList());
+        return categoryVoList;
+    }
+
+    /***
+     * 树状结构数据处理
+     */
+    private PmsCategoryVo covertCategoryNode(PmsCategory category, List<PmsCategory> categoryList) {
+        PmsCategoryVo categoryVo = new PmsCategoryVo();
+        BeanUtils.copyProperties(category, categoryVo);
+        List<PmsCategoryVo> children = categoryList.stream()
+                .filter(subCategory -> subCategory.getPid().equals(category.getId()))
+                .map(subMenu -> covertCategoryNode(subMenu, categoryList)).collect(Collectors.toList());
+        categoryVo.setChildren(children);
+        return categoryVo;
     }
 }

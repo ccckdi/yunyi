@@ -33,7 +33,7 @@ public class PmsGoodsSpecificationServiceImpl implements PmsGoodsSpecificationSe
     public int update(Long id, PmsGoodsSpecification specification) {
         specification.setId(id);
         specification.setUpdateTime(new Date());
-        int count = specificationMapper.updateByPrimaryKey(specification);
+        int count = specificationMapper.updateByPrimaryKeySelective(specification);
         return count;
     }
 

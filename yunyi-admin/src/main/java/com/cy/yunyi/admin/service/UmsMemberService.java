@@ -1,7 +1,7 @@
 package com.cy.yunyi.admin.service;
 
 import com.cy.yunyi.admin.dto.UpdateUserPasswordParam;
-import com.cy.yunyi.model.UmsUser;
+import com.cy.yunyi.model.UmsMember;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import java.util.List;
  * @Description: 用户管理Service
  * @DateTime: 2021/11/25 14:43
  **/
-public interface UmsUserService {
+public interface UmsMemberService {
 
-    List<UmsUser> list(String keyword, Integer pageSize, Integer pageNum);
+    List<UmsMember> list(String keyword, Integer pageSize, Integer pageNum);
 
-    UmsUser getUser(Long id);
+    UmsMember getUser(Long id);
 
-    int update(Long id, UmsUser user);
+    int update(Long id, UmsMember user);
 
     int updatePassword(UpdateUserPasswordParam updateUserPasswordParam);
 

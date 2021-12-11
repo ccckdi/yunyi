@@ -8,7 +8,7 @@ import com.cy.yunyi.admin.dao.UmsAdminRoleRelationDao;
 import com.cy.yunyi.admin.dto.UmsAdminParam;
 import com.cy.yunyi.admin.dto.UpdateAdminPasswordParam;
 import com.cy.yunyi.admin.service.UmsAdminService;
-import com.cy.yunyi.admin.service.feign.AuthService;
+import com.cy.yunyi.admin.service.AuthService;
 import com.cy.yunyi.common.api.CommonResult;
 import com.cy.yunyi.common.api.ResultCode;
 import com.cy.yunyi.common.constant.AuthConstant;
@@ -227,7 +227,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             return -3;
         }
         umsAdmin.setPassword(BCrypt.hashpw(param.getNewPassword()));
-        adminMapper.updateByPrimaryKey(umsAdmin);
+        adminMapper.updateByPrimaryKeySelective(umsAdmin);
         adminCacheService.delAdmin(umsAdmin.getId());
         return 1;
     }

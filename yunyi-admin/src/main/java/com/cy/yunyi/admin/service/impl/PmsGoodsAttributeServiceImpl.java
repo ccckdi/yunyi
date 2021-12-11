@@ -32,7 +32,7 @@ public class PmsGoodsAttributeServiceImpl implements PmsGoodsAttributeService {
     public int update(Long id, PmsGoodsAttribute attribute) {
         attribute.setId(id);
         attribute.setUpdateTime(new Date());
-        int count = attributeMapper.updateByPrimaryKey(attribute);
+        int count = attributeMapper.updateByPrimaryKeySelective(attribute);
         return count;
     }
 

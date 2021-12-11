@@ -1,4 +1,4 @@
-package com.cy.yunyi.auth.service.feign;
+package com.cy.yunyi.auth.service;
 
 import com.cy.yunyi.common.domain.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;

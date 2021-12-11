@@ -34,6 +34,13 @@ public class PmsBrandController {
         return CommonResult.failed();
     }
 
+    @ApiOperation("品牌详情")
+    @GetMapping("/{id}")
+    public CommonResult info(@PathVariable Long id) {
+        PmsBrand brand = brandService.info(id);
+        return CommonResult.success(brand);
+    }
+
     @ApiOperation("修改品牌")
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody PmsBrand brand) {

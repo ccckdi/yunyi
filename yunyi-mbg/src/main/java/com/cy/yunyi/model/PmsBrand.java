@@ -12,7 +12,7 @@ public class PmsBrand implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "品牌商简介")
-    private String desc;
+    private String detail;
 
     @ApiModelProperty(value = "品牌商页的品牌商图片")
     private String icon;
@@ -49,12 +49,12 @@ public class PmsBrand implements Serializable {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getIcon() {
@@ -113,7 +113,7 @@ public class PmsBrand implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", desc=").append(desc);
+        sb.append(", detail=").append(detail);
         sb.append(", icon=").append(icon);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", floorPrice=").append(floorPrice);

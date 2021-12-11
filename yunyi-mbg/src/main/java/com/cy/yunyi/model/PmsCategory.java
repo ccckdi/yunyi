@@ -14,7 +14,7 @@ public class PmsCategory implements Serializable {
     private String keywords;
 
     @ApiModelProperty(value = "类目广告语介绍")
-    private String desc;
+    private String detail;
 
     @ApiModelProperty(value = "父类目ID")
     private Long pid;
@@ -65,12 +65,12 @@ public class PmsCategory implements Serializable {
         this.keywords = keywords;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public Long getPid() {
@@ -146,7 +146,7 @@ public class PmsCategory implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", keywords=").append(keywords);
-        sb.append(", desc=").append(desc);
+        sb.append(", detail=").append(detail);
         sb.append(", pid=").append(pid);
         sb.append(", iconUrl=").append(iconUrl);
         sb.append(", icon=").append(icon);

@@ -28,4 +28,6 @@ public interface PmsGoodsService {
 
     @Transactional
     int delete(Long id);
+
+    PmsGoodsAllParam updateInfo(Long id);
 }

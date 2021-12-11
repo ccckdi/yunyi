@@ -40,5 +40,10 @@
         <table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+<!--        <table tableName="pms_goods_product">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--            <columnOverride column="specifications" javaType="java.lang.String[]"-->
+<!--                            typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"/>-->
+<!--        </table>-->
     </context>
 </generatorConfiguration>

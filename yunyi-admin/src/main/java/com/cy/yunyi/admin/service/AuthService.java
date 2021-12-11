@@ -1,4 +1,4 @@
-package com.cy.yunyi.admin.service.feign;
+package com.cy.yunyi.admin.service;
 
 import com.cy.yunyi.common.api.CommonResult;
 import org.springframework.cloud.openfeign.FeignClient;

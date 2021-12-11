@@ -2,7 +2,8 @@ package com.cy.yunyi.auth.service.impl;
 
 import com.cy.yunyi.auth.constant.MessageConstant;
 import com.cy.yunyi.auth.domain.SecurityUser;
-import com.cy.yunyi.auth.service.feign.UmsAdminService;
+import com.cy.yunyi.auth.service.UmsAdminService;
+import com.cy.yunyi.auth.service.UmsMemberService;
 import com.cy.yunyi.common.constant.AuthConstant;
 import com.cy.yunyi.common.domain.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,8 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
     private UmsAdminService adminService;
-
+    @Autowired
+    private UmsMemberService memberService;
     @Autowired
     private HttpServletRequest request;
 
@@ -38,8 +40,7 @@ public class UserServiceImpl implements UserDetailsService {
         if(AuthConstant.ADMIN_CLIENT_ID.equals(clientId)){
             userDto = adminService.loadUserByUsername(username);
         }else{
-            //userDto = memberService.loadUserByUsername(username);
-            userDto = null;
+            userDto = memberService.loadUserByUsername(username);
         }
         if (userDto==null) {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);

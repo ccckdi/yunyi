@@ -14,7 +14,9 @@ public interface SmsHomeAdvertiseService {
 
     int update(Long id, SmsHomeAdvertise advertise);
 
-    List<SmsHomeAdvertise> list(String keyword, Integer pageSize, Integer pageNum);
+    List<SmsHomeAdvertise> list(String name, Integer type, String endTime, Integer pageSize, Integer pageNum);
 
     int delete(Long id);
+
+    SmsHomeAdvertise info(Long id);
 }

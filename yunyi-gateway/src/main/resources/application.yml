@@ -29,6 +29,12 @@ spring:
             - Path=/yunyi-admin/**
           filters:
             - StripPrefix=1
+        - id: yunyi-portal-route
+          uri: lb://yunyi-portal
+          predicates:
+            - Path=/yunyi-portal/**
+          filters:
+            - StripPrefix=1
       discovery:
         locator:
           enabled: true #开启从注册中心动态创建路由的功能
@@ -50,3 +56,4 @@ secure:
       - "/auth/test/hello"
       - "/yunyi-auth/oauth/token"
       - "/yunyi-admin/admin/login"
+      - "/yunyi-portal/sso/login"

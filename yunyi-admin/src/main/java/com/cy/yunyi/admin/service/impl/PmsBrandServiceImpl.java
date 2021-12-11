@@ -38,18 +38,19 @@ public class PmsBrandServiceImpl implements PmsBrandService {
     public int update(Long id, PmsBrand brand) {
         brand.setId(id);
         brand.setUpdateTime(new Date());
-        int count = brandMapper.updateByPrimaryKey(brand);
+        int count = brandMapper.updateByPrimaryKeySelective(brand);
         return count;
     }
 
     @Override
     public List<PmsBrand> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        PageHelper.orderBy("sort_order asc");
+        //PageHelper.orderBy("sort_order asc");
         PmsBrandExample example = new PmsBrandExample();
         if (!StringUtils.isEmpty(keyword)){
             example.createCriteria().andNameLike("%" + keyword + "%");
         }
+        example.setOrderByClause("sort_order asc");
         List<PmsBrand> brandList = brandMapper.selectByExample(example);
         return brandList;
     }
@@ -58,5 +59,11 @@ public class PmsBrandServiceImpl implements PmsBrandService {
     public int delete(Long id) {
         int count = brandMapper.deleteByPrimaryKey(id);
         return count;
+    }
+
+    @Override
+    public PmsBrand info(Long id) {
+        PmsBrand brand = brandMapper.selectByPrimaryKey(id);
+        return brand;
     }
 }

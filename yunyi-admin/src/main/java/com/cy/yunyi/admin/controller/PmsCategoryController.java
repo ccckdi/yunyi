@@ -1,8 +1,10 @@
 package com.cy.yunyi.admin.controller;
 
 import com.cy.yunyi.admin.service.PmsCategoryService;
+import com.cy.yunyi.admin.vo.PmsCategoryVo;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
+import com.cy.yunyi.model.PmsBrand;
 import com.cy.yunyi.model.PmsCategory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +36,13 @@ public class PmsCategoryController {
         return CommonResult.failed();
     }
 
+    @ApiOperation("分类详情")
+    @GetMapping("/{id}")
+    public CommonResult info(@PathVariable Long id) {
+        PmsCategory category = categoryService.info(id);
+        return CommonResult.success(category);
+    }
+
     @ApiOperation("修改分类")
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody PmsCategory category) {
@@ -45,11 +54,18 @@ public class PmsCategoryController {
     }
 
     @ApiOperation("根据分类名称分页获取分类列表")
-    @GetMapping("list")
-    public CommonResult<CommonPage<PmsCategory>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<PmsCategory> categoryList = categoryService.list(keyword, pageSize, pageNum);
+    @GetMapping("list/{parentId}")
+    public CommonResult<CommonPage<PmsCategory>> list(@PathVariable Long parentId,
+                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<PmsCategory> categoryList = categoryService.list(parentId,pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(categoryList));
+    }
+
+    @ApiOperation("根据分类名称分页获取分类列表")
+    @GetMapping("list/withChildren")
+    public CommonResult<CommonPage<PmsCategoryVo>> listWithChildren() {
+        List<PmsCategoryVo> categoryList = categoryService.listWithChildren();
         return CommonResult.success(CommonPage.restPage(categoryList));
     }
 

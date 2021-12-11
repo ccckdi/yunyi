@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UmsUser implements Serializable {
+public class UmsMember implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "用户名称")
@@ -32,7 +32,7 @@ public class UmsUser implements Serializable {
     private String nickname;
 
     @ApiModelProperty(value = "用户手机号码")
-    private String mobile;
+    private String telephone;
 
     @ApiModelProperty(value = "用户头像图片")
     private String icon;
@@ -129,12 +129,12 @@ public class UmsUser implements Serializable {
         this.nickname = nickname;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public String getIcon() {
@@ -208,7 +208,7 @@ public class UmsUser implements Serializable {
         sb.append(", lastLoginIp=").append(lastLoginIp);
         sb.append(", userLevel=").append(userLevel);
         sb.append(", nickname=").append(nickname);
-        sb.append(", mobile=").append(mobile);
+        sb.append(", telephone=").append(telephone);
         sb.append(", icon=").append(icon);
         sb.append(", email=").append(email);
         sb.append(", weixinOpenid=").append(weixinOpenid);

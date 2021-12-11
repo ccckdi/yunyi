@@ -1,5 +1,6 @@
 package com.cy.yunyi.api.controller;
 
+import com.cy.yunyi.common.exception.Asserts;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,4 +17,9 @@ public class HelloController {
         return "Hello World.";
     }
 
+    @GetMapping("/test")
+    public String test() {
+        Asserts.fail("抛出异常！！！");
+        return "Hello World.";
+    }
 }

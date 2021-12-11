@@ -13,6 +13,7 @@
         <module>yunyi-common</module>
         <module>yunyi-auth</module>
         <module>yunyi-mbg</module>
+        <module>yunyi-portal</module>
     </modules>
 
     <parent>

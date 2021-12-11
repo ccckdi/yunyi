@@ -18,6 +18,9 @@ public class SmsHomeAdvertise implements Serializable {
 
     private Date endTime;
 
+    @ApiModelProperty(value = "上下线状态：0->下线；1->上线")
+    private Integer status;
+
     @ApiModelProperty(value = "点击数")
     private Integer clickCount;
 
@@ -32,9 +35,6 @@ public class SmsHomeAdvertise implements Serializable {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
-    @ApiModelProperty(value = "上下线状态：0->下线；1->上线")
-    private Integer status;
 
     private static final long serialVersionUID = 1L;
 
@@ -86,6 +86,14 @@ public class SmsHomeAdvertise implements Serializable {
         this.endTime = endTime;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getClickCount() {
         return clickCount;
     }
@@ -126,14 +134,6 @@ public class SmsHomeAdvertise implements Serializable {
         this.sort = sort;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -146,12 +146,12 @@ public class SmsHomeAdvertise implements Serializable {
         sb.append(", pic=").append(pic);
         sb.append(", startTime=").append(startTime);
         sb.append(", endTime=").append(endTime);
+        sb.append(", status=").append(status);
         sb.append(", clickCount=").append(clickCount);
         sb.append(", orderCount=").append(orderCount);
         sb.append(", url=").append(url);
         sb.append(", note=").append(note);
         sb.append(", sort=").append(sort);
-        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

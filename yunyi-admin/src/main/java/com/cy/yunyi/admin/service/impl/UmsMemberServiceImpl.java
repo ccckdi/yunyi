@@ -4,10 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.cy.yunyi.admin.dto.UpdateUserPasswordParam;
-import com.cy.yunyi.admin.service.UmsUserService;
-import com.cy.yunyi.mapper.UmsUserMapper;
-import com.cy.yunyi.model.UmsUser;
-import com.cy.yunyi.model.UmsUserExample;
+import com.cy.yunyi.admin.service.UmsMemberService;
+import com.cy.yunyi.mapper.UmsMemberMapper;
+import com.cy.yunyi.model.UmsMember;
+import com.cy.yunyi.model.UmsMemberExample;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,32 +21,32 @@ import java.util.List;
  * @DateTime: 2021/11/29 21:46
  **/
 @Service
-public class UmsUserServiceImpl implements UmsUserService {
+public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Autowired
-    private UmsUserMapper userMapper;
+    private UmsMemberMapper userMapper;
 
     @Override
-    public List<UmsUser> list(String keyword, Integer pageSize, Integer pageNum) {
+    public List<UmsMember> list(String keyword, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        UmsUserExample example = new UmsUserExample();
+        UmsMemberExample example = new UmsMemberExample();
         if (!org.springframework.util.StringUtils.isEmpty(keyword)) {
             example.createCriteria().andUsernameLike("%" + keyword + "%");
         }
-        List<UmsUser> userList = userMapper.selectByExample(example);
+        List<UmsMember> userList = userMapper.selectByExample(example);
         return userList;
     }
 
     @Override
-    public UmsUser getUser(Long id) {
-        UmsUser user = userMapper.selectByPrimaryKey(id);
+    public UmsMember getUser(Long id) {
+        UmsMember user = userMapper.selectByPrimaryKey(id);
         return user;
     }
 
     @Override
-    public int update(Long id, UmsUser user) {
+    public int update(Long id, UmsMember user) {
         user.setId(id);
-        UmsUser rawUser = userMapper.selectByPrimaryKey(id);
+        UmsMember rawUser = userMapper.selectByPrimaryKey(id);
         if (rawUser.getPassword().equals(user.getPassword())){
             user.setPassword(null);
         }else if (StringUtils.isEmpty(user.getPassword())){
@@ -54,7 +54,7 @@ public class UmsUserServiceImpl implements UmsUserService {
         }else {
             user.setPassword(BCrypt.hashpw(user.getPassword()));
         }
-        int count = userMapper.updateByPrimaryKey(user);
+        int count = userMapper.updateByPrimaryKeySelective(user);
         return count;
     }
 
@@ -65,18 +65,18 @@ public class UmsUserServiceImpl implements UmsUserService {
                 || StrUtil.isEmpty(param.getNewPassword())){
             return -1;
         }
-        UmsUserExample example = new UmsUserExample();
+        UmsMemberExample example = new UmsMemberExample();
         example.createCriteria().andUsernameEqualTo(param.getUsername());
-        List<UmsUser> userList = userMapper.selectByExample(example);
+        List<UmsMember> userList = userMapper.selectByExample(example);
         if(CollUtil.isEmpty(userList)){
             return -2;
         }
-        UmsUser umsUser = userList.get(0);
+        UmsMember umsUser = userList.get(0);
         if(!BCrypt.checkpw(param.getOldPassword(),umsUser.getPassword())){
             return -3;
         }
         umsUser.setPassword(BCrypt.hashpw(param.getNewPassword()));
-        userMapper.updateByPrimaryKey(umsUser);
+        userMapper.updateByPrimaryKeySelective(umsUser);
         return 1;
     }
 
