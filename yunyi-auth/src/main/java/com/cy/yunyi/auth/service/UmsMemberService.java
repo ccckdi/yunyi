@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient("yunyi-portal")
 public interface UmsMemberService {
-    @GetMapping("/sso/loadByUsername")
+    @GetMapping("/member/loadByUsername")
     UserDto loadUserByUsername(@RequestParam String username);
 }

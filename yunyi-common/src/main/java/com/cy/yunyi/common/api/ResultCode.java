@@ -10,7 +10,9 @@ public enum ResultCode implements IErrorCode {
     FAILED(500, "操作失败"),
     VALIDATE_FAILED(404, "参数检验失败"),
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
-    FORBIDDEN(403, "没有相关权限");
+    FORBIDDEN(403, "没有相关权限"),
+    AUTH_OPENID_UNACCESS(708, "openid 获取失败"),
+    AUTH_OPENID_BINDED(709, "openid已绑定账号");
     private long code;
     private String message;
 
