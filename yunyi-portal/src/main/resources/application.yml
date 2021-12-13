@@ -71,6 +71,25 @@ rabbitmq:
 feign:
   okhttp:
     enabled: true
+  client:
+    config:
+      default:
+        #feign客户端建立连接超时时间
+        connect-timeout: 10000
+        #feign客户端建立连接后读取资源超时时间
+        read-timeout: 20000
 ribbon:
   ConnectTimeout: 3000 #服务请求连接超时时间（毫秒）
   ReadTimeout: 3000 #服务请求处理超时时间（毫秒）
+
+wx:
+  app-id: wxfcdc76fbc6fa2ff9
+  app-secret: 554091572f06ab927f61636840ace4a6
+  #    app-id: wxd50a6186874267e6
+  #    app-secret: 01748d234ec4bbaa42f33a07ba07907c
+  mch-id: 111111
+  mch-key: xxxxxx
+  notify-url: http://www.example.com/wx/order/pay-notify
+  # 商户证书文件路径
+  # 请参考“商户证书”一节 https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=4_3
+  key-path: xxxxx
