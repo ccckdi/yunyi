@@ -37,13 +37,16 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.cy.yunyi.mapper"
                              targetProject="yunyi-mbg\src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="%">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+<!--        <table tableName="%">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="pms_goods_product">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--            <columnOverride column="specifications" javaType="java.lang.String[]"-->
 <!--                            typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"/>-->
 <!--        </table>-->
+        <table tableName="bms_issue">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

@@ -12,7 +12,7 @@ public class PmsGoodsProduct implements Serializable {
     private Long goodsId;
 
     @ApiModelProperty(value = "商品规格值列表，采用JSON数组格式")
-    private String specifications;
+    private String[] specifications;
 
     @ApiModelProperty(value = "商品货品价格")
     private BigDecimal price;
@@ -50,11 +50,11 @@ public class PmsGoodsProduct implements Serializable {
         this.goodsId = goodsId;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
+    public void setSpecifications(String[] specifications) {
         this.specifications = specifications;
     }
 
