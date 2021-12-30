@@ -9,7 +9,7 @@ public class OmsOrder implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "用户表的用户ID")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty(value = "订单编号")
     private String orderSn;
@@ -96,11 +96,11 @@ public class OmsOrder implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

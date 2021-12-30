@@ -30,7 +30,7 @@ public class OmsCart implements Serializable {
     private Integer number;
 
     @ApiModelProperty(value = "商品规格值列表，采用JSON数组格式")
-    private String specifications;
+    private String[] specifications;
 
     @ApiModelProperty(value = "购物车中商品是否选择状态")
     private Integer checked;
@@ -113,11 +113,11 @@ public class OmsCart implements Serializable {
         this.number = number;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
+    public void setSpecifications(String[] specifications) {
         this.specifications = specifications;
     }
 

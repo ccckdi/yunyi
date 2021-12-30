@@ -66,19 +66,50 @@ public class PmsGoodsExample {
     }
 
     protected abstract static class GeneratedCriteria {
+        protected List<Criterion> galleryCriteria;
+
+        protected List<Criterion> allCriteria;
+
         protected List<Criterion> criteria;
 
         protected GeneratedCriteria() {
             super();
             criteria = new ArrayList<>();
+            galleryCriteria = new ArrayList<>();
+        }
+
+        public List<Criterion> getGalleryCriteria() {
+            return galleryCriteria;
+        }
+
+        protected void addGalleryCriterion(String condition, Object value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            galleryCriteria.add(new Criterion(condition, value, "com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"));
+            allCriteria = null;
+        }
+
+        protected void addGalleryCriterion(String condition, String[] value1, String[] value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            galleryCriteria.add(new Criterion(condition, value1, value2, "com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"));
+            allCriteria = null;
         }
 
         public boolean isValid() {
-            return criteria.size() > 0;
+            return criteria.size() > 0
+                || galleryCriteria.size() > 0;
         }
 
         public List<Criterion> getAllCriteria() {
-            return criteria;
+            if (allCriteria == null) {
+                allCriteria = new ArrayList<>();
+                allCriteria.addAll(criteria);
+                allCriteria.addAll(galleryCriteria);
+            }
+            return allCriteria;
         }
 
         public List<Criterion> getCriteria() {
@@ -90,6 +121,7 @@ public class PmsGoodsExample {
                 throw new RuntimeException("Value for condition cannot be null");
             }
             criteria.add(new Criterion(condition));
+            allCriteria = null;
         }
 
         protected void addCriterion(String condition, Object value, String property) {
@@ -97,6 +129,7 @@ public class PmsGoodsExample {
                 throw new RuntimeException("Value for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value));
+            allCriteria = null;
         }
 
         protected void addCriterion(String condition, Object value1, Object value2, String property) {
@@ -104,6 +137,7 @@ public class PmsGoodsExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+            allCriteria = null;
         }
 
         public Criteria andIdIsNull() {
@@ -436,63 +470,63 @@ public class PmsGoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andGalleryEqualTo(String value) {
-            addCriterion("gallery =", value, "gallery");
+        public Criteria andGalleryEqualTo(String[] value) {
+            addGalleryCriterion("gallery =", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryNotEqualTo(String value) {
-            addCriterion("gallery <>", value, "gallery");
+        public Criteria andGalleryNotEqualTo(String[] value) {
+            addGalleryCriterion("gallery <>", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryGreaterThan(String value) {
-            addCriterion("gallery >", value, "gallery");
+        public Criteria andGalleryGreaterThan(String[] value) {
+            addGalleryCriterion("gallery >", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryGreaterThanOrEqualTo(String value) {
-            addCriterion("gallery >=", value, "gallery");
+        public Criteria andGalleryGreaterThanOrEqualTo(String[] value) {
+            addGalleryCriterion("gallery >=", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryLessThan(String value) {
-            addCriterion("gallery <", value, "gallery");
+        public Criteria andGalleryLessThan(String[] value) {
+            addGalleryCriterion("gallery <", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryLessThanOrEqualTo(String value) {
-            addCriterion("gallery <=", value, "gallery");
+        public Criteria andGalleryLessThanOrEqualTo(String[] value) {
+            addGalleryCriterion("gallery <=", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryLike(String value) {
-            addCriterion("gallery like", value, "gallery");
+        public Criteria andGalleryLike(String[] value) {
+            addGalleryCriterion("gallery like", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryNotLike(String value) {
-            addCriterion("gallery not like", value, "gallery");
+        public Criteria andGalleryNotLike(String[] value) {
+            addGalleryCriterion("gallery not like", value, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryIn(List<String> values) {
-            addCriterion("gallery in", values, "gallery");
+        public Criteria andGalleryIn(List<String[]> values) {
+            addGalleryCriterion("gallery in", values, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryNotIn(List<String> values) {
-            addCriterion("gallery not in", values, "gallery");
+        public Criteria andGalleryNotIn(List<String[]> values) {
+            addGalleryCriterion("gallery not in", values, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryBetween(String value1, String value2) {
-            addCriterion("gallery between", value1, value2, "gallery");
+        public Criteria andGalleryBetween(String[] value1, String[] value2) {
+            addGalleryCriterion("gallery between", value1, value2, "gallery");
             return (Criteria) this;
         }
 
-        public Criteria andGalleryNotBetween(String value1, String value2) {
-            addCriterion("gallery not between", value1, value2, "gallery");
+        public Criteria andGalleryNotBetween(String[] value1, String[] value2) {
+            addGalleryCriterion("gallery not between", value1, value2, "gallery");
             return (Criteria) this;
         }
 
@@ -823,6 +857,76 @@ public class PmsGoodsExample {
 
         public Criteria andIconNotBetween(String value1, String value2) {
             addCriterion("icon not between", value1, value2, "icon");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIsNull() {
+            addCriterion("share is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIsNotNull() {
+            addCriterion("share is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareEqualTo(String value) {
+            addCriterion("share =", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareNotEqualTo(String value) {
+            addCriterion("share <>", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareGreaterThan(String value) {
+            addCriterion("share >", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareGreaterThanOrEqualTo(String value) {
+            addCriterion("share >=", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareLessThan(String value) {
+            addCriterion("share <", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareLessThanOrEqualTo(String value) {
+            addCriterion("share <=", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareLike(String value) {
+            addCriterion("share like", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareNotLike(String value) {
+            addCriterion("share not like", value, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIn(List<String> values) {
+            addCriterion("share in", values, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareNotIn(List<String> values) {
+            addCriterion("share not in", values, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareBetween(String value1, String value2) {
+            addCriterion("share between", value1, value2, "share");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareNotBetween(String value1, String value2) {
+            addCriterion("share not between", value1, value2, "share");
             return (Criteria) this;
         }
 

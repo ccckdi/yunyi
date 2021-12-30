@@ -66,19 +66,50 @@ public class OmsCartExample {
     }
 
     protected abstract static class GeneratedCriteria {
+        protected List<Criterion> specificationsCriteria;
+
+        protected List<Criterion> allCriteria;
+
         protected List<Criterion> criteria;
 
         protected GeneratedCriteria() {
             super();
             criteria = new ArrayList<>();
+            specificationsCriteria = new ArrayList<>();
+        }
+
+        public List<Criterion> getSpecificationsCriteria() {
+            return specificationsCriteria;
+        }
+
+        protected void addSpecificationsCriterion(String condition, Object value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            specificationsCriteria.add(new Criterion(condition, value, "com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"));
+            allCriteria = null;
+        }
+
+        protected void addSpecificationsCriterion(String condition, String[] value1, String[] value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            specificationsCriteria.add(new Criterion(condition, value1, value2, "com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"));
+            allCriteria = null;
         }
 
         public boolean isValid() {
-            return criteria.size() > 0;
+            return criteria.size() > 0
+                || specificationsCriteria.size() > 0;
         }
 
         public List<Criterion> getAllCriteria() {
-            return criteria;
+            if (allCriteria == null) {
+                allCriteria = new ArrayList<>();
+                allCriteria.addAll(criteria);
+                allCriteria.addAll(specificationsCriteria);
+            }
+            return allCriteria;
         }
 
         public List<Criterion> getCriteria() {
@@ -90,6 +121,7 @@ public class OmsCartExample {
                 throw new RuntimeException("Value for condition cannot be null");
             }
             criteria.add(new Criterion(condition));
+            allCriteria = null;
         }
 
         protected void addCriterion(String condition, Object value, String property) {
@@ -97,6 +129,7 @@ public class OmsCartExample {
                 throw new RuntimeException("Value for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value));
+            allCriteria = null;
         }
 
         protected void addCriterion(String condition, Object value1, Object value2, String property) {
@@ -104,6 +137,7 @@ public class OmsCartExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+            allCriteria = null;
         }
 
         public Criteria andIdIsNull() {
@@ -616,63 +650,63 @@ public class OmsCartExample {
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsEqualTo(String value) {
-            addCriterion("specifications =", value, "specifications");
+        public Criteria andSpecificationsEqualTo(String[] value) {
+            addSpecificationsCriterion("specifications =", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsNotEqualTo(String value) {
-            addCriterion("specifications <>", value, "specifications");
+        public Criteria andSpecificationsNotEqualTo(String[] value) {
+            addSpecificationsCriterion("specifications <>", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsGreaterThan(String value) {
-            addCriterion("specifications >", value, "specifications");
+        public Criteria andSpecificationsGreaterThan(String[] value) {
+            addSpecificationsCriterion("specifications >", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsGreaterThanOrEqualTo(String value) {
-            addCriterion("specifications >=", value, "specifications");
+        public Criteria andSpecificationsGreaterThanOrEqualTo(String[] value) {
+            addSpecificationsCriterion("specifications >=", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsLessThan(String value) {
-            addCriterion("specifications <", value, "specifications");
+        public Criteria andSpecificationsLessThan(String[] value) {
+            addSpecificationsCriterion("specifications <", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsLessThanOrEqualTo(String value) {
-            addCriterion("specifications <=", value, "specifications");
+        public Criteria andSpecificationsLessThanOrEqualTo(String[] value) {
+            addSpecificationsCriterion("specifications <=", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsLike(String value) {
-            addCriterion("specifications like", value, "specifications");
+        public Criteria andSpecificationsLike(String[] value) {
+            addSpecificationsCriterion("specifications like", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsNotLike(String value) {
-            addCriterion("specifications not like", value, "specifications");
+        public Criteria andSpecificationsNotLike(String[] value) {
+            addSpecificationsCriterion("specifications not like", value, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsIn(List<String> values) {
-            addCriterion("specifications in", values, "specifications");
+        public Criteria andSpecificationsIn(List<String[]> values) {
+            addSpecificationsCriterion("specifications in", values, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsNotIn(List<String> values) {
-            addCriterion("specifications not in", values, "specifications");
+        public Criteria andSpecificationsNotIn(List<String[]> values) {
+            addSpecificationsCriterion("specifications not in", values, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsBetween(String value1, String value2) {
-            addCriterion("specifications between", value1, value2, "specifications");
+        public Criteria andSpecificationsBetween(String[] value1, String[] value2) {
+            addSpecificationsCriterion("specifications between", value1, value2, "specifications");
             return (Criteria) this;
         }
 
-        public Criteria andSpecificationsNotBetween(String value1, String value2) {
-            addCriterion("specifications not between", value1, value2, "specifications");
+        public Criteria andSpecificationsNotBetween(String[] value1, String[] value2) {
+            addSpecificationsCriterion("specifications not between", value1, value2, "specifications");
             return (Criteria) this;
         }
 

@@ -21,7 +21,7 @@ public class PmsGoods implements Serializable {
     private Long brandId;
 
     @ApiModelProperty(value = "商品宣传图片列表，采用JSON数组格式")
-    private String gallery;
+    private String[] gallery;
 
     @ApiModelProperty(value = "商品关键字，采用逗号间隔")
     private String keywords;
@@ -36,6 +36,8 @@ public class PmsGoods implements Serializable {
 
     @ApiModelProperty(value = "商品页面商品图片")
     private String icon;
+
+    private String share;
 
     private Integer isNew;
 
@@ -104,11 +106,11 @@ public class PmsGoods implements Serializable {
         this.brandId = brandId;
     }
 
-    public String getGallery() {
+    public String[] getGallery() {
         return gallery;
     }
 
-    public void setGallery(String gallery) {
+    public void setGallery(String[] gallery) {
         this.gallery = gallery;
     }
 
@@ -150,6 +152,14 @@ public class PmsGoods implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getShare() {
+        return share;
+    }
+
+    public void setShare(String share) {
+        this.share = share;
     }
 
     public Integer getIsNew() {
@@ -241,6 +251,7 @@ public class PmsGoods implements Serializable {
         sb.append(", isOnSale=").append(isOnSale);
         sb.append(", sortOrder=").append(sortOrder);
         sb.append(", icon=").append(icon);
+        sb.append(", share=").append(share);
         sb.append(", isNew=").append(isNew);
         sb.append(", isHot=").append(isHot);
         sb.append(", unit=").append(unit);

@@ -7,12 +7,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category_id" jdbcType="BIGINT" property="categoryId" />
     <result column="brand_id" jdbcType="BIGINT" property="brandId" />
-    <result column="gallery" jdbcType="VARCHAR" property="gallery" />
+    <result column="gallery" jdbcType="VARCHAR" property="gallery" typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
     <result column="is_on_sale" jdbcType="INTEGER" property="isOnSale" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="share" jdbcType="VARCHAR" property="share" />
     <result column="is_new" jdbcType="INTEGER" property="isNew" />
     <result column="is_hot" jdbcType="INTEGER" property="isHot" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
@@ -49,6 +50,25 @@
                 </when>
               </choose>
             </foreach>
+            <foreach collection="criteria.galleryCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler} and #{criterion.secondValue,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
           </trim>
         </if>
       </foreach>
@@ -78,6 +98,25 @@
                 </when>
               </choose>
             </foreach>
+            <foreach collection="criteria.galleryCriteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler} and #{criterion.secondValue,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
           </trim>
         </if>
       </foreach>
@@ -85,7 +124,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, 
-    sort_order, icon, is_new, is_hot, unit, counter_price, retail_price, create_time, 
+    sort_order, icon, share, is_new, is_hot, unit, counter_price, retail_price, create_time, 
     update_time, status
   </sql>
   <sql id="Blob_Column_List">
@@ -144,19 +183,21 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_goods (goods_sn, name, category_id, 
-      brand_id, gallery, keywords, 
-      brief, is_on_sale, sort_order, 
-      icon, is_new, is_hot, 
-      unit, counter_price, retail_price, 
-      create_time, update_time, status, 
-      detail)
+      brand_id, gallery, 
+      keywords, brief, is_on_sale, 
+      sort_order, icon, share, 
+      is_new, is_hot, unit, 
+      counter_price, retail_price, create_time, 
+      update_time, status, detail
+      )
     values (#{goodsSn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, 
-      #{brandId,jdbcType=BIGINT}, #{gallery,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{icon,jdbcType=VARCHAR}, #{isNew,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, 
-      #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{detail,jdbcType=LONGVARCHAR})
+      #{brandId,jdbcType=BIGINT}, #{gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}, 
+      #{keywords,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{share,jdbcType=VARCHAR}, 
+      #{isNew,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, 
+      #{counterPrice,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.PmsGoods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -193,6 +234,9 @@
       </if>
       <if test="icon != null">
         icon,
+      </if>
+      <if test="share != null">
+        share,
       </if>
       <if test="isNew != null">
         is_new,
@@ -236,7 +280,7 @@
         #{brandId,jdbcType=BIGINT},
       </if>
       <if test="gallery != null">
-        #{gallery,jdbcType=VARCHAR},
+        #{gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="keywords != null">
         #{keywords,jdbcType=VARCHAR},
@@ -252,6 +296,9 @@
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=VARCHAR},
       </if>
       <if test="isNew != null">
         #{isNew,jdbcType=INTEGER},
@@ -307,7 +354,7 @@
         brand_id = #{record.brandId,jdbcType=BIGINT},
       </if>
       <if test="record.gallery != null">
-        gallery = #{record.gallery,jdbcType=VARCHAR},
+        gallery = #{record.gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="record.keywords != null">
         keywords = #{record.keywords,jdbcType=VARCHAR},
@@ -323,6 +370,9 @@
       </if>
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.share != null">
+        share = #{record.share,jdbcType=VARCHAR},
       </if>
       <if test="record.isNew != null">
         is_new = #{record.isNew,jdbcType=INTEGER},
@@ -363,12 +413,13 @@
       name = #{record.name,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=BIGINT},
       brand_id = #{record.brandId,jdbcType=BIGINT},
-      gallery = #{record.gallery,jdbcType=VARCHAR},
+      gallery = #{record.gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
       is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
+      share = #{record.share,jdbcType=VARCHAR},
       is_new = #{record.isNew,jdbcType=INTEGER},
       is_hot = #{record.isHot,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
@@ -389,12 +440,13 @@
       name = #{record.name,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=BIGINT},
       brand_id = #{record.brandId,jdbcType=BIGINT},
-      gallery = #{record.gallery,jdbcType=VARCHAR},
+      gallery = #{record.gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
       is_on_sale = #{record.isOnSale,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
+      share = #{record.share,jdbcType=VARCHAR},
       is_new = #{record.isNew,jdbcType=INTEGER},
       is_hot = #{record.isHot,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
@@ -423,7 +475,7 @@
         brand_id = #{brandId,jdbcType=BIGINT},
       </if>
       <if test="gallery != null">
-        gallery = #{gallery,jdbcType=VARCHAR},
+        gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       </if>
       <if test="keywords != null">
         keywords = #{keywords,jdbcType=VARCHAR},
@@ -439,6 +491,9 @@
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="share != null">
+        share = #{share,jdbcType=VARCHAR},
       </if>
       <if test="isNew != null">
         is_new = #{isNew,jdbcType=INTEGER},
@@ -476,12 +531,13 @@
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=BIGINT},
       brand_id = #{brandId,jdbcType=BIGINT},
-      gallery = #{gallery,jdbcType=VARCHAR},
+      gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       is_on_sale = #{isOnSale,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
+      share = #{share,jdbcType=VARCHAR},
       is_new = #{isNew,jdbcType=INTEGER},
       is_hot = #{isHot,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
@@ -499,12 +555,13 @@
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=BIGINT},
       brand_id = #{brandId,jdbcType=BIGINT},
-      gallery = #{gallery,jdbcType=VARCHAR},
+      gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       is_on_sale = #{isOnSale,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
+      share = #{share,jdbcType=VARCHAR},
       is_new = #{isNew,jdbcType=INTEGER},
       is_hot = #{isHot,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
