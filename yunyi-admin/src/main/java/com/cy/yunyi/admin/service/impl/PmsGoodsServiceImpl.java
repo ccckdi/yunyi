@@ -1,7 +1,5 @@
 package com.cy.yunyi.admin.service.impl;
 
-import cn.hutool.core.convert.Convert;
-import com.alibaba.fastjson.JSONArray;
 import com.cy.yunyi.admin.dto.PmsGoodsAllParam;
 import com.cy.yunyi.admin.service.*;
 import com.cy.yunyi.common.api.CommonResult;
@@ -9,7 +7,6 @@ import com.cy.yunyi.common.api.ResultCode;
 import com.cy.yunyi.mapper.*;
 import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -271,13 +268,26 @@ public class PmsGoodsServiceImpl implements PmsGoodsService {
     }
 
     @Override
-    public List<PmsGoods> list(String keyword, Integer pageSize, Integer pageNum) {
+    public List<PmsGoods> list(String keyword, String productSn, Long brandId, Long productCategoryId, Integer publishStatus, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        PageHelper.orderBy("sort_order asc");
         PmsGoodsExample example = new PmsGoodsExample();
+        PmsGoodsExample.Criteria criteria = example.createCriteria();
         if (!StringUtils.isEmpty(keyword)){
-            example.createCriteria().andNameLike("%" + keyword + "%");
+            criteria.andNameLike("%" + keyword + "%");
         }
+        if (!StringUtils.isEmpty(productSn)){
+            criteria.andGoodsSnEqualTo(productSn);
+        }
+        if (brandId != null){
+            criteria.andBrandIdEqualTo(brandId);
+        }
+        if (productCategoryId != null){
+            criteria.andCategoryIdEqualTo(productCategoryId);
+        }
+        if (publishStatus != null){
+            criteria.andIsOnSaleEqualTo(publishStatus);
+        }
+        example.setOrderByClause("sort_order desc");
         List<PmsGoods> goodsList = goodsMapper.selectByExample(example);
         return goodsList;
     }

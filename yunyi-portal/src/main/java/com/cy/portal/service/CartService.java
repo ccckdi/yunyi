@@ -29,9 +29,21 @@ public interface CartService {
 
     CartContentVo content(Long userId);
 
-    Integer checked(Long userId, Long cartId, Integer isChecked);
+    Integer checked(Long userId, List<Long> cartId, Integer isChecked);
 
     List<OmsCart> getByUserIdAndChecked(Long userId);
 
     OmsCart getById(Long cartId);
+
+    /**
+     * 清空购物车
+     * @param userId
+     */
+    void clearGoods(Long userId);
+
+    /**
+     * 根据商品id清空购物车
+     * @param cartId
+     */
+    void deleteById(Long cartId);
 }

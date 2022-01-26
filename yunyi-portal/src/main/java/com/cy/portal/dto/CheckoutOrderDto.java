@@ -13,4 +13,5 @@ public class CheckoutOrderDto {
     private Long addressId;
     private Long couponId;
     private Long userCouponId;
+    private Long grouponRulesId;
 }

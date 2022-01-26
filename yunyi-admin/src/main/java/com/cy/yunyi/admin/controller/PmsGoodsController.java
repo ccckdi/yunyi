@@ -49,14 +49,18 @@ public class PmsGoodsController {
     @ApiOperation("根据商品名称分页获取商品列表")
     @GetMapping("list")
     public CommonResult<CommonPage<PmsGoods>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<PmsGoods> goodsList = goodsService.list(keyword, pageSize, pageNum);
+                                                   @RequestParam(value = "productSn", required = false) String productSn,
+                                                   @RequestParam(value = "brandId", required = false) Long brandId,
+                                                   @RequestParam(value = "productCategoryId", required = false) Long productCategoryId,
+                                                   @RequestParam(value = "publishStatus", required = false) Integer publishStatus,
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<PmsGoods> goodsList = goodsService.list(keyword, productSn,brandId,productCategoryId,publishStatus,pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(goodsList));
     }
 
     @ApiOperation("修改商品状态")
-    @PostMapping("/updateStatus/{id}")
+    @PostMapping("/update/status/{id}")
     public CommonResult updateStatus(@PathVariable Long id, @RequestParam(value = "status") Integer status) {
         PmsGoods pmsGoods = new PmsGoods();
         pmsGoods.setStatus(status);

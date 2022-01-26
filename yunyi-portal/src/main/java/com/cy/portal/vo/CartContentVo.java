@@ -15,8 +15,6 @@ import java.util.List;
 public class CartContentVo {
     //购物车列表
     private List<OmsCart> cartList;
-    private Integer goodsCount = 0;
-    private BigDecimal goodsAmount = new BigDecimal(0.00);
-    private Integer checkedGoodsCount = 0;
-    private BigDecimal checkedGoodsAmount = new BigDecimal(0.00);
+
+    private CartTotalVo cartTotal;
 }

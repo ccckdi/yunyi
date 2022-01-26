@@ -2,6 +2,7 @@ package com.cy.portal.service.impl;
 
 import com.cy.portal.service.CartService;
 import com.cy.portal.vo.CartContentVo;
+import com.cy.portal.vo.CartTotalVo;
 import com.cy.yunyi.mapper.OmsCartMapper;
 import com.cy.yunyi.mapper.PmsGoodsMapper;
 import com.cy.yunyi.mapper.PmsGoodsProductMapper;
@@ -111,19 +112,31 @@ public class CartServiceImpl implements CartService {
             }
         }
 
-        cartContentVo.setGoodsCount(goodsCount);
-        cartContentVo.setGoodsAmount(goodsAmount);
-        cartContentVo.setCheckedGoodsCount(checkedGoodsCount);
-        cartContentVo.setCheckedGoodsAmount(checkedGoodsAmount);
+        CartTotalVo cartTotalVo = new CartTotalVo();
+
+        cartTotalVo.setGoodsCount(goodsCount);
+        cartTotalVo.setGoodsAmount(goodsAmount);
+        cartTotalVo.setCheckedGoodsCount(checkedGoodsCount);
+        cartTotalVo.setCheckedGoodsAmount(checkedGoodsAmount);
+
+        cartContentVo.setCartTotal(cartTotalVo);
+
         return cartContentVo;
     }
 
     @Override
-    public Integer checked(Long userId, Long cartId, Integer isChecked) {
+    public Integer checked(Long userId, List<Long> cartId, Integer isChecked) {
         OmsCart cart = new OmsCart();
-        cart.setId(cartId);
         cart.setChecked(isChecked);
-        int count = cartMapper.updateByPrimaryKeySelective(cart);
+        cart.setUpdateTime(new Date());
+
+        OmsCartExample example = new OmsCartExample();
+        OmsCartExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andProductIdIn(cartId);
+        criteria.andStatusEqualTo(1);
+
+        int count = cartMapper.updateByExampleSelective(cart,example);
         return count;
     }
 
@@ -149,5 +162,18 @@ public class CartServiceImpl implements CartService {
             return cartList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public void clearGoods(Long userId) {
+        OmsCartExample example = new OmsCartExample();
+        OmsCartExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        cartMapper.deleteByExample(example);
+    }
+
+    @Override
+    public void deleteById(Long cartId) {
+        cartMapper.deleteByPrimaryKey(cartId);
     }
 }

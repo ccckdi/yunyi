@@ -21,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jca.cci.core.support.CciDaoSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,20 +91,22 @@ public class CartController {
         if (body == null) {
             return CommonResult.validateFailed();
         }
-        Long cartId = JacksonUtil.parseLong(body, "cartId");
+        List<Long> cartIds = JacksonUtil.parseLongList(body, "cartIds");
         Integer isChecked = JacksonUtil.parseInteger(body, "isChecked");
-        cartService.checked(userId, cartId, isChecked);
+        cartService.checked(userId, cartIds, isChecked);
         return index(userId);
     }
 
     @ApiOperation("确认订单")
     @GetMapping("/checkout")
-    public CommonResult checkout(@LoginUser Long userId, @RequestBody CheckoutOrderDto checkoutOrderDto) {
+    public CommonResult checkout(@LoginUser Long userId, Long cartId, Long addressId, Long couponId, Long userCouponId, Long grouponRulesId) {
 
-        Long cartId = checkoutOrderDto.getCartId();
-        Long addressId = checkoutOrderDto.getAddressId();
-        Long couponId = checkoutOrderDto.getCouponId();
-        Long userCouponId = checkoutOrderDto.getUserCouponId();
+//        CheckoutOrderDto checkoutOrderDto = new CheckoutOrderDto();
+//
+//        Long cartId = checkoutOrderDto.getCartId();
+//        Long addressId = checkoutOrderDto.getAddressId();
+//        Long couponId = checkoutOrderDto.getCouponId();
+//        Long userCouponId = checkoutOrderDto.getUserCouponId();
 
         if (userId == null) {
             return CommonResult.unauthorized();

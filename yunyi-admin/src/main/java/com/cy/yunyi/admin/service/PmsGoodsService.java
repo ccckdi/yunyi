@@ -22,7 +22,7 @@ public interface PmsGoodsService {
 
     int update(Long id, PmsGoods goods);
 
-    List<PmsGoods> list(String keyword, Integer pageSize, Integer pageNum);
+    List<PmsGoods> list(String keyword, String productSn, Long brandId,Long productCategoryId, Integer publishStatus, Integer pageSize, Integer pageNum);
 
     List<PmsGoods> listByName(String name);
 

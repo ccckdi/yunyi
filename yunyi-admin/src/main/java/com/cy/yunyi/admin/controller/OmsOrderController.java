@@ -27,8 +27,8 @@ public class OmsOrderController {
     @ApiOperation("根据订单名称分页获取订单列表")
     @GetMapping("list")
     public CommonResult<CommonPage<OmsOrder>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<OmsOrder> orderList = orderService.list(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(orderList));
     }
