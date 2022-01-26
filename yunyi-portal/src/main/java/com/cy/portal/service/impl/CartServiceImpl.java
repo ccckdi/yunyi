@@ -169,11 +169,18 @@ public class CartServiceImpl implements CartService {
         OmsCartExample example = new OmsCartExample();
         OmsCartExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        cartMapper.deleteByExample(example);
+        criteria.andCheckedEqualTo(1);
+        criteria.andStatusEqualTo(1);
+        OmsCart cart = new OmsCart();
+        cart.setStatus(0);
+        cartMapper.updateByExampleSelective(cart,example);
     }
 
     @Override
     public void deleteById(Long cartId) {
-        cartMapper.deleteByPrimaryKey(cartId);
+        OmsCart cart = new OmsCart();
+        cart.setId(cartId);
+        cart.setStatus(0);
+        cartMapper.updateByPrimaryKeySelective(cart);
     }
 }
