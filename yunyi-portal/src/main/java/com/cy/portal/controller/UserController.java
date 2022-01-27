@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @Author chx
  * @Description: 个人中心Controller
@@ -28,7 +25,7 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation("个人中心内容")
-    @GetMapping("index")
+    @GetMapping("/index")
     public Object index(@LoginUser Long userId) {
         if (userId == null) {
             return CommonResult.unauthorized();

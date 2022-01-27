@@ -3,21 +3,21 @@ package com.cy.portal.service.impl;
 import com.cy.portal.dto.SubmitOrderDto;
 import com.cy.portal.service.*;
 import com.cy.portal.util.OrderUtil;
+import com.cy.portal.vo.OrderGoodsVo;
+import com.cy.portal.vo.OrderVo;
 import com.cy.yunyi.common.exception.Asserts;
 import com.cy.yunyi.mapper.OmsOrderGoodsMapper;
 import com.cy.yunyi.mapper.OmsOrderMapper;
-import com.cy.yunyi.mapper.PmsGoodsProductMapper;
 import com.cy.yunyi.model.*;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @Author: chx
@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private OmsOrderMapper orderMapper;
 
     @Autowired
-    private OmsOrderGoodsMapper orderGoodsMapper;
+    private OrderGoodsService orderGoodsService;
 
     @Autowired
     private GoodsProductService goodsProductService;
@@ -120,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setCreateTime(new Date());
 
-            orderGoodsMapper.insert(orderGoods);
+            orderGoodsService.insert(orderGoods);
         }
 
         // 删除购物车里面的商品信息
@@ -143,6 +143,80 @@ public class OrderServiceImpl implements OrderService {
                 Asserts.fail("商品货品库存减少失败");
             }
         }
+    }
+
+    /**
+     *
+     * @param userId   用户ID
+     * @param showType 订单信息：
+     *                 0，全部订单；
+     *                 1，待付款；
+     *                 2，待发货；
+     *                 3，待收货；
+     *                 4，待评价。
+     * @param pageSize     分页页数
+     * @param pageNum     分页大小
+     * @return
+     */
+    @Override
+    public List<OrderVo> list(Long userId, Integer showType, Integer pageSize, Integer pageNum) {
+
+        //获取对应对应的订单状态
+        List<Integer> orderStatus = OrderUtil.orderStatus(showType);
+        List<OmsOrder> orderList = queryByOrderStatus(userId, orderStatus, pageSize, pageNum);
+
+        List<OrderVo> orderVoList = new ArrayList<>(orderList.size());
+        for (OmsOrder order : orderList) {
+            OrderVo orderVo = new OrderVo();
+            orderVo.setId(order.getId());
+            orderVo.setOrderSn(order.getOrderSn());
+            orderVo.setActualPrice(order.getActualPrice());
+            orderVo.setOrderStatusText(OrderUtil.orderStatusText(order));
+            orderVo.setHandleOption(OrderUtil.build(order));
+            orderVo.setAftersaleStatus(order.getAftersaleStatus());
+
+            List<OmsOrderGoods> orderGoodsList = orderGoodsService.queryByOrderId(order.getId());
+            List<OrderGoodsVo> orderGoodsVoList = new ArrayList<>(orderGoodsList.size());
+            for (OmsOrderGoods orderGoods : orderGoodsList) {
+                OrderGoodsVo orderGoodsVo = new OrderGoodsVo();
+                orderGoodsVo.setId(orderGoods.getId());
+                orderGoodsVo.setGoodsName(orderGoods.getGoodsName());
+                orderGoodsVo.setNumber(orderGoods.getNumber());
+                orderGoodsVo.setPicUrl(orderGoods.getIcon());
+                orderGoodsVo.setSpecifications(orderGoods.getSpecifications());
+                orderGoodsVo.setPrice(orderGoods.getPrice());
+                orderGoodsVoList.add(orderGoodsVo);
+            }
+            orderVo.setOrderGoodsVoList(orderGoodsVoList);
+
+            orderVoList.add(orderVo);
+        }
+
+        return orderVoList;
+    }
+
+    /**
+     * 根据订单状态获取订单
+     * @param userId
+     * @param orderStatus
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    private List<OmsOrder> queryByOrderStatus(Long userId, List<Integer> orderStatus, Integer pageSize, Integer pageNum) {
+
+        PageHelper.startPage(pageNum,pageSize);
+
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        if (orderStatus != null){
+            criteria.andOrderStatusIn(orderStatus);
+        }
+        criteria.andStatusEqualTo(1);
+//        example.setOrderByClause("sort_order asc");
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        return orderList;
     }
 
     // TODO 这里应该产生一个唯一的订单，但是实际上这里仍然存在两个订单相同的可能性
