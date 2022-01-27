@@ -5,8 +5,8 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
-    <result column="order_status" jdbcType="SMALLINT" property="orderStatus" />
-    <result column="aftersale_status" jdbcType="SMALLINT" property="aftersaleStatus" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="aftersale_status" jdbcType="INTEGER" property="aftersaleStatus" />
     <result column="consignee" jdbcType="VARCHAR" property="consignee" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -137,8 +137,8 @@
       refund_type, refund_content, refund_time, 
       confirm_time, end_time, create_time, 
       update_time, status)
-    values (#{userId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=SMALLINT}, 
-      #{aftersaleStatus,jdbcType=SMALLINT}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, 
+      #{aftersaleStatus,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
       #{freightPrice,jdbcType=DECIMAL}, #{orderPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
       #{payId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{shipSn,jdbcType=VARCHAR}, 
@@ -240,10 +240,10 @@
         #{orderSn,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null">
-        #{orderStatus,jdbcType=SMALLINT},
+        #{orderStatus,jdbcType=INTEGER},
       </if>
       <if test="aftersaleStatus != null">
-        #{aftersaleStatus,jdbcType=SMALLINT},
+        #{aftersaleStatus,jdbcType=INTEGER},
       </if>
       <if test="consignee != null">
         #{consignee,jdbcType=VARCHAR},
@@ -332,10 +332,10 @@
         order_sn = #{record.orderSn,jdbcType=VARCHAR},
       </if>
       <if test="record.orderStatus != null">
-        order_status = #{record.orderStatus,jdbcType=SMALLINT},
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
       </if>
       <if test="record.aftersaleStatus != null">
-        aftersale_status = #{record.aftersaleStatus,jdbcType=SMALLINT},
+        aftersale_status = #{record.aftersaleStatus,jdbcType=INTEGER},
       </if>
       <if test="record.consignee != null">
         consignee = #{record.consignee,jdbcType=VARCHAR},
@@ -413,8 +413,8 @@
     set id = #{record.id,jdbcType=BIGINT},
       user_id = #{record.userId,jdbcType=BIGINT},
       order_sn = #{record.orderSn,jdbcType=VARCHAR},
-      order_status = #{record.orderStatus,jdbcType=SMALLINT},
-      aftersale_status = #{record.aftersaleStatus,jdbcType=SMALLINT},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      aftersale_status = #{record.aftersaleStatus,jdbcType=INTEGER},
       consignee = #{record.consignee,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
@@ -451,10 +451,10 @@
         order_sn = #{orderSn,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null">
-        order_status = #{orderStatus,jdbcType=SMALLINT},
+        order_status = #{orderStatus,jdbcType=INTEGER},
       </if>
       <if test="aftersaleStatus != null">
-        aftersale_status = #{aftersaleStatus,jdbcType=SMALLINT},
+        aftersale_status = #{aftersaleStatus,jdbcType=INTEGER},
       </if>
       <if test="consignee != null">
         consignee = #{consignee,jdbcType=VARCHAR},
@@ -529,8 +529,8 @@
     update oms_order
     set user_id = #{userId,jdbcType=BIGINT},
       order_sn = #{orderSn,jdbcType=VARCHAR},
-      order_status = #{orderStatus,jdbcType=SMALLINT},
-      aftersale_status = #{aftersaleStatus,jdbcType=SMALLINT},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      aftersale_status = #{aftersaleStatus,jdbcType=INTEGER},
       consignee = #{consignee,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},

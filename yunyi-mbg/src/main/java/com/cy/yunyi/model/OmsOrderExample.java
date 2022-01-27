@@ -306,52 +306,52 @@ public class OmsOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusEqualTo(Short value) {
+        public Criteria andOrderStatusEqualTo(Integer value) {
             addCriterion("order_status =", value, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusNotEqualTo(Short value) {
+        public Criteria andOrderStatusNotEqualTo(Integer value) {
             addCriterion("order_status <>", value, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusGreaterThan(Short value) {
+        public Criteria andOrderStatusGreaterThan(Integer value) {
             addCriterion("order_status >", value, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusGreaterThanOrEqualTo(Short value) {
+        public Criteria andOrderStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("order_status >=", value, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusLessThan(Short value) {
+        public Criteria andOrderStatusLessThan(Integer value) {
             addCriterion("order_status <", value, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusLessThanOrEqualTo(Short value) {
+        public Criteria andOrderStatusLessThanOrEqualTo(Integer value) {
             addCriterion("order_status <=", value, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusIn(List<Short> values) {
+        public Criteria andOrderStatusIn(List<Integer> values) {
             addCriterion("order_status in", values, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusNotIn(List<Short> values) {
+        public Criteria andOrderStatusNotIn(List<Integer> values) {
             addCriterion("order_status not in", values, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusBetween(Short value1, Short value2) {
+        public Criteria andOrderStatusBetween(Integer value1, Integer value2) {
             addCriterion("order_status between", value1, value2, "orderStatus");
             return (Criteria) this;
         }
 
-        public Criteria andOrderStatusNotBetween(Short value1, Short value2) {
+        public Criteria andOrderStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("order_status not between", value1, value2, "orderStatus");
             return (Criteria) this;
         }
@@ -366,52 +366,52 @@ public class OmsOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusEqualTo(Short value) {
+        public Criteria andAftersaleStatusEqualTo(Integer value) {
             addCriterion("aftersale_status =", value, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusNotEqualTo(Short value) {
+        public Criteria andAftersaleStatusNotEqualTo(Integer value) {
             addCriterion("aftersale_status <>", value, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusGreaterThan(Short value) {
+        public Criteria andAftersaleStatusGreaterThan(Integer value) {
             addCriterion("aftersale_status >", value, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusGreaterThanOrEqualTo(Short value) {
+        public Criteria andAftersaleStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("aftersale_status >=", value, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusLessThan(Short value) {
+        public Criteria andAftersaleStatusLessThan(Integer value) {
             addCriterion("aftersale_status <", value, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusLessThanOrEqualTo(Short value) {
+        public Criteria andAftersaleStatusLessThanOrEqualTo(Integer value) {
             addCriterion("aftersale_status <=", value, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusIn(List<Short> values) {
+        public Criteria andAftersaleStatusIn(List<Integer> values) {
             addCriterion("aftersale_status in", values, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusNotIn(List<Short> values) {
+        public Criteria andAftersaleStatusNotIn(List<Integer> values) {
             addCriterion("aftersale_status not in", values, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusBetween(Short value1, Short value2) {
+        public Criteria andAftersaleStatusBetween(Integer value1, Integer value2) {
             addCriterion("aftersale_status between", value1, value2, "aftersaleStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAftersaleStatusNotBetween(Short value1, Short value2) {
+        public Criteria andAftersaleStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("aftersale_status not between", value1, value2, "aftersaleStatus");
             return (Criteria) this;
         }

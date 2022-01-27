@@ -15,10 +15,10 @@ public class OmsOrder implements Serializable {
     private String orderSn;
 
     @ApiModelProperty(value = "订单状态")
-    private Short orderStatus;
+    private Integer orderStatus;
 
     @ApiModelProperty(value = "售后状态，0是可申请，1是用户已申请，2是管理员审核通过，3是管理员退款成功，4是管理员审核拒绝，5是用户已取消")
-    private Short aftersaleStatus;
+    private Integer aftersaleStatus;
 
     @ApiModelProperty(value = "收货人名称")
     private String consignee;
@@ -112,19 +112,19 @@ public class OmsOrder implements Serializable {
         this.orderSn = orderSn;
     }
 
-    public Short getOrderStatus() {
+    public Integer getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(Short orderStatus) {
+    public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus;
     }
 
-    public Short getAftersaleStatus() {
+    public Integer getAftersaleStatus() {
         return aftersaleStatus;
     }
 
-    public void setAftersaleStatus(Short aftersaleStatus) {
+    public void setAftersaleStatus(Integer aftersaleStatus) {
         this.aftersaleStatus = aftersaleStatus;
     }
 
