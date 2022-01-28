@@ -1,11 +1,13 @@
 package com.cy.portal.controller;
 
+import com.alipay.api.AlipayApiException;
 import com.cy.portal.annotation.LoginUser;
 import com.cy.portal.dto.SubmitOrderDto;
 import com.cy.portal.service.OrderService;
 import com.cy.portal.vo.OrderVo;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.ResponseUtil;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: chx
@@ -43,8 +46,8 @@ public class OrderController {
         if (submitOrderDto.getCartId() == null || submitOrderDto.getAddressId() == null) {
             return CommonResult.validateFailed();
         }
-        orderService.submit(userId, submitOrderDto);
-        return CommonResult.success();
+        Long orderId = orderService.submit(userId, submitOrderDto);
+        return CommonResult.success(orderId);
     }
 
     /**
@@ -70,7 +73,21 @@ public class OrderController {
         if (userId == null) {
             return CommonResult.unauthorized();
         }
-        List<OrderVo> orderVoList = orderService.list(userId, showType, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(orderVoList));
+
+        Map<String, Object> map = orderService.list(userId, showType, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPageByList((List<OrderVo>) map.get("list"),(List) map.get("pageList")));
+    }
+
+
+    @ApiOperation("阿里支付")
+    @PostMapping("/aliPay")
+    public CommonResult aliPay(@LoginUser Long userId,@RequestParam(value = "orderId") Long orderId) throws AlipayApiException {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        String result = orderService.aliPay(orderId);
+
+        return CommonResult.success(result);
     }
 }

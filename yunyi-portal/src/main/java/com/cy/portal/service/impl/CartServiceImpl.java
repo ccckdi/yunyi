@@ -38,6 +38,8 @@ public class CartServiceImpl implements CartService {
     public List<OmsCart> listCart(Long userId) {
         OmsCartExample example = new OmsCartExample();
         example.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(1);
+        //按照添加时间倒序
+        example.setOrderByClause("create_time desc");
         List<OmsCart> cartList = cartMapper.selectByExample(example);
         return cartList;
     }
@@ -92,9 +94,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartContentVo content(Long userId) {
         CartContentVo cartContentVo = new CartContentVo();
-        OmsCartExample example = new OmsCartExample();
-        example.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(1);
-        List<OmsCart> cartList = cartMapper.selectByExample(example);
+        List<OmsCart> cartList = listCart(userId);
 
         cartContentVo.setCartList(cartList);
 

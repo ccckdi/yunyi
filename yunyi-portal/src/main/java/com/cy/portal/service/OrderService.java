@@ -1,11 +1,10 @@
 package com.cy.portal.service;
 
+import com.alipay.api.AlipayApiException;
 import com.cy.portal.dto.SubmitOrderDto;
-import com.cy.portal.vo.OrderVo;
-import com.cy.yunyi.model.OmsOrder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: chx
@@ -15,7 +14,7 @@ import java.util.List;
 public interface OrderService {
 
     @Transactional
-    void submit(Long userId, SubmitOrderDto submitOrderDto);
+    Long submit(Long userId, SubmitOrderDto submitOrderDto);
 
     /**
      * 订单列表
@@ -31,5 +30,7 @@ public interface OrderService {
      * @param pageNum     分页大小
      * @return 订单列表
      */
-    List<OrderVo> list(Long userId, Integer showType, Integer pageSize, Integer pageNum);
+    Map<String,Object> list(Long userId, Integer showType, Integer pageSize, Integer pageNum);
+
+    String aliPay(Long orderId) throws AlipayApiException;
 }

@@ -53,10 +53,13 @@
 <!--            <table tableName="oms_order">-->
 <!--                <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--            </table>-->
-            <table tableName="oms_order_goods">
-                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-                <columnOverride column="specifications" javaType="java.lang.String[]"
-                                typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"/>
-            </table>
+<!--            <table tableName="oms_order_goods">-->
+<!--                <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--                <columnOverride column="specifications" javaType="java.lang.String[]"-->
+<!--                                typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"/>-->
+<!--            </table>-->
+        <table tableName="oms_order">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

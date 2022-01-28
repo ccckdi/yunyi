@@ -1,18 +1,18 @@
 package com.cy.portal.service.impl;
 
+import com.alipay.api.AlipayApiException;
 import com.cy.portal.dto.SubmitOrderDto;
 import com.cy.portal.service.*;
+import com.cy.portal.util.AlipayUtil;
 import com.cy.portal.util.OrderUtil;
 import com.cy.portal.vo.OrderGoodsVo;
 import com.cy.portal.vo.OrderVo;
 import com.cy.yunyi.common.exception.Asserts;
-import com.cy.yunyi.mapper.OmsOrderGoodsMapper;
 import com.cy.yunyi.mapper.OmsOrderMapper;
 import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -42,9 +42,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private AlipayUtil alipayUtil;
 
     @Override
-    public void submit(Long userId, SubmitOrderDto submitOrderDto) {
+    public Long submit(Long userId, SubmitOrderDto submitOrderDto) {
         // 收货地址
         UmsAddress checkedAddress = addressService.getAddressById(submitOrderDto.getAddressId());
 
@@ -119,6 +121,7 @@ public class OrderServiceImpl implements OrderService {
             orderGoods.setNumber(cartGoods.getNumber());
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setCreateTime(new Date());
+            orderGoods.setStatus(1);
 
             orderGoodsService.insert(orderGoods);
         }
@@ -143,6 +146,8 @@ public class OrderServiceImpl implements OrderService {
                 Asserts.fail("商品货品库存减少失败");
             }
         }
+
+        return orderId;
     }
 
     /**
@@ -159,11 +164,15 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public List<OrderVo> list(Long userId, Integer showType, Integer pageSize, Integer pageNum) {
+    public Map<String,Object> list(Long userId, Integer showType, Integer pageSize, Integer pageNum) {
+
+        Map<String,Object> map = new HashMap<>();
 
         //获取对应对应的订单状态
         List<Integer> orderStatus = OrderUtil.orderStatus(showType);
         List<OmsOrder> orderList = queryByOrderStatus(userId, orderStatus, pageSize, pageNum);
+        //用于分页处理
+        map.put("pageList",orderList);
 
         List<OrderVo> orderVoList = new ArrayList<>(orderList.size());
         for (OmsOrder order : orderList) {
@@ -191,8 +200,15 @@ public class OrderServiceImpl implements OrderService {
 
             orderVoList.add(orderVo);
         }
+        map.put("list",orderVoList);
 
-        return orderVoList;
+        return map;
+    }
+
+    @Override
+    public String aliPay(Long orderId) throws AlipayApiException {
+        String result = alipayUtil.doPay();
+        return result;
     }
 
     /**
@@ -214,7 +230,8 @@ public class OrderServiceImpl implements OrderService {
             criteria.andOrderStatusIn(orderStatus);
         }
         criteria.andStatusEqualTo(1);
-//        example.setOrderByClause("sort_order asc");
+        //按照下单时间倒序
+        example.setOrderByClause("create_time desc");
         List<OmsOrder> orderList = orderMapper.selectByExample(example);
         return orderList;
     }

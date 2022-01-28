@@ -32,4 +32,17 @@ public class CommonPage<T> {
         return result;
     }
 
+    /**
+     * 将PageHelper分页后的list转为分页信息
+     */
+    public static <T> CommonPage<T> restPageByList(List<T> list,List pagedList) {
+        CommonPage<T> result = new CommonPage<T>();
+        PageInfo pageInfo = new PageInfo(pagedList);
+        result.setTotalPage(pageInfo.getPages());
+        result.setPageNum(pageInfo.getPageNum());
+        result.setPageSize(pageInfo.getPageSize());
+        result.setTotal(pageInfo.getTotal());
+        result.setList(list);
+        return result;
+    }
 }
