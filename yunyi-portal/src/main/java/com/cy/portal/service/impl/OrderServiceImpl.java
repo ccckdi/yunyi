@@ -1,6 +1,8 @@
 package com.cy.portal.service.impl;
 
 import com.alipay.api.AlipayApiException;
+import com.cy.portal.dto.PayAsyncVo;
+import com.cy.portal.dto.PayVo;
 import com.cy.portal.dto.SubmitOrderDto;
 import com.cy.portal.service.*;
 import com.cy.portal.util.AlipayUtil;
@@ -207,8 +209,41 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String aliPay(Long orderId) throws AlipayApiException {
-        String result = alipayUtil.doPay();
+        //查找对应订单
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(orderId);
+        criteria.andOrderStatusEqualTo(101);
+        criteria.andStatusEqualTo(1);
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        if (orderList.size() <= 0){
+            return "不存在订单号为\""+orderId+"\"的未支付订单！";
+        }
+        OmsOrder order = orderList.get(0);
+        PayVo payVo = new PayVo();
+        payVo.setOutTradeNo(order.getOrderSn());
+        payVo.setTotalAmount(String.valueOf(order.getActualPrice()));
+        payVo.setSubject("云毅GO-"+order.getOrderSn());
+        payVo.setBody("订单编号: " + order.getOrderSn());
+        String result = alipayUtil.pay(payVo);
         return result;
+    }
+
+    @Override
+    public Integer payNotify(PayAsyncVo vo) {
+        //查询订单
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderSnEqualTo(vo.getOut_trade_no());
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        if (orderList.size() > 0){
+            //修改订单状态
+            OmsOrder order = orderList.get(0);
+            order.setOrderStatus(201);
+            int count = orderMapper.updateByPrimaryKey(order);
+
+        }
+        return 0;
     }
 
     /**

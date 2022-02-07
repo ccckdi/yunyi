@@ -1,6 +1,7 @@
 package com.cy.portal.service;
 
 import com.alipay.api.AlipayApiException;
+import com.cy.portal.dto.PayAsyncVo;
 import com.cy.portal.dto.SubmitOrderDto;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,4 +34,7 @@ public interface OrderService {
     Map<String,Object> list(Long userId, Integer showType, Integer pageSize, Integer pageNum);
 
     String aliPay(Long orderId) throws AlipayApiException;
+
+    @Transactional
+    Integer payNotify(PayAsyncVo vo);
 }

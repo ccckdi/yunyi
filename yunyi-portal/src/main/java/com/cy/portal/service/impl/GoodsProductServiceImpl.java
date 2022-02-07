@@ -5,6 +5,7 @@ import com.cy.yunyi.mapper.PmsGoodsMapper;
 import com.cy.yunyi.mapper.PmsGoodsProductMapper;
 import com.cy.yunyi.model.PmsGoods;
 import com.cy.yunyi.model.PmsGoodsProduct;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class GoodsProductServiceImpl implements GoodsProductService {
     }
 
     @Override
-    public int reduceStock(Long productId, Integer number) {
+    public Integer reduceStock(Long productId, Integer number) {
         PmsGoodsProduct product = productMapper.selectByPrimaryKey(productId);
         product.setNumber(number);
         int count = productMapper.updateByPrimaryKey(product);

@@ -22,5 +22,5 @@ public interface GoodsProductService {
      * @param number
      * @return
      */
-    int reduceStock(Long productId, Integer number);
+    Integer reduceStock(Long productId, Integer number);
 }
