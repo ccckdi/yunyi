@@ -125,19 +125,19 @@ notify:
     # 如果是腾讯云短信，则设置active的值tencent
     # 如果是阿里云短信，则设置active的值aliyun
     active: tencent
-    sign: yunyigo
+    sign: 肥猫腿急送
     template:
       - name: paySucceed
-        templateId: 156349
+        templateId: 1297320
       - name: captcha
-        templateId: 156433
+        templateId: 1297393
       - name: ship
-        templateId: 158002
+        templateId: 1297396
       - name: refund
-        templateId: 159447
+        templateId: 1297391
     tencent:
-      appid: 111111111
-      appkey: xxxxxxxxxxxxxx
+      appid: 1400502378
+      appkey: b1b10cb79883fdbd8d3919659b8905df
     aliyun:
       regionId: xxx
       accessKeyId: xxx

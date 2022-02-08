@@ -57,8 +57,8 @@ public class OrderController {
         if (submitOrderDto.getCartId() == null || submitOrderDto.getAddressId() == null) {
             return CommonResult.validateFailed();
         }
-        Long orderId = orderService.submit(userId, submitOrderDto);
-        return CommonResult.success(orderId);
+        String orderSn = orderService.submit(userId, submitOrderDto);
+        return CommonResult.success(orderSn);
     }
 
     /**
@@ -92,8 +92,8 @@ public class OrderController {
 
     @ApiOperation("阿里支付")
     @GetMapping(value = "/aliPay", produces = "text/html")
-    public String aliPay(@RequestParam(value = "orderId") Long orderId) throws AlipayApiException {
-        return orderService.aliPay(orderId);
+    public String aliPay(@RequestParam(value = "orderSn") String orderSn) throws AlipayApiException {
+        return orderService.aliPay(orderSn);
     }
 
     @ApiOperation("支付回调")

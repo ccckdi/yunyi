@@ -105,9 +105,8 @@ public class NotifyService {
     }
 
     private String getTemplateId(NotifyType notifyType, List<Map<String, String>> values) {
+        String notifyTypeStr = notifyType.getType();
         for (Map<String, String> item : values) {
-            String notifyTypeStr = notifyType.getType();
-
             if (item.get("name").equals(notifyTypeStr))
                 return item.get("templateId");
         }

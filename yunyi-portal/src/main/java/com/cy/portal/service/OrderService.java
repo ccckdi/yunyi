@@ -15,7 +15,7 @@ import java.util.Map;
 public interface OrderService {
 
     @Transactional
-    Long submit(Long userId, SubmitOrderDto submitOrderDto);
+    String submit(Long userId, SubmitOrderDto submitOrderDto);
 
     /**
      * 订单列表
@@ -33,7 +33,7 @@ public interface OrderService {
      */
     Map<String,Object> list(Long userId, Integer showType, Integer pageSize, Integer pageNum);
 
-    String aliPay(Long orderId) throws AlipayApiException;
+    String aliPay(String orderSn) throws AlipayApiException;
 
     @Transactional
     Integer payNotify(PayAsyncVo vo);

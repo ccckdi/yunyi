@@ -4,6 +4,8 @@ import com.alipay.api.AlipayApiException;
 import com.cy.portal.dto.PayAsyncVo;
 import com.cy.portal.dto.PayVo;
 import com.cy.portal.dto.SubmitOrderDto;
+import com.cy.portal.notify.NotifyService;
+import com.cy.portal.notify.NotifyType;
 import com.cy.portal.service.*;
 import com.cy.portal.util.AlipayUtil;
 import com.cy.portal.util.OrderUtil;
@@ -47,8 +49,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private AlipayUtil alipayUtil;
 
+    @Autowired
+    private NotifyService notifyService;
+
     @Override
-    public Long submit(Long userId, SubmitOrderDto submitOrderDto) {
+    public String submit(Long userId, SubmitOrderDto submitOrderDto) {
         // 收货地址
         UmsAddress checkedAddress = addressService.getAddressById(submitOrderDto.getAddressId());
 
@@ -149,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        return orderId;
+        return order.getOrderSn();
     }
 
     /**
@@ -207,17 +212,23 @@ public class OrderServiceImpl implements OrderService {
         return map;
     }
 
+    /**
+     * 支付宝支付
+     * @param orderSn
+     * @return
+     * @throws AlipayApiException
+     */
     @Override
-    public String aliPay(Long orderId) throws AlipayApiException {
+    public String aliPay(String orderSn) throws AlipayApiException {
         //查找对应订单
         OmsOrderExample example = new OmsOrderExample();
         OmsOrderExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(orderId);
+        criteria.andOrderSnEqualTo(orderSn);
         criteria.andOrderStatusEqualTo(101);
         criteria.andStatusEqualTo(1);
         List<OmsOrder> orderList = orderMapper.selectByExample(example);
         if (orderList.size() <= 0){
-            return "不存在订单号为\""+orderId+"\"的未支付订单！";
+            return "不存在订单编号: "+orderSn+"的未支付订单！";
         }
         OmsOrder order = orderList.get(0);
         PayVo payVo = new PayVo();
@@ -229,6 +240,11 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     * 支付回调
+     * @param vo
+     * @return
+     */
     @Override
     public Integer payNotify(PayAsyncVo vo) {
         //查询订单
@@ -239,9 +255,18 @@ public class OrderServiceImpl implements OrderService {
         if (orderList.size() > 0){
             //修改订单状态
             OmsOrder order = orderList.get(0);
-            order.setOrderStatus(201);
+            order.setOrderStatus(OrderUtil.STATUS_PAY);
             int count = orderMapper.updateByPrimaryKey(order);
 
+            //异步短信通知用户
+            //订单编号由于受腾讯云参数长度现在只保留后6位
+            notifyService.notifySmsTemplate(order.getMobile(), NotifyType.PAY_SUCCEED,
+                    new String[]{order.getOrderSn().substring(order.getOrderSn().length() - 6,order.getOrderSn().length())});
+
+            //异步邮件通知管理员
+            notifyService.notifyMail("新订单通知", order.toString());
+
+            return count;
         }
         return 0;
     }
