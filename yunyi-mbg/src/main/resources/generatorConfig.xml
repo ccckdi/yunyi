@@ -58,7 +58,7 @@
 <!--                <columnOverride column="specifications" javaType="java.lang.String[]"-->
 <!--                                typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"/>-->
 <!--            </table>-->
-        <table tableName="oms_order">
+        <table tableName="rms_footprint">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>
