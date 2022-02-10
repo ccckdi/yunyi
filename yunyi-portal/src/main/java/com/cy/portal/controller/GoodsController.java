@@ -1,6 +1,8 @@
 package com.cy.portal.controller;
 
+import com.cy.portal.annotation.LoginUser;
 import com.cy.portal.service.CategoryService;
+import com.cy.portal.service.FootprintService;
 import com.cy.portal.service.GoodsService;
 import com.cy.portal.service.IssueService;
 import com.cy.portal.vo.CategoryInfoVo;
@@ -37,6 +39,9 @@ public class GoodsController {
 
     @Autowired
     private IssueService issueService;
+
+    @Autowired
+    private FootprintService footprintService;
 
     /**
      * 获取商品总数
@@ -88,11 +93,25 @@ public class GoodsController {
 
     /**
      * 根据id获取商品详情
+     * 用户可以不登录。
+     * 如果用户登录，则记录用户足迹以及返回用户收藏信息。
      */
     @ApiOperation("分页内容页信息展示")
     @GetMapping("/detail")
-    public CommonResult detail(@RequestParam Long id){
+    public CommonResult detail(@LoginUser Long userId, @RequestParam Long id){
         GoodsInfoVo goodsInfoVo = new GoodsInfoVo();
+
+//        // 用户收藏
+//        int userHasCollect = 0;
+//        if (userId != null) {
+//            userHasCollect = collectService.count(userId, (byte)0, id);
+//        }
+
+        //添加用户足迹
+        RmsFootprint footprint = new RmsFootprint();
+        footprint.setUserId(userId);
+        footprint.setGoodsId(id);
+        footprintService.create(footprint);
 
         //商品信息
         PmsGoods info = goodsService.getById(id);
