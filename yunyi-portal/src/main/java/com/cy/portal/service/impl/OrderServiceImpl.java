@@ -1,20 +1,19 @@
 package com.cy.portal.service.impl;
 
 import com.alipay.api.AlipayApiException;
-import com.cy.portal.dto.PayAsyncVo;
-import com.cy.portal.dto.PayVo;
+import com.cy.portal.vo.*;
 import com.cy.portal.dto.SubmitOrderDto;
 import com.cy.portal.notify.NotifyService;
 import com.cy.portal.notify.NotifyType;
 import com.cy.portal.service.*;
 import com.cy.portal.util.AlipayUtil;
+import com.cy.portal.util.OrderHandleOption;
 import com.cy.portal.util.OrderUtil;
-import com.cy.portal.vo.OrderGoodsVo;
-import com.cy.portal.vo.OrderVo;
 import com.cy.yunyi.common.exception.Asserts;
 import com.cy.yunyi.mapper.OmsOrderMapper;
 import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -130,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
             orderGoods.setCreateTime(new Date());
             orderGoods.setStatus(1);
 
-            orderGoodsService.insert(orderGoods);
+            orderGoodsService.create(orderGoods);
         }
 
         // 删除购物车里面的商品信息
@@ -212,6 +211,58 @@ public class OrderServiceImpl implements OrderService {
         return map;
     }
 
+    @Override
+    public Map<String,Object> detail(Long userId, Long orderId) {
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(orderId);
+        criteria.andUserIdEqualTo(userId);
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        if (orderList.size() == 0){
+            return null;
+        }
+        OmsOrder order = orderList.get(0);
+        OrderDetailVo orderDetailVo = new OrderDetailVo();
+        BeanUtils.copyProperties(order,orderDetailVo);
+        orderDetailVo.setCouponPrice(new BigDecimal("0"));
+        orderDetailVo.setOrderStatusText(OrderUtil.orderStatusText(order));
+        orderDetailVo.setHandleOption(OrderUtil.build(order));
+        orderDetailVo.setAftersaleStatus(order.getAftersaleStatus());
+        orderDetailVo.setExpCode(order.getShipChannel());
+        orderDetailVo.setExpName("");
+        orderDetailVo.setExpNo(order.getShipSn());
+
+        List<OmsOrderGoods> orderGoodsList = orderGoodsService.queryByOrderId(orderId);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("orderInfo", orderDetailVo);
+        result.put("orderGoods", orderGoodsList);
+
+        return result;
+    }
+
+    //TODO 需校验最后更新时间
+    @Override
+    public Integer cancel(Long userId, Long orderId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
+
+        //非本人操作返回-1
+        if (!order.getUserId().equals(userId)){
+            return -1;
+        }
+
+        //校验状态
+        OrderHandleOption handleOption = OrderUtil.build(order);
+        if (!handleOption.isCancel()) {
+            return -1;
+        }
+        //订单状态修改为用户取消
+        order.setOrderStatus(OrderUtil.STATUS_CANCEL);
+        order.setUpdateTime(new Date());
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        return result;
+    }
+
     /**
      * 支付宝支付
      * @param orderSn
@@ -271,6 +322,50 @@ public class OrderServiceImpl implements OrderService {
         return 0;
     }
 
+    //TODO 需校验最后更新时间
+    @Override
+    public Integer confirm(Long userId, Long orderId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
+
+        //非本人操作返回-1
+        if (!order.getUserId().equals(userId)){
+            return -1;
+        }
+
+        //校验状态
+        OrderHandleOption handleOption = OrderUtil.build(order);
+        if (!handleOption.isConfirm()) {
+            return -1;
+        }
+        //订单状态修改为待评价
+        order.setOrderStatus(OrderUtil.STATUS_CONFIRM);
+        order.setUpdateTime(new Date());
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        return result;
+    }
+
+    @Override
+    public Integer refund(Long userId, Long orderId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
+
+        //非本人操作返回-1
+        if (!order.getUserId().equals(userId)){
+            return -1;
+        }
+
+        //校验状态
+        OrderHandleOption handleOption = OrderUtil.build(order);
+        if (!handleOption.isRefund()) {
+            return -1;
+        }
+        //订单状态修改为申请退款
+        order.setOrderStatus(OrderUtil.STATUS_REFUND);
+        order.setUpdateTime(new Date());
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        return result;
+    }
+
+
     /**
      * 根据订单状态获取订单
      * @param userId
@@ -323,4 +418,6 @@ public class OrderServiceImpl implements OrderService {
         example.or().andUserIdEqualTo(userId).andOrderSnEqualTo(orderSn).andStatusEqualTo(1);
         return (int) orderMapper.countByExample(example);
     }
+
+
 }

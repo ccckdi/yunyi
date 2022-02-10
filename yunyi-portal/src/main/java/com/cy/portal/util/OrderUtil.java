@@ -21,16 +21,16 @@ import java.util.List;
  */
 public class OrderUtil {
 
-    public static final Integer STATUS_CREATE = 101;
-    public static final Integer STATUS_PAY = 201;
-    public static final Integer STATUS_SHIP = 301;
-    public static final Integer STATUS_CONFIRM = 401;
-    public static final Integer STATUS_CANCEL = 102;
-    public static final Integer STATUS_AUTO_CANCEL = 103;
-    public static final Integer STATUS_ADMIN_CANCEL = 104;
-    public static final Integer STATUS_REFUND = 202;
-    public static final Integer STATUS_REFUND_CONFIRM = 203;
-    public static final Integer STATUS_AUTO_CONFIRM = 402;
+    public static final int STATUS_CREATE = 101;
+    public static final int STATUS_PAY = 201;
+    public static final int STATUS_SHIP = 301;
+    public static final int STATUS_CONFIRM = 401;
+    public static final int STATUS_CANCEL = 102;
+    public static final int STATUS_AUTO_CANCEL = 103;
+    public static final int STATUS_ADMIN_CANCEL = 104;
+    public static final int STATUS_REFUND = 202;
+    public static final int STATUS_REFUND_CONFIRM = 203;
+    public static final int STATUS_AUTO_CONFIRM = 402;
 
     public static String orderStatusText(OmsOrder order) {
         int status = order.getOrderStatus().intValue();

@@ -1,7 +1,7 @@
 package com.cy.portal.service;
 
 import com.alipay.api.AlipayApiException;
-import com.cy.portal.dto.PayAsyncVo;
+import com.cy.portal.vo.PayAsyncVo;
 import com.cy.portal.dto.SubmitOrderDto;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +14,12 @@ import java.util.Map;
  **/
 public interface OrderService {
 
+    /**
+     * 提交订单
+     * @param userId
+     * @param submitOrderDto
+     * @return
+     */
     @Transactional
     String submit(Long userId, SubmitOrderDto submitOrderDto);
 
@@ -33,8 +39,33 @@ public interface OrderService {
      */
     Map<String,Object> list(Long userId, Integer showType, Integer pageSize, Integer pageNum);
 
+    Map<String,Object> detail(Long userId, Long orderId);
+
+    Integer cancel(Long userId, Long orderId);
+
+    /**
+     * 支付宝支付
+     * @param orderSn
+     * @return
+     * @throws AlipayApiException
+     */
     String aliPay(String orderSn) throws AlipayApiException;
 
+    /**
+     * 支付回调
+     * @param vo
+     * @return
+     */
     @Transactional
     Integer payNotify(PayAsyncVo vo);
+
+    /**
+     * 确认收货
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    Integer confirm(Long userId, Long orderId);
+
+    Integer refund(Long userId, Long orderId);
 }

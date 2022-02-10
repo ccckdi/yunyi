@@ -3,7 +3,6 @@ package com.cy.portal.controller;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.cy.portal.annotation.LoginUser;
-import com.cy.portal.dto.CheckoutOrderDto;
 import com.cy.portal.service.AddressService;
 import com.cy.portal.service.CartService;
 import com.cy.portal.vo.CartContentVo;
@@ -58,7 +57,7 @@ public class CartController {
     }
 
     @ApiOperation("加入购物车")
-    @PostMapping("add")
+    @PostMapping("/add")
     public CommonResult add(@LoginUser Long userId,@RequestBody OmsCart cart) {
         if (userId == null) {
             return CommonResult.unauthorized();

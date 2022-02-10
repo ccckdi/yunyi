@@ -3,22 +3,21 @@ package com.cy.portal.controller;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.cy.portal.annotation.LoginUser;
-import com.cy.portal.dto.PayAsyncVo;
+import com.cy.portal.vo.PayAsyncVo;
 import com.cy.portal.dto.SubmitOrderDto;
 import com.cy.portal.service.OrderService;
 import com.cy.portal.util.AlipayUtil;
 import com.cy.portal.vo.OrderVo;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,6 +61,24 @@ public class OrderController {
     }
 
     /**
+     * 订单详情
+     *
+     * @param userId  用户ID
+     * @param orderId 订单ID
+     * @return 订单详情
+     */
+    @ApiOperation("订单详情")
+    @GetMapping("/detail")
+    public CommonResult detail(@LoginUser Long userId, @NotNull Long orderId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        Map<String,Object> result = orderService.detail(userId, orderId);
+        return CommonResult.success(result);
+    }
+
+    /**
      * 订单列表
      *
      * @param userId   用户ID
@@ -89,6 +106,28 @@ public class OrderController {
         return CommonResult.success(CommonPage.restPageByList((List<OrderVo>) map.get("list"),(List) map.get("pageList")));
     }
 
+    /**
+     * 取消订单
+     *
+     * @param userId 用户ID
+     * @return 订单操作结果
+     */
+    @ApiOperation("取消订单")
+    @PostMapping("/cancel")
+    public CommonResult cancel(@LoginUser Long userId, @RequestParam(value = "orderId") Long orderId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        Integer result = orderService.cancel(userId, orderId);
+        if (result > 0){
+            return CommonResult.success();
+        }else if (result == -1){
+            return CommonResult.failed("订单不能取消！");
+        } else {
+            return CommonResult.failed("修改订单状态失败！");
+        }
+    }
 
     @ApiOperation("阿里支付")
     @GetMapping(value = "/aliPay", produces = "text/html")
@@ -118,6 +157,52 @@ public class OrderController {
             // 只要回复的不是success，就会一直通知
             log.info("签名验证失败！");
             return CommonResult.failed("签名验证失败！");
+        }
+    }
+
+    /**
+     * 申请退款
+     *
+     * @param userId 用户ID
+     * @return 订单操作结果
+     */
+    @ApiOperation("申请退款")
+    @PostMapping("/refund")
+    public CommonResult refund(@LoginUser Long userId, @RequestParam(value = "orderId") Long orderId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        Integer result = orderService.refund(userId, orderId);
+        if (result > 0){
+            return CommonResult.success();
+        }else if (result == -1){
+            return CommonResult.failed("订单不能退款！");
+        } else {
+            return CommonResult.failed("修改订单状态失败！");
+        }
+    }
+
+    /**
+     * 确认收货
+     *
+     * @param userId 用户ID
+     * @return 订单操作结果
+     */
+    @ApiOperation("确认收货")
+    @PostMapping("/confirm")
+    public CommonResult confirm(@LoginUser Long userId, @RequestParam(value = "orderId") Long orderId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        Integer result = orderService.confirm(userId, orderId);
+        if (result > 0){
+            return CommonResult.success();
+        }else if (result == -1){
+            return CommonResult.failed("订单不能确认收货！");
+        } else {
+            return CommonResult.failed("修改订单状态失败！");
         }
     }
 

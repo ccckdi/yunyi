@@ -21,7 +21,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     private OmsOrderGoodsMapper orderGoodsMapper;
 
     @Override
-    public void insert(OmsOrderGoods orderGoods) {
+    public void create(OmsOrderGoods orderGoods) {
         orderGoodsMapper.insert(orderGoods);
     }
 

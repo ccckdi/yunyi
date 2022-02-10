@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface OrderGoodsService {
 
-    void insert(OmsOrderGoods orderGoods);
+    void create(OmsOrderGoods orderGoods);
 
     /**
      * 根据订单id查询订单下的商品
