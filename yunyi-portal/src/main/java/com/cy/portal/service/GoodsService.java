@@ -16,7 +16,7 @@ public interface GoodsService {
     Long getGoodsCount();
 
     //根据分类id获取商品列表
-    List<PmsGoods> getGoodsListByCategoryId(Long id, Integer pageNum, Integer pageSize);
+    List<PmsGoods> querySelective(String keyword, Long categoryId, Long brandId,Integer isHot, Integer isNew, Integer pageNum, Integer pageSize, String sort, String order);
 
     //获取商品详情
     PmsGoods getById(Long id);
@@ -32,4 +32,5 @@ public interface GoodsService {
 
     //获取商品产品
     List<PmsGoodsProduct> getProductById(Long id);
+
 }

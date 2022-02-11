@@ -25,7 +25,7 @@ public class CategoryController {
 
     @ApiOperation("分页内容页信息展示")
     @GetMapping("/index")
-    public CommonResult<CategoryContentVo> content() {
+    public CommonResult<CategoryContentVo> index() {
         CategoryContentVo contentResult = categoryService.content();
         return CommonResult.success(contentResult);
     }

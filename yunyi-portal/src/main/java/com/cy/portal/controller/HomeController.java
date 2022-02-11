@@ -24,7 +24,7 @@ public class HomeController {
 
     @ApiOperation("首页内容页信息展示")
     @GetMapping("/index")
-    public CommonResult<HomeContentVo> content() {
+    public CommonResult<HomeContentVo> index() {
         HomeContentVo contentResult = homeService.content();
         return CommonResult.success(contentResult);
     }

@@ -2,8 +2,10 @@ package com.cy.portal.service;
 
 import com.cy.portal.vo.CategoryContentVo;
 import com.cy.yunyi.model.PmsCategory;
+import com.cy.yunyi.model.PmsGoods;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: chx
@@ -26,4 +28,11 @@ public interface CategoryService {
      * 根据id获取当前分类的子类
      */
     List<PmsCategory> getSubCategoryById(Long id);
+
+    List<PmsCategory> queryL2ByGoods(List<Long> categoryIdList);
+
+    /**
+     * 根据查询条件获取id列表
+     */
+    List<Long> queryIdsSelective(Long brandId, String keyword, Integer isHot, Integer isNew);
 }

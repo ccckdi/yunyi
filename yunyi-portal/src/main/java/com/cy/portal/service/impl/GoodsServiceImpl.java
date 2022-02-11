@@ -7,6 +7,7 @@ import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,14 +43,6 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.countByExample(new PmsGoodsExample());
     }
 
-    @Override
-    public List<PmsGoods> getGoodsListByCategoryId(Long id, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        PmsGoodsExample example = new PmsGoodsExample();
-        example.createCriteria().andCategoryIdEqualTo(id).andStatusEqualTo(1);
-        List<PmsGoods> goodsList = goodsMapper.selectByExample(example);
-        return goodsList;
-    }
 
     @Override
     public PmsGoods getById(Long id) {
@@ -62,6 +55,47 @@ public class GoodsServiceImpl implements GoodsService {
         example.createCriteria().andGoodsIdEqualTo(id).andStatusEqualTo(1);
         List<PmsGoodsAttribute> attributeList = attributeMapper.selectByExample(example);
         return attributeList;
+    }
+
+    @Override
+    public List<PmsGoods> querySelective(String keyword, Long categoryId, Long brandId,
+                                         Integer isHot, Integer isNew,
+                                         Integer pageNum, Integer pageSize,
+                                         String sort, String order) {
+        PageHelper.startPage(pageNum,pageSize);
+        PmsGoodsExample example = new PmsGoodsExample();
+        PmsGoodsExample.Criteria criteria1 = example.or();
+        PmsGoodsExample.Criteria criteria2 = example.or();
+        if (!StringUtils.isEmpty(keyword)) {
+            criteria1.andKeywordsLike("%" + keyword + "%");
+            criteria2.andNameLike("%" + keyword + "%");
+        }
+        if (!StringUtils.isEmpty(categoryId) && categoryId != 0) {
+            criteria1.andCategoryIdEqualTo(categoryId);
+            criteria2.andCategoryIdEqualTo(categoryId);
+        }
+        if (!StringUtils.isEmpty(brandId)) {
+            criteria1.andBrandIdEqualTo(brandId);
+            criteria2.andBrandIdEqualTo(brandId);
+        }
+        if (!StringUtils.isEmpty(isHot)) {
+            criteria1.andIsHotEqualTo(isHot);
+            criteria2.andIsHotEqualTo(isHot);
+        }if (!StringUtils.isEmpty(isNew)) {
+            criteria1.andIsNewEqualTo(isNew);
+            criteria2.andIsNewEqualTo(isNew);
+        }
+
+        criteria1.andStatusEqualTo(1);
+        criteria2.andStatusEqualTo(1);
+
+        //排序
+        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
+            example.setOrderByClause(sort + " " + order);
+        }
+
+        List<PmsGoods> goodsList = goodsMapper.selectByExample(example);
+        return goodsList;
     }
 
     @Override
@@ -113,4 +147,5 @@ public class GoodsServiceImpl implements GoodsService {
         List<PmsGoodsProduct> productList = productMapper.selectByExample(example);
         return productList;
     }
+
 }

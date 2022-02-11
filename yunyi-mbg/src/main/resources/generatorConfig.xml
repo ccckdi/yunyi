@@ -58,9 +58,9 @@
 <!--                <columnOverride column="specifications" javaType="java.lang.String[]"-->
 <!--                                typeHandler="com.cy.yunyi.mybatis.JsonStringArrayTypeHandler"/>-->
 <!--            </table>-->
-        <table tableName="rms_footprint">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+<!--        <table tableName="rms_footprint">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
         <table tableName="rms_search_history">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
