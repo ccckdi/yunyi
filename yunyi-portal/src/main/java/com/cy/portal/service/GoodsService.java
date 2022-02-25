@@ -2,6 +2,7 @@ package com.cy.portal.service;
 
 import com.cy.portal.vo.GoodsSpecificationVo;
 import com.cy.yunyi.model.*;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -33,4 +34,5 @@ public interface GoodsService {
     //获取商品产品
     List<PmsGoodsProduct> getProductById(Long id);
 
+    List<PmsGoods> recommendByCategoryId(Long itemId, Long categoryId);
 }

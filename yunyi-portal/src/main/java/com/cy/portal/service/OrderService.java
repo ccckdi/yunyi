@@ -3,8 +3,10 @@ package com.cy.portal.service;
 import com.alipay.api.AlipayApiException;
 import com.cy.portal.vo.PayAsyncVo;
 import com.cy.portal.dto.SubmitOrderDto;
+import com.cy.yunyi.model.OmsOrder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,4 +70,6 @@ public interface OrderService {
     Integer confirm(Long userId, Long orderId);
 
     Integer refund(Long userId, Long orderId);
+
+    List<OmsOrder> queryByUserId(Long userId);
 }

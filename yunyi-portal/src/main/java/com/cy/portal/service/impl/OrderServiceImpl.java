@@ -365,6 +365,16 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    @Override
+    public List<OmsOrder> queryByUserId(Long userId) {
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andStatusEqualTo(1);
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        return orderList;
+    }
+
 
     /**
      * 根据订单状态获取订单

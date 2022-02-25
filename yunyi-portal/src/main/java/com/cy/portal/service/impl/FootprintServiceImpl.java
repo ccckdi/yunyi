@@ -45,4 +45,14 @@ public class FootprintServiceImpl implements FootprintService {
         List<RmsFootprint> footprintList = footprintMapper.selectByExample(example);
         return footprintList;
     }
+
+    @Override
+    public List<RmsFootprint> queryByUserId(Long userId) {
+        RmsFootprintExample example = new RmsFootprintExample();
+        RmsFootprintExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andStatusEqualTo(1);
+        List<RmsFootprint> footprintList = footprintMapper.selectByExample(example);
+        return footprintList;
+    }
 }

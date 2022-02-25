@@ -13,4 +13,6 @@ public interface FootprintService {
     void create(RmsFootprint footprint);
 
     List<RmsFootprint> list(Long userId, Integer pageNum, Integer pageSize, String sort, String order);
+
+    List<RmsFootprint> queryByUserId(Long userId);
 }
