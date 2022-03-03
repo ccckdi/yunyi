@@ -31,10 +31,10 @@ public class RecommendController {
 
     @ApiOperation("进行推荐")
     @PostMapping("/doRecommend")
-    public CommonResult doRecommend(@LoginUser Long userId) {
-        if (userId == null) {
-            return CommonResult.validateFailed();
-        }
+    public CommonResult doRecommend(@RequestParam Long userId) {
+//        if (userId == null) {
+//            return CommonResult.validateFailed();
+//        }
 
         List<PmsGoods> goodsList = calculateItemScore.recommendByUserId(userId);
         return CommonResult.success(goodsList);
@@ -42,10 +42,10 @@ public class RecommendController {
 
     @ApiOperation("计算用户喜好物品得分")
     @PostMapping("/compute")
-    public CommonResult compute(@LoginUser Long userId) {
-        if (userId == null) {
-            return CommonResult.validateFailed();
-        }
+    public CommonResult compute(@RequestParam Long userId) {
+//        if (userId == null) {
+//            return CommonResult.validateFailed();
+//        }
 
         calculateItemScore.computeResultByUserId(userId);
         return CommonResult.success();

@@ -46,7 +46,8 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public PmsGoods getById(Long id) {
-        return goodsMapper.selectByPrimaryKey(id);
+        PmsGoods pmsGoods = goodsMapper.selectByPrimaryKey(id);
+        return pmsGoods;
     }
 
     @Override

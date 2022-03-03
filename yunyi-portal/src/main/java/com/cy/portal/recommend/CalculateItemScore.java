@@ -40,24 +40,30 @@ public class CalculateItemScore {
         //读取推荐得分
         List<ItemPreferencesDto> scoreList = itemBaseCacheService.getScore(userId);
         scoreList = scoreList.stream().sorted(Comparator.comparing(ItemPreferencesDto::getScore).reversed()).collect(Collectors.toList());
-        //每个类型商品的权重
-        int[] weight = {4,3,2};
+        //已经推荐的分类
+//        Set<Long> categorySet = new HashSet<>();
         //推荐总数
         int size = 9;
         //推荐集合
         List<PmsGoods> recommendList = new ArrayList<>(size);
+        //TODO 数据不足时推荐数量达不到推荐总数
         //进行推荐
-        for (int i = 0; i < scoreList.size(); i++) {
+        for (int i = 0; i < scoreList.size() && i < size; i++) {
             ItemPreferencesDto itemPreferencesDto = scoreList.get(i);
             Long itemId = itemPreferencesDto.getItemId();
             PmsGoods goods = goodsService.getById(itemId);
+            if (goods == null) {
+                continue;
+            }
             Long categoryId = goods.getCategoryId();
-            int w = weight[i];
             List<PmsGoods> goodsList = goodsService.recommendByCategoryId(itemId,categoryId);
-            for (int j = 0; j < goodsList.size(); j++) {
-                recommendList.add(goodsList.get(i));
-                if (i == w){
-                    break;
+            for (PmsGoods recommendGood : goodsList) {
+                if (recommendList.contains(recommendGood)){
+                    //跳过已推荐的商品
+                    continue;
+                }else {
+                    //加入推荐
+                    recommendList.add(recommendGood);
                 }
             }
         }
