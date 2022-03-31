@@ -31,24 +31,26 @@ public class CalculateItemScore {
 
     @Autowired
     private ItemBaseCacheService itemBaseCacheService;
-    /**
-     * 浏览 1分
-     * 收藏 2分
-     * 购买 3分
-     */
+
     public List<PmsGoods> recommendByUserId(Long userId){
+        //计算推荐得分
+        computeResultByUserId(userId);
         //读取推荐得分
         List<ItemPreferencesDto> scoreList = itemBaseCacheService.getScore(userId);
-        scoreList = scoreList.stream().sorted(Comparator.comparing(ItemPreferencesDto::getScore).reversed()).collect(Collectors.toList());
+        scoreList = scoreList.stream()
+                .sorted(Comparator.comparing(ItemPreferencesDto::getScore).reversed())
+                .collect(Collectors.toList());
         //已经推荐的分类
 //        Set<Long> categorySet = new HashSet<>();
         //推荐总数
-        int size = 9;
+        int size = 6;
+        //所有预推荐商品集合
+        Map<Long,List<PmsGoods>> preRecommendMap = new HashMap<>();
         //推荐集合
         List<PmsGoods> recommendList = new ArrayList<>(size);
         //TODO 数据不足时推荐数量达不到推荐总数
         //进行推荐
-        for (int i = 0; i < scoreList.size() && i < size; i++) {
+        for (int i = 0; i < scoreList.size(); i++) {
             ItemPreferencesDto itemPreferencesDto = scoreList.get(i);
             Long itemId = itemPreferencesDto.getItemId();
             PmsGoods goods = goodsService.getById(itemId);
@@ -56,20 +58,32 @@ public class CalculateItemScore {
                 continue;
             }
             Long categoryId = goods.getCategoryId();
+            if (preRecommendMap.containsKey(categoryId)){
+                continue;
+            }
             List<PmsGoods> goodsList = goodsService.recommendByCategoryId(itemId,categoryId);
-            for (PmsGoods recommendGood : goodsList) {
-                if (recommendList.contains(recommendGood)){
-                    //跳过已推荐的商品
-                    continue;
-                }else {
-                    //加入推荐
-                    recommendList.add(recommendGood);
-                }
+            preRecommendMap.put(categoryId,goodsList);
+        }
+        for (Long categoryId : preRecommendMap.keySet()) {
+            List<PmsGoods> goodsList = preRecommendMap.get(categoryId);
+            if (goodsList.size() > 2){
+                recommendList.add(goodsList.get(0));
+                recommendList.add(goodsList.get(1));
+            }
+            if (recommendList.size() >= size){
+                break;
             }
         }
         return recommendList;
     }
 
+    /**
+     * 计算推荐得分
+     * @param userId
+     * 浏览 1分
+     * 收藏 2分
+     * 购买 3分
+     */
     public void computeResultByUserId(Long userId){
         //{商品id,得分}
         Map<Long,Integer> score = new HashMap<>();

@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,22 +27,21 @@ public class RecommendController {
     private CalculateItemScore calculateItemScore;
 
     @ApiOperation("进行推荐")
-    @PostMapping("/doRecommend")
-    public CommonResult doRecommend(@RequestParam Long userId) {
-//        if (userId == null) {
-//            return CommonResult.validateFailed();
-//        }
-
+    @GetMapping("/doRecommend")
+    public CommonResult doRecommend(@LoginUser Long userId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
         List<PmsGoods> goodsList = calculateItemScore.recommendByUserId(userId);
         return CommonResult.success(goodsList);
     }
 
     @ApiOperation("计算用户喜好物品得分")
-    @PostMapping("/compute")
-    public CommonResult compute(@RequestParam Long userId) {
-//        if (userId == null) {
-//            return CommonResult.validateFailed();
-//        }
+    @GetMapping("/compute")
+    public CommonResult compute(@LoginUser Long userId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
 
         calculateItemScore.computeResultByUserId(userId);
         return CommonResult.success();

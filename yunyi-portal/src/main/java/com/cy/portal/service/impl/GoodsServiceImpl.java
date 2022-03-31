@@ -152,7 +152,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<PmsGoods> recommendByCategoryId(Long itemId, Long categoryId) {
         PmsGoodsExample example = new PmsGoodsExample();
-        example.createCriteria().andIdNotEqualTo(itemId).andCategoryIdEqualTo(categoryId).andIsHotEqualTo(1).andStatusEqualTo(1);
+        example.createCriteria().andIdNotEqualTo(itemId).andCategoryIdEqualTo(categoryId).andStatusEqualTo(1);
         List<PmsGoods> goodsList = goodsMapper.selectByExample(example);
         return goodsList;
     }
