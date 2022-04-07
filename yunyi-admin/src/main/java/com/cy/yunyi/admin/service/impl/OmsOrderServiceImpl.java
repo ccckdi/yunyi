@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,12 +25,35 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     private OmsOrderMapper orderMapper;
 
     @Override
-    public List<OmsOrder> list(String keyword, Integer pageSize, Integer pageNum) {
+    public List<OmsOrder> list(String orderSn, String receiverKeyword, Integer status, Date createTime, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
         OmsOrderExample example = new OmsOrderExample();
-        if (!StringUtils.isEmpty(keyword)){
-            example.createCriteria().andOrderSnEqualTo(keyword);
+        OmsOrderExample.Criteria criteria1 = example.or();
+        OmsOrderExample.Criteria criteria2 = example.or();
+        if (!StringUtils.isEmpty(orderSn)){
+            criteria1.andOrderSnEqualTo(orderSn);
+            criteria2.andOrderSnEqualTo(orderSn);
         }
+        if (!StringUtils.isEmpty(receiverKeyword)){
+            criteria1.andConsigneeEqualTo(receiverKeyword);
+            criteria2.andMobileEqualTo(receiverKeyword);
+        }
+        if (status != null){
+            criteria1.andOrderStatusEqualTo(status);
+            criteria2.andOrderStatusEqualTo(status);
+        }
+        if (createTime != null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(createTime);//设置起时间
+            cal.add(Calendar.DATE, 1);//增加一天
+            Date endTime = cal.getTime();
+            criteria1.andCreateTimeBetween(createTime,endTime);
+            criteria2.andCreateTimeBetween(createTime,endTime);
+        }
+
+        criteria1.andStatusEqualTo(1);
+        criteria2.andStatusEqualTo(1);
+
         List<OmsOrder> orderList = orderMapper.selectByExample(example);
         return orderList;
     }

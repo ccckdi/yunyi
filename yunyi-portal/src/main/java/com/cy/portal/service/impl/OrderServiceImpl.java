@@ -164,7 +164,7 @@ public class OrderServiceImpl implements OrderService {
      *                 1，待付款；
      *                 2，待发货；
      *                 3，待收货；
-     *                 4，待评价。
+     *                 4，待评论。
      * @param pageSize     分页页数
      * @param pageNum     分页大小
      * @return

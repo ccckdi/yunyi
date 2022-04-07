@@ -7,8 +7,10 @@ import com.cy.yunyi.model.OmsOrder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,12 +26,15 @@ public class OmsOrderController {
     @Autowired
     private OmsOrderService orderService;
 
-    @ApiOperation("根据订单名称分页获取订单列表")
+    @ApiOperation("根据查询参数分页获取订单列表")
     @GetMapping("list")
-    public CommonResult<CommonPage<OmsOrder>> list(@RequestParam(value = "keyword", required = false) String keyword,
+    public CommonResult<CommonPage<OmsOrder>> list(@RequestParam(value = "orderSn", required = false) String orderSn,
+                                                   @RequestParam(value = "receiverKeyword", required = false) String receiverKeyword,
+                                                   @RequestParam(value = "status", required = false) Integer status,
+                                                   @DateTimeFormat(pattern="yyyy-MM-dd") @RequestParam(value = "createTime", required = false)Date createTime,
                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<OmsOrder> orderList = orderService.list(keyword, pageSize, pageNum);
+        List<OmsOrder> orderList = orderService.list(orderSn, receiverKeyword, status, createTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(orderList));
     }
 
