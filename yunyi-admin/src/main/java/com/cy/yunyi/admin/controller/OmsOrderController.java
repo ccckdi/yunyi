@@ -1,6 +1,7 @@
 package com.cy.yunyi.admin.controller;
 
 import com.cy.yunyi.admin.service.OmsOrderService;
+import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
 import com.cy.yunyi.model.OmsOrder;
@@ -38,4 +39,10 @@ public class OmsOrderController {
         return CommonResult.success(CommonPage.restPage(orderList));
     }
 
+    @ApiOperation("获取订单详情：订单信息、商品信息、操作记录")
+    @GetMapping(value = "/{id}")
+    public CommonResult<OmsOrderDetailsVo> detail(@PathVariable Long id) {
+        OmsOrderDetailsVo orderDetailResult = orderService.detail(id);
+        return CommonResult.success(orderDetailResult);
+    }
 }

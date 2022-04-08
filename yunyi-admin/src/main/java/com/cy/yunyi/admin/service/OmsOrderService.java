@@ -1,5 +1,6 @@
 package com.cy.yunyi.admin.service;
 
+import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
 import com.cy.yunyi.model.OmsOrder;
 
 import java.util.Date;
@@ -12,4 +13,6 @@ import java.util.List;
  **/
 public interface OmsOrderService {
     List<OmsOrder> list(String orderSn,String receiverKeyword,Integer status, Date createTime, Integer pageSize, Integer pageNum);
+
+    OmsOrderDetailsVo detail(Long id);
 }

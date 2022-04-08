@@ -1,10 +1,15 @@
 package com.cy.yunyi.admin.service.impl;
 
 import com.cy.yunyi.admin.service.OmsOrderService;
+import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
+import com.cy.yunyi.mapper.OmsOrderGoodsMapper;
 import com.cy.yunyi.mapper.OmsOrderMapper;
 import com.cy.yunyi.model.OmsOrder;
 import com.cy.yunyi.model.OmsOrderExample;
+import com.cy.yunyi.model.OmsOrderGoods;
+import com.cy.yunyi.model.OmsOrderGoodsExample;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,6 +28,9 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Autowired
     private OmsOrderMapper orderMapper;
+
+    @Autowired
+    private OmsOrderGoodsMapper orderGoodsMapper;
 
     @Override
     public List<OmsOrder> list(String orderSn, String receiverKeyword, Integer status, Date createTime, Integer pageSize, Integer pageNum) {
@@ -56,5 +64,27 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
         List<OmsOrder> orderList = orderMapper.selectByExample(example);
         return orderList;
+    }
+
+    @Override
+    public OmsOrderDetailsVo detail(Long id) {
+        OmsOrderDetailsVo omsOrderDetailsVo = new OmsOrderDetailsVo();
+
+        //订单信息
+        OmsOrderExample orderExample = new OmsOrderExample();
+        orderExample.createCriteria().andIdEqualTo(id).andStatusEqualTo(1);
+        List<OmsOrder> orderList = orderMapper.selectByExample(orderExample);
+        if (orderList != null && orderList.size() > 0){
+            BeanUtils.copyProperties(orderList.get(0), omsOrderDetailsVo);
+        }
+
+        //商品列表
+        OmsOrderGoodsExample orderGoodsExample = new OmsOrderGoodsExample();
+        OmsOrderGoodsExample.Criteria criteria = orderGoodsExample.createCriteria();
+        criteria.andOrderIdEqualTo(id);
+        criteria.andStatusEqualTo(1);
+        List<OmsOrderGoods> omsOrderGoodsList = orderGoodsMapper.selectByExample(orderGoodsExample);
+        omsOrderDetailsVo.setOmsOrderGoodsList(omsOrderGoodsList);
+        return omsOrderDetailsVo;
     }
 }
