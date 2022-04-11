@@ -3,7 +3,8 @@
 <mapper namespace="com.cy.yunyi.mapper.OmsOrderMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.OmsOrder">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_username" jdbcType="VARCHAR" property="memberUsername" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
     <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
     <result column="aftersale_status" jdbcType="INTEGER" property="aftersaleStatus" />
@@ -89,10 +90,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, order_sn, order_status, aftersale_status, consignee, mobile, address, 
-    message, goods_price, freight_price, order_price, actual_price, pay_id, pay_time, 
-    ship_sn, ship_channel, ship_time, refund_amount, refund_type, refund_content, refund_time, 
-    confirm_time, end_time, create_time, update_time, status
+    id, member_id, member_username, order_sn, order_status, aftersale_status, consignee, 
+    mobile, address, message, goods_price, freight_price, order_price, actual_price, 
+    pay_id, pay_time, ship_sn, ship_channel, ship_time, refund_amount, refund_type, refund_content, 
+    refund_time, confirm_time, end_time, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.OmsOrderExample" resultMap="BaseResultMap">
     select
@@ -128,24 +129,26 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into oms_order (user_id, order_sn, order_status, 
-      aftersale_status, consignee, mobile, 
-      address, message, goods_price, 
-      freight_price, order_price, actual_price, 
-      pay_id, pay_time, ship_sn, 
-      ship_channel, ship_time, refund_amount, 
-      refund_type, refund_content, refund_time, 
-      confirm_time, end_time, create_time, 
-      update_time, status)
-    values (#{userId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, 
-      #{aftersaleStatus,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
-      #{freightPrice,jdbcType=DECIMAL}, #{orderPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
-      #{payId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{shipSn,jdbcType=VARCHAR}, 
-      #{shipChannel,jdbcType=VARCHAR}, #{shipTime,jdbcType=TIMESTAMP}, #{refundAmount,jdbcType=DECIMAL}, 
-      #{refundType,jdbcType=VARCHAR}, #{refundContent,jdbcType=VARCHAR}, #{refundTime,jdbcType=TIMESTAMP}, 
-      #{confirmTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    insert into oms_order (member_id, member_username, order_sn, 
+      order_status, aftersale_status, consignee, 
+      mobile, address, message, 
+      goods_price, freight_price, order_price, 
+      actual_price, pay_id, pay_time, 
+      ship_sn, ship_channel, ship_time, 
+      refund_amount, refund_type, refund_content, 
+      refund_time, confirm_time, end_time, 
+      create_time, update_time, status
+      )
+    values (#{memberId,jdbcType=BIGINT}, #{memberUsername,jdbcType=VARCHAR}, #{orderSn,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=INTEGER}, #{aftersaleStatus,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{freightPrice,jdbcType=DECIMAL}, #{orderPrice,jdbcType=DECIMAL}, 
+      #{actualPrice,jdbcType=DECIMAL}, #{payId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{shipSn,jdbcType=VARCHAR}, #{shipChannel,jdbcType=VARCHAR}, #{shipTime,jdbcType=TIMESTAMP}, 
+      #{refundAmount,jdbcType=DECIMAL}, #{refundType,jdbcType=VARCHAR}, #{refundContent,jdbcType=VARCHAR}, 
+      #{refundTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.cy.yunyi.model.OmsOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -153,8 +156,11 @@
     </selectKey>
     insert into oms_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="memberUsername != null">
+        member_username,
       </if>
       <if test="orderSn != null">
         order_sn,
@@ -233,8 +239,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberUsername != null">
+        #{memberUsername,jdbcType=VARCHAR},
       </if>
       <if test="orderSn != null">
         #{orderSn,jdbcType=VARCHAR},
@@ -325,8 +334,11 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=BIGINT},
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberUsername != null">
+        member_username = #{record.memberUsername,jdbcType=VARCHAR},
       </if>
       <if test="record.orderSn != null">
         order_sn = #{record.orderSn,jdbcType=VARCHAR},
@@ -411,7 +423,8 @@
   <update id="updateByExample" parameterType="map">
     update oms_order
     set id = #{record.id,jdbcType=BIGINT},
-      user_id = #{record.userId,jdbcType=BIGINT},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      member_username = #{record.memberUsername,jdbcType=VARCHAR},
       order_sn = #{record.orderSn,jdbcType=VARCHAR},
       order_status = #{record.orderStatus,jdbcType=INTEGER},
       aftersale_status = #{record.aftersaleStatus,jdbcType=INTEGER},
@@ -444,8 +457,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cy.yunyi.model.OmsOrder">
     update oms_order
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=BIGINT},
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberUsername != null">
+        member_username = #{memberUsername,jdbcType=VARCHAR},
       </if>
       <if test="orderSn != null">
         order_sn = #{orderSn,jdbcType=VARCHAR},
@@ -527,7 +543,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.OmsOrder">
     update oms_order
-    set user_id = #{userId,jdbcType=BIGINT},
+    set member_id = #{memberId,jdbcType=BIGINT},
+      member_username = #{memberUsername,jdbcType=VARCHAR},
       order_sn = #{orderSn,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=INTEGER},
       aftersale_status = #{aftersaleStatus,jdbcType=INTEGER},

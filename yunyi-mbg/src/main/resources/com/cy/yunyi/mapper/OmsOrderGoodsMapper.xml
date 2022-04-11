@@ -6,6 +6,7 @@
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
     <result column="product_id" jdbcType="BIGINT" property="productId" />
     <result column="number" jdbcType="INTEGER" property="number" />
@@ -114,8 +115,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications, 
-    icon, comment, create_time, update_time, status
+    id, order_id, goods_id, goods_name, brand_name, goods_sn, product_id, number, price, 
+    specifications, icon, comment, create_time, update_time, status
   </sql>
   <select id="selectByExample" parameterType="com.cy.yunyi.model.OmsOrderGoodsExample" resultMap="BaseResultMap">
     select
@@ -152,13 +153,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into oms_order_goods (order_id, goods_id, goods_name, 
-      goods_sn, product_id, number, 
-      price, specifications, 
+      brand_name, goods_sn, product_id, 
+      number, price, specifications, 
       icon, comment, create_time, 
       update_time, status)
     values (#{orderId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, 
-      #{goodsSn,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, #{number,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{specifications,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}, 
+      #{brandName,jdbcType=VARCHAR}, #{goodsSn,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, 
+      #{number,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{specifications,jdbcType=VARCHAR,typeHandler=com.cy.yunyi.mybatis.JsonStringArrayTypeHandler}, 
       #{icon,jdbcType=VARCHAR}, #{comment,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
@@ -176,6 +177,9 @@
       </if>
       <if test="goodsName != null">
         goods_name,
+      </if>
+      <if test="brandName != null">
+        brand_name,
       </if>
       <if test="goodsSn != null">
         goods_sn,
@@ -217,6 +221,9 @@
       </if>
       <if test="goodsName != null">
         #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
       </if>
       <if test="goodsSn != null">
         #{goodsSn,jdbcType=VARCHAR},
@@ -271,6 +278,9 @@
       <if test="record.goodsName != null">
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
       </if>
+      <if test="record.brandName != null">
+        brand_name = #{record.brandName,jdbcType=VARCHAR},
+      </if>
       <if test="record.goodsSn != null">
         goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       </if>
@@ -312,6 +322,7 @@
       order_id = #{record.orderId,jdbcType=BIGINT},
       goods_id = #{record.goodsId,jdbcType=BIGINT},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      brand_name = #{record.brandName,jdbcType=VARCHAR},
       goods_sn = #{record.goodsSn,jdbcType=VARCHAR},
       product_id = #{record.productId,jdbcType=BIGINT},
       number = #{record.number,jdbcType=INTEGER},
@@ -337,6 +348,9 @@
       </if>
       <if test="goodsName != null">
         goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
       </if>
       <if test="goodsSn != null">
         goods_sn = #{goodsSn,jdbcType=VARCHAR},
@@ -376,6 +390,7 @@
     set order_id = #{orderId,jdbcType=BIGINT},
       goods_id = #{goodsId,jdbcType=BIGINT},
       goods_name = #{goodsName,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
       goods_sn = #{goodsSn,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=BIGINT},
       number = #{number,jdbcType=INTEGER},

@@ -9,7 +9,10 @@ public class OmsOrder implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "用户表的用户ID")
-    private Long userId;
+    private Long memberId;
+
+    @ApiModelProperty(value = "用户名")
+    private String memberUsername;
 
     @ApiModelProperty(value = "订单编号")
     private String orderSn;
@@ -96,12 +99,20 @@ public class OmsOrder implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getMemberId() {
+        return memberId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getMemberUsername() {
+        return memberUsername;
+    }
+
+    public void setMemberUsername(String memberUsername) {
+        this.memberUsername = memberUsername;
     }
 
     public String getOrderSn() {
@@ -311,7 +322,8 @@ public class OmsOrder implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
+        sb.append(", memberId=").append(memberId);
+        sb.append(", memberUsername=").append(memberUsername);
         sb.append(", orderSn=").append(orderSn);
         sb.append(", orderStatus=").append(orderStatus);
         sb.append(", aftersaleStatus=").append(aftersaleStatus);

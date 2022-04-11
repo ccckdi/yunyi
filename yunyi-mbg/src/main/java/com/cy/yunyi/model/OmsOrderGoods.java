@@ -17,6 +17,9 @@ public class OmsOrderGoods implements Serializable {
     @ApiModelProperty(value = "商品名称")
     private String goodsName;
 
+    @ApiModelProperty(value = "品牌名称")
+    private String brandName;
+
     @ApiModelProperty(value = "商品编号")
     private String goodsSn;
 
@@ -79,6 +82,14 @@ public class OmsOrderGoods implements Serializable {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public String getGoodsSn() {
@@ -171,6 +182,7 @@ public class OmsOrderGoods implements Serializable {
         sb.append(", orderId=").append(orderId);
         sb.append(", goodsId=").append(goodsId);
         sb.append(", goodsName=").append(goodsName);
+        sb.append(", brandName=").append(brandName);
         sb.append(", goodsSn=").append(goodsSn);
         sb.append(", productId=").append(productId);
         sb.append(", number=").append(number);
