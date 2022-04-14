@@ -4,10 +4,8 @@ import com.cy.yunyi.admin.service.OmsOrderService;
 import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
 import com.cy.yunyi.mapper.OmsOrderGoodsMapper;
 import com.cy.yunyi.mapper.OmsOrderMapper;
-import com.cy.yunyi.model.OmsOrder;
-import com.cy.yunyi.model.OmsOrderExample;
-import com.cy.yunyi.model.OmsOrderGoods;
-import com.cy.yunyi.model.OmsOrderGoodsExample;
+import com.cy.yunyi.mapper.UmsMemberMapper;
+import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,9 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Autowired
     private OmsOrderMapper orderMapper;
+
+    @Autowired
+    private UmsMemberMapper memberMapper;
 
     @Autowired
     private OmsOrderGoodsMapper orderGoodsMapper;

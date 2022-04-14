@@ -3,7 +3,7 @@
 <mapper namespace="com.cy.yunyi.mapper.OmsOrderMapper">
   <resultMap id="BaseResultMap" type="com.cy.yunyi.model.OmsOrder">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="member_username" jdbcType="VARCHAR" property="memberUsername" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
     <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
@@ -90,7 +90,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, member_username, order_sn, order_status, aftersale_status, consignee, 
+    id, user_id, member_username, order_sn, order_status, aftersale_status, consignee, 
     mobile, address, message, goods_price, freight_price, order_price, actual_price, 
     pay_id, pay_time, ship_sn, ship_channel, ship_time, refund_amount, refund_type, refund_content, 
     refund_time, confirm_time, end_time, create_time, update_time, status
@@ -129,7 +129,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into oms_order (member_id, member_username, order_sn, 
+    insert into oms_order (user_id, member_username, order_sn, 
       order_status, aftersale_status, consignee, 
       mobile, address, message, 
       goods_price, freight_price, order_price, 
@@ -139,7 +139,7 @@
       refund_time, confirm_time, end_time, 
       create_time, update_time, status
       )
-    values (#{memberId,jdbcType=BIGINT}, #{memberUsername,jdbcType=VARCHAR}, #{orderSn,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=BIGINT}, #{memberUsername,jdbcType=VARCHAR}, #{orderSn,jdbcType=VARCHAR}, 
       #{orderStatus,jdbcType=INTEGER}, #{aftersaleStatus,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
       #{goodsPrice,jdbcType=DECIMAL}, #{freightPrice,jdbcType=DECIMAL}, #{orderPrice,jdbcType=DECIMAL}, 
@@ -156,8 +156,8 @@
     </selectKey>
     insert into oms_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="memberId != null">
-        member_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="memberUsername != null">
         member_username,
@@ -239,8 +239,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="memberId != null">
-        #{memberId,jdbcType=BIGINT},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="memberUsername != null">
         #{memberUsername,jdbcType=VARCHAR},
@@ -334,8 +334,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=BIGINT},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.memberUsername != null">
         member_username = #{record.memberUsername,jdbcType=VARCHAR},
@@ -423,7 +423,7 @@
   <update id="updateByExample" parameterType="map">
     update oms_order
     set id = #{record.id,jdbcType=BIGINT},
-      member_id = #{record.memberId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
       member_username = #{record.memberUsername,jdbcType=VARCHAR},
       order_sn = #{record.orderSn,jdbcType=VARCHAR},
       order_status = #{record.orderStatus,jdbcType=INTEGER},
@@ -457,8 +457,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cy.yunyi.model.OmsOrder">
     update oms_order
     <set>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=BIGINT},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="memberUsername != null">
         member_username = #{memberUsername,jdbcType=VARCHAR},
@@ -543,7 +543,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cy.yunyi.model.OmsOrder">
     update oms_order
-    set member_id = #{memberId,jdbcType=BIGINT},
+    set user_id = #{userId,jdbcType=BIGINT},
       member_username = #{memberUsername,jdbcType=VARCHAR},
       order_sn = #{orderSn,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=INTEGER},

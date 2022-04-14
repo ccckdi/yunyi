@@ -1,5 +1,7 @@
 package com.cy.portal.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alipay.api.AlipayApiException;
 import com.cy.portal.vo.*;
 import com.cy.portal.dto.SubmitOrderDto;
@@ -9,8 +11,13 @@ import com.cy.portal.service.*;
 import com.cy.portal.util.AlipayUtil;
 import com.cy.portal.util.OrderHandleOption;
 import com.cy.portal.util.OrderUtil;
+import com.cy.yunyi.common.api.CommonResult;
+import com.cy.yunyi.common.api.ResultCode;
+import com.cy.yunyi.common.constant.AuthConstant;
+import com.cy.yunyi.common.domain.UserDto;
 import com.cy.yunyi.common.exception.Asserts;
 import com.cy.yunyi.mapper.OmsOrderMapper;
+import com.cy.yunyi.mapper.UmsMemberMapper;
 import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +39,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OmsOrderMapper orderMapper;
+
+    @Autowired
+    private UmsMemberMapper memberMapper;
 
     @Autowired
     private OrderGoodsService orderGoodsService;
@@ -93,6 +103,8 @@ public class OrderServiceImpl implements OrderService {
         // 订单
         order = new OmsOrder();
         order.setUserId(userId);
+        UmsMember member = memberMapper.selectByPrimaryKey(userId);
+        order.setMemberUsername(member.getUsername());
         order.setOrderSn(this.generateOrderSn(userId));
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
         order.setConsignee(checkedAddress.getName());
