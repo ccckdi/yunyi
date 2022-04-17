@@ -88,7 +88,7 @@ public class GoodsController {
      */
     @ApiOperation("分页内容页信息展示")
     @GetMapping("/list")
-    public CommonResult listByCategoryId(@LoginUser Long userId,
+    public CommonResult listByCategoryId(@LoginUser @RequestParam(required = false) Long userId,
                                          @RequestParam(value = "categoryId",required = false) Long categoryId,
                                          @RequestParam(value = "brandId",required = false) Long brandId,
                                          @RequestParam(value = "keyword",required = false) String keyword,
@@ -96,8 +96,8 @@ public class GoodsController {
                                          @RequestParam(value = "isHot",required = false) Integer isHot,
                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                         @Sort(accepts = {"create_time", "retail_price", "name"}) @RequestParam(defaultValue = "create_time") String sort,
-                                         @Order @RequestParam(defaultValue = "desc") String order) {
+                                         @Sort(accepts = {"create_time", "retail_price", "name"}) @RequestParam(defaultValue = "create_time",required = false) String sort,
+                                         @Order @RequestParam(defaultValue = "desc",required = false) String order) {
         //添加搜索历史
         if (userId != null && !StringUtils.isEmpty(keyword)) {
             RmsSearchHistory searchHistory = new RmsSearchHistory();
@@ -141,7 +141,7 @@ public class GoodsController {
      */
     @ApiOperation("分页内容页信息展示")
     @GetMapping("/detail")
-    public CommonResult detail(@LoginUser Long userId, @RequestParam Long id){
+    public CommonResult detail(@LoginUser @RequestParam(required = false) Long userId, @RequestParam Long id){
         GoodsInfoVo goodsInfoVo = new GoodsInfoVo();
 
 //        // 用户收藏
@@ -149,12 +149,13 @@ public class GoodsController {
 //        if (userId != null) {
 //            userHasCollect = collectService.count(userId, (byte)0, id);
 //        }
-
-        //添加用户足迹
-        RmsFootprint footprint = new RmsFootprint();
-        footprint.setUserId(userId);
-        footprint.setGoodsId(id);
-        footprintService.create(footprint);
+        if (userId != null) {
+            //添加用户足迹
+            RmsFootprint footprint = new RmsFootprint();
+            footprint.setUserId(userId);
+            footprint.setGoodsId(id);
+            footprintService.create(footprint);
+        }
 
         //商品信息
         PmsGoods info = goodsService.getById(id);
