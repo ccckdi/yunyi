@@ -1,10 +1,14 @@
 package com.cy.portal.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.cy.portal.vo.PayVo;
+import com.cy.portal.vo.RefundVo;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -79,5 +83,38 @@ public class AlipayUtil {
 
         // 会收到支付宝的响应，响应的是一个页面，只要浏览器显示这个页面，就会自动来到支付宝的收银台页面
         return alipayClient.pageExecute(aliPayRequest).getBody();
+    }
+
+    /**
+     * 退款
+     * @param vo
+     * @return
+     * @throws AlipayApiException
+     */
+    public String Refund(RefundVo vo) throws AlipayApiException {
+        AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl,
+                appId, merchantPrivateKey, "json",
+                charset, alipayPublicKey, signType);
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        JSONObject bizContent = new JSONObject();
+        // 商户订单号，商户网站订单系统中唯一订单号，必填
+        bizContent.put("trade_no", "2021081722001419121412730660");
+        // 退款金额，必填
+        bizContent.put("refund_amount", 0.01);
+        // 用户的登录id
+        bizContent.put("out_request_no", "HZ01RF001");
+
+        //// 返回参数选项，按需传入
+        //JSONArray queryOptions = new JSONArray();
+        //queryOptions.add("refund_detail_item_list");
+        //bizContent.put("query_options", queryOptions);
+
+        request.setBizContent(bizContent.toString());
+        AlipayTradeRefundResponse response = alipayClient.execute(request);
+        if(response.isSuccess()){
+            System.out.println("调用成功");
+        } else {
+            System.out.println("调用失败");
+        }
     }
 }

@@ -72,4 +72,20 @@ public interface OrderService {
     Integer refund(Long userId, Long orderId);
 
     List<OmsOrder> queryByUserId(Long userId);
+
+    /**
+     * 去付款
+     * @param userId
+     * @param orderId
+     * @return orderSn
+     */
+    String prepay(Long userId, Long orderId);
+
+    /**
+     * 删除订单
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    Integer delete(Long userId, Long orderId);
 }

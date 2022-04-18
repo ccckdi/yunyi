@@ -12,7 +12,9 @@ import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.generator.internal.util.StringUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -129,6 +131,27 @@ public class OrderController {
         }
     }
 
+    /**
+     * 去付款
+     *
+     * @param userId 用户ID
+     * @return 付款链接
+     */
+    @ApiOperation("去付款")
+    @PostMapping("/prepay")
+    public CommonResult prepay(@LoginUser Long userId, @RequestParam(value = "orderId") Long orderId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        String orderSn = orderService.prepay(userId, orderId);
+        if (!StringUtil.isEmpty(orderSn)){
+            return CommonResult.success(orderSn);
+        }else {
+            return CommonResult.failed("订单状态异常，请咨询管理员！");
+        }
+    }
+
     @ApiOperation("阿里支付")
     @GetMapping(value = "/aliPay", produces = "text/html")
     public String aliPay(@RequestParam(value = "orderSn") String orderSn) throws AlipayApiException {
@@ -203,6 +226,29 @@ public class OrderController {
             return CommonResult.failed("订单不能确认收货！");
         } else {
             return CommonResult.failed("修改订单状态失败！");
+        }
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param userId 用户ID
+     * @return 订单操作结果
+     */
+    @ApiOperation("取消订单")
+    @PostMapping("/delete")
+    public CommonResult delete(@LoginUser Long userId, @RequestParam(value = "orderId") Long orderId) {
+        if (userId == null) {
+            return CommonResult.validateFailed();
+        }
+
+        Integer result = orderService.delete(userId, orderId);
+        if (result > 0){
+            return CommonResult.success();
+        }else if (result == -1){
+            return CommonResult.failed("订单不能删除！");
+        } else {
+            return CommonResult.failed("删除订单失败！");
         }
     }
 

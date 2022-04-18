@@ -11,10 +11,6 @@ import com.cy.portal.service.*;
 import com.cy.portal.util.AlipayUtil;
 import com.cy.portal.util.OrderHandleOption;
 import com.cy.portal.util.OrderUtil;
-import com.cy.yunyi.common.api.CommonResult;
-import com.cy.yunyi.common.api.ResultCode;
-import com.cy.yunyi.common.constant.AuthConstant;
-import com.cy.yunyi.common.domain.UserDto;
 import com.cy.yunyi.common.exception.Asserts;
 import com.cy.yunyi.mapper.OmsOrderMapper;
 import com.cy.yunyi.mapper.UmsMemberMapper;
@@ -441,5 +437,53 @@ public class OrderServiceImpl implements OrderService {
         return (int) orderMapper.countByExample(example);
     }
 
+    /**
+     * 去付款
+     * @param userId
+     * @param orderId
+     * @return orderSn
+     */
+    @Override
+    public String prepay(Long userId, Long orderId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
 
+        //非本人操作返回-1
+        if (!order.getUserId().equals(userId)){
+            return null;
+        }
+
+        //校验状态
+        OrderHandleOption handleOption = OrderUtil.build(order);
+        if (!handleOption.isPay()) {
+            return null;
+        }
+        return order.getOrderSn();
+    }
+
+    /**
+     * 删除订单
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    @Override
+    public Integer delete(Long userId, Long orderId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
+
+        //非本人操作返回-1
+        if (!order.getUserId().equals(userId)){
+            return -1;
+        }
+
+        //校验状态
+        OrderHandleOption handleOption = OrderUtil.build(order);
+        if (!handleOption.isDelete()) {
+            return -1;
+        }
+        //逻辑删除
+        order.setStatus(0);
+        order.setUpdateTime(new Date());
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        return result;
+    }
 }

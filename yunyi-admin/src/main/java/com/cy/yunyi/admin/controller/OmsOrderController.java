@@ -45,4 +45,16 @@ public class OmsOrderController {
         OmsOrderDetailsVo orderDetailResult = orderService.detail(id);
         return CommonResult.success(orderDetailResult);
     }
+
+    @ApiOperation("退款订单列表")
+    @GetMapping("refundList")
+    public CommonResult<CommonPage<OmsOrder>> refundList(@RequestParam(value = "orderSn", required = false) String orderSn,
+                                                   @RequestParam(value = "receiverKeyword", required = false) String receiverKeyword,
+                                                   @RequestParam(value = "status", required = false) Integer status,
+                                                   @DateTimeFormat(pattern="yyyy-MM-dd") @RequestParam(value = "createTime", required = false)Date createTime,
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<OmsOrder> orderList = orderService.list(orderSn, receiverKeyword, status, createTime, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(orderList));
+    }
 }
