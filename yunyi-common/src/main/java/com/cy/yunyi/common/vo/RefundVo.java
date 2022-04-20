@@ -1,4 +1,4 @@
-package com.cy.portal.vo;
+package com.cy.yunyi.common.vo;
 
 import lombok.Data;
 
@@ -9,4 +9,7 @@ import lombok.Data;
  */
 @Data
 public class RefundVo {
+    private String tradeNo;
+    private String refundAmount;
+    private String outRequestNo;
 }

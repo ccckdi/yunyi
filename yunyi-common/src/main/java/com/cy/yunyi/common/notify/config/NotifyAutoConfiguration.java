@@ -1,8 +1,8 @@
-package com.cy.portal.notify.config;
+package com.cy.yunyi.common.notify.config;
 
-import com.cy.portal.notify.AliyunSmsSender;
-import com.cy.portal.notify.NotifyService;
-import com.cy.portal.notify.TencentSmsSender;
+import com.cy.yunyi.common.notify.AliyunSmsSender;
+import com.cy.yunyi.common.notify.NotifyService;
+import com.cy.yunyi.common.notify.TencentSmsSender;
 import com.github.qcloudsms.SmsSingleSender;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

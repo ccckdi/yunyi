@@ -1,4 +1,4 @@
-package com.cy.portal.notify.config;
+package com.cy.yunyi.common.notify.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

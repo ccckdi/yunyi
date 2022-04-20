@@ -1,4 +1,4 @@
-package com.cy.portal.vo;
+package com.cy.yunyi.common.vo;
 
 import lombok.Data;
 import lombok.ToString;

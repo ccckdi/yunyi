@@ -1,4 +1,4 @@
-package com.cy.portal.notify;
+package com.cy.yunyi.common.notify;
 
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;

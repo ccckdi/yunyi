@@ -1,4 +1,4 @@
-package com.cy.portal.util;
+package com.cy.yunyi.common.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
@@ -7,10 +7,11 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import com.cy.portal.vo.PayVo;
-import com.cy.portal.vo.RefundVo;
+import com.cy.yunyi.common.vo.PayVo;
+import com.cy.yunyi.common.vo.RefundVo;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,7 +32,7 @@ public class AlipayUtil {
     @Value("${pay.alibaba.alipayPublicKey}")
     private  String alipayPublicKey;
     // 服务器[异步通知]页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    /**  支付宝会悄悄的给我们发送一个请求，告诉我们支付成功的信息 */
+    /**  支付宝回调地址 */
     @Value("${pay.alibaba.notifyUrl}")
     private  String notifyUrl;
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
@@ -91,18 +92,20 @@ public class AlipayUtil {
      * @return
      * @throws AlipayApiException
      */
-    public String Refund(RefundVo vo) throws AlipayApiException {
+    public boolean Refund(RefundVo vo) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl,
                 appId, merchantPrivateKey, "json",
                 charset, alipayPublicKey, signType);
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         JSONObject bizContent = new JSONObject();
+        //回调地址
+        bizContent.put("notify_url", notifyUrl);
         // 商户订单号，商户网站订单系统中唯一订单号，必填
-        bizContent.put("trade_no", "2021081722001419121412730660");
+        bizContent.put("trade_no", vo.getTradeNo());
         // 退款金额，必填
-        bizContent.put("refund_amount", 0.01);
+        bizContent.put("refund_amount", vo.getRefundAmount());
         // 用户的登录id
-        bizContent.put("out_request_no", "HZ01RF001");
+        bizContent.put("out_request_no", vo.getOutRequestNo());
 
         //// 返回参数选项，按需传入
         //JSONArray queryOptions = new JSONArray();
@@ -111,10 +114,11 @@ public class AlipayUtil {
 
         request.setBizContent(bizContent.toString());
         AlipayTradeRefundResponse response = alipayClient.execute(request);
-        if(response.isSuccess()){
-            System.out.println("调用成功");
-        } else {
-            System.out.println("调用失败");
-        }
+//        if(response.isSuccess()){
+//            System.out.println("支付宝退款调用成功");
+//        } else {
+//            System.out.println("支付宝退款调用成功");
+//        }
+        return response.isSuccess();
     }
 }
