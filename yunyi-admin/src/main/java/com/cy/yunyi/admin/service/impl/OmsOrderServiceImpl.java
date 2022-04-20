@@ -1,7 +1,13 @@
 package com.cy.yunyi.admin.service.impl;
 
+import com.alipay.api.AlipayApiException;
+import com.cy.yunyi.admin.constant.OrderConstant;
 import com.cy.yunyi.admin.service.OmsOrderService;
 import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
+import com.cy.yunyi.common.notify.NotifyType;
+import com.cy.yunyi.common.util.AlipayUtil;
+import com.cy.yunyi.common.vo.PayAsyncVo;
+import com.cy.yunyi.common.vo.RefundVo;
 import com.cy.yunyi.mapper.OmsOrderGoodsMapper;
 import com.cy.yunyi.mapper.OmsOrderMapper;
 import com.cy.yunyi.mapper.UmsMemberMapper;
@@ -32,6 +38,9 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Autowired
     private OmsOrderGoodsMapper orderGoodsMapper;
+
+    @Autowired
+    private AlipayUtil alipayUtil;
 
     @Override
     public List<OmsOrder> list(String orderSn, String receiverKeyword, Integer status, Date createTime, Integer pageSize, Integer pageNum) {
@@ -87,5 +96,60 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         List<OmsOrderGoods> omsOrderGoodsList = orderGoodsMapper.selectByExample(orderGoodsExample);
         omsOrderDetailsVo.setOmsOrderGoodsList(omsOrderGoodsList);
         return omsOrderDetailsVo;
+    }
+
+    /**
+     * 确认退款
+     * @return
+     * @param id
+     */
+    @Override
+    public boolean refund(Long id) throws AlipayApiException {
+        //订单信息
+        OmsOrderExample orderExample = new OmsOrderExample();
+        orderExample.createCriteria().andIdEqualTo(id).andStatusEqualTo(1);
+        List<OmsOrder> orderList = orderMapper.selectByExample(orderExample);
+        RefundVo refundVo = new RefundVo();
+        if (orderList != null && orderList.size() > 0){
+            OmsOrder omsOrder = orderList.get(0);
+            refundVo.setTradeNo(omsOrder.getPayId());
+            refundVo.setRefundAmount(String.valueOf(omsOrder.getActualPrice()));
+            refundVo.setOutRequestNo(String.valueOf(omsOrder.getUserId()));
+        }
+        boolean result = alipayUtil.Refund(refundVo);
+        return result;
+    }
+
+    /**
+     * 支付回调
+     * @param vo
+     * @return
+     */
+    @Override
+    public Integer payNotify(PayAsyncVo vo) {
+        //查询订单
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderSnEqualTo(vo.getOut_trade_no());
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        if (orderList.size() > 0){
+            //修改订单状态
+            OmsOrder order = orderList.get(0);
+            order.setOrderStatus(OrderConstant.STATUS_REFUND_CONFIRM);
+//            order.setRefundTime();
+            order.setUpdateTime(new Date());
+            int count = orderMapper.updateByPrimaryKey(order);
+
+//            //异步短信通知用户
+//            //订单编号由于受腾讯云参数长度现在只保留后6位
+//            notifyService.notifySmsTemplate(order.getMobile(), NotifyType.PAY_SUCCEED,
+//                    new String[]{order.getOrderSn().substring(order.getOrderSn().length() - 6,order.getOrderSn().length())});
+//
+//            //异步邮件通知管理员
+//            notifyService.notifyMail("新订单通知", order.toString());
+
+            return count;
+        }
+        return 0;
     }
 }

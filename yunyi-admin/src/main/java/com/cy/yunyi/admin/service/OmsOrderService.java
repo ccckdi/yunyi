@@ -1,6 +1,8 @@
 package com.cy.yunyi.admin.service;
 
+import com.alipay.api.AlipayApiException;
 import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
+import com.cy.yunyi.common.vo.PayAsyncVo;
 import com.cy.yunyi.model.OmsOrder;
 
 import java.util.Date;
@@ -15,4 +17,13 @@ public interface OmsOrderService {
     List<OmsOrder> list(String orderSn, String receiverKeyword, Integer status, Date createTime, Integer pageSize, Integer pageNum);
 
     OmsOrderDetailsVo detail(Long id);
+
+    /**
+     * 确认退款
+     * @return
+     * @param id
+     */
+    boolean refund(Long id) throws AlipayApiException;
+
+    Integer payNotify(PayAsyncVo vo);
 }
