@@ -1,6 +1,6 @@
-import com.cy.portal.PortalApplication;
-import com.cy.portal.dto.ItemPreferencesDto;
-import com.cy.portal.service.ItemBaseCacheService;
+import com.cy.yunyi.portal.PortalApplication;
+import com.cy.yunyi.portal.dto.ItemPreferencesDto;
+import com.cy.yunyi.portal.service.ItemBaseCacheService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
