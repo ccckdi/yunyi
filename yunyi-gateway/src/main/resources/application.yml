@@ -57,3 +57,6 @@ secure:
       - "/yunyi-auth/oauth/token"
       - "/yunyi-admin/admin/login"
       - "/yunyi-portal/sso/login"
+      - "/yunyi-admin/order/refundNotify"
+      - "/yunyi-portal/order/aliPay"
+      - "/yunyi-portal/order/payNotify"
