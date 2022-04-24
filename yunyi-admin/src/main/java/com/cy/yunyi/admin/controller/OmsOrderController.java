@@ -2,6 +2,7 @@ package com.cy.yunyi.admin.controller;
 
 import com.alipay.api.AlipayApiException;
 import com.cy.yunyi.admin.service.OmsOrderService;
+import com.cy.yunyi.admin.service.impl.OmsOrderServiceImpl;
 import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
 import com.cy.yunyi.common.api.CommonPage;
 import com.cy.yunyi.common.api.CommonResult;
@@ -58,6 +59,26 @@ public class OmsOrderController {
                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<OmsOrder> orderList = orderService.refundList(orderSn, receiverKeyword, orderStatus, updateTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(orderList));
+    }
+
+    @ApiOperation("修改订单")
+    @PostMapping("/update/{id}")
+    public CommonResult update(@PathVariable Long id,@RequestBody OmsOrder order) throws AlipayApiException {
+        int count = orderService.update(id,order);
+        if (count > 0) {
+            return CommonResult.success();
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation("删除订单")
+    @PostMapping("/delete/{id}")
+    public CommonResult delete(@PathVariable Long id) throws AlipayApiException {
+        int count = orderService.delete(id);
+        if (count > 0) {
+            return CommonResult.success();
+        }
+        return CommonResult.failed();
     }
 
     @ApiOperation("确认退款")

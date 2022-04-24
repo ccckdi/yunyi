@@ -30,6 +30,9 @@ public interface OmsOrderService {
      */
     List<OmsOrder> refundList(String orderSn, String receiverKeyword, Integer orderStatus, Date updateTime, Integer pageSize, Integer pageNum);
 
+    int update(Long id, OmsOrder order);
+
+    int delete(Long id);
 
     /**
      * 确认退款

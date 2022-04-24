@@ -143,6 +143,16 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         return orderList;
     }
 
+    @Override
+    public int update(Long id, OmsOrder order) {
+        return 0;
+    }
+
+    @Override
+    public int delete(Long id) {
+        return 0;
+    }
+
     /**
      * 确认退款
      * @return
