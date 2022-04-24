@@ -29,5 +29,6 @@ public class OrderConstant {
     public static final int STATUS_ADMIN_CANCEL = 104;
     public static final int STATUS_REFUND = 202;
     public static final int STATUS_REFUND_CONFIRM = 203;
+    public static final int STATUS_REFUND_REFUSED = 204;
     public static final int STATUS_AUTO_CONFIRM = 402;
 }

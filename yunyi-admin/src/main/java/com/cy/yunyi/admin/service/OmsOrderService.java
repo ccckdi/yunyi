@@ -14,16 +14,34 @@ import java.util.List;
  * @DateTime: 2021/12/2 20:30
  **/
 public interface OmsOrderService {
-    List<OmsOrder> list(String orderSn, String receiverKeyword, Integer status, Date createTime, Integer pageSize, Integer pageNum);
+    List<OmsOrder> list(String orderSn, String receiverKeyword, Integer orderStatus, Date createTime, Integer pageSize, Integer pageNum);
 
     OmsOrderDetailsVo detail(Long id);
+
+    /**
+     * 退款列表
+     * @param orderSn
+     * @param receiverKeyword
+     * @param orderStatus
+     * @param updateTime
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    List<OmsOrder> refundList(String orderSn, String receiverKeyword, Integer orderStatus, Date updateTime, Integer pageSize, Integer pageNum);
+
 
     /**
      * 确认退款
      * @return
      * @param id
      */
-    boolean refund(Long id) throws AlipayApiException;
+    boolean agreeRefund(Long id) throws AlipayApiException;
 
-    Integer payNotify(PayAsyncVo vo);
+    /**
+     * 拒绝退款
+     * @return
+     * @param id
+     */
+    boolean refusedRefund(Long id) throws AlipayApiException;
 }

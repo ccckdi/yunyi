@@ -1,6 +1,8 @@
 package com.cy.yunyi.admin.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.alipay.api.AlipayApiException;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.cy.yunyi.admin.constant.OrderConstant;
 import com.cy.yunyi.admin.service.OmsOrderService;
 import com.cy.yunyi.admin.vo.OmsOrderDetailsVo;
@@ -18,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +47,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     private AlipayUtil alipayUtil;
 
     @Override
-    public List<OmsOrder> list(String orderSn, String receiverKeyword, Integer status, Date createTime, Integer pageSize, Integer pageNum) {
+    public List<OmsOrder> list(String orderSn, String receiverKeyword, Integer orderStatus, Date createTime, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
         OmsOrderExample example = new OmsOrderExample();
         OmsOrderExample.Criteria criteria1 = example.or();
@@ -56,9 +60,9 @@ public class OmsOrderServiceImpl implements OmsOrderService {
             criteria1.andConsigneeEqualTo(receiverKeyword);
             criteria2.andMobileEqualTo(receiverKeyword);
         }
-        if (status != null){
-            criteria1.andOrderStatusEqualTo(status);
-            criteria2.andOrderStatusEqualTo(status);
+        if (orderStatus != null){
+            criteria1.andOrderStatusEqualTo(orderStatus);
+            criteria2.andOrderStatusEqualTo(orderStatus);
         }
         if (createTime != null){
             Calendar cal = Calendar.getInstance();
@@ -98,13 +102,54 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         return omsOrderDetailsVo;
     }
 
+    @Override
+    public List<OmsOrder> refundList(String orderSn, String receiverKeyword, Integer orderStatus, Date updateTime, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        OmsOrderExample example = new OmsOrderExample();
+        OmsOrderExample.Criteria criteria1 = example.or();
+        OmsOrderExample.Criteria criteria2 = example.or();
+        if (!StringUtils.isEmpty(orderSn)){
+            criteria1.andOrderSnEqualTo(orderSn);
+            criteria2.andOrderSnEqualTo(orderSn);
+        }
+        if (!StringUtils.isEmpty(receiverKeyword)){
+            criteria1.andConsigneeEqualTo(receiverKeyword);
+            criteria2.andMobileEqualTo(receiverKeyword);
+        }
+        if (orderStatus != null){
+            criteria1.andOrderStatusEqualTo(orderStatus);
+            criteria2.andOrderStatusEqualTo(orderStatus);
+        }else {
+            ArrayList<Integer> statusList = new ArrayList<>();
+            statusList.add(OrderConstant.STATUS_REFUND);
+            statusList.add(OrderConstant.STATUS_REFUND_CONFIRM);
+            statusList.add(OrderConstant.STATUS_REFUND_REFUSED);
+            criteria1.andOrderStatusIn(statusList);
+            criteria2.andOrderStatusIn(statusList);
+        }
+        if (updateTime != null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(updateTime);//设置起时间
+            cal.add(Calendar.DATE, 1);//增加一天
+            Date endTime = cal.getTime();
+            criteria1.andCreateTimeBetween(updateTime,endTime);
+            criteria2.andCreateTimeBetween(updateTime,endTime);
+        }
+
+        criteria1.andStatusEqualTo(1);
+        criteria2.andStatusEqualTo(1);
+
+        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+        return orderList;
+    }
+
     /**
      * 确认退款
      * @return
      * @param id
      */
     @Override
-    public boolean refund(Long id) throws AlipayApiException {
+    public boolean agreeRefund(Long id) throws AlipayApiException {
         //订单信息
         OmsOrderExample orderExample = new OmsOrderExample();
         orderExample.createCriteria().andIdEqualTo(id).andStatusEqualTo(1);
@@ -116,29 +161,21 @@ public class OmsOrderServiceImpl implements OmsOrderService {
             refundVo.setRefundAmount(String.valueOf(omsOrder.getActualPrice()));
             refundVo.setOutRequestNo(String.valueOf(omsOrder.getUserId()));
         }
-        boolean result = alipayUtil.Refund(refundVo);
-        return result;
-    }
-
-    /**
-     * 支付回调
-     * @param vo
-     * @return
-     */
-    @Override
-    public Integer payNotify(PayAsyncVo vo) {
-        //查询订单
-        OmsOrderExample example = new OmsOrderExample();
-        OmsOrderExample.Criteria criteria = example.createCriteria();
-        criteria.andOrderSnEqualTo(vo.getOut_trade_no());
-        List<OmsOrder> orderList = orderMapper.selectByExample(example);
-        if (orderList.size() > 0){
-            //修改订单状态
-            OmsOrder order = orderList.get(0);
-            order.setOrderStatus(OrderConstant.STATUS_REFUND_CONFIRM);
-//            order.setRefundTime();
-            order.setUpdateTime(new Date());
-            int count = orderMapper.updateByPrimaryKey(order);
+        AlipayTradeRefundResponse result = alipayUtil.Refund(refundVo);
+        if (result.isSuccess()){
+            //查询订单
+            OmsOrderExample example = new OmsOrderExample();
+            OmsOrderExample.Criteria criteria = example.createCriteria();
+            criteria.andOrderSnEqualTo(result.getOutTradeNo());
+            List<OmsOrder> refundOrderList = orderMapper.selectByExample(example);
+            if (refundOrderList.size() > 0){
+                //修改订单状态
+                OmsOrder order = refundOrderList.get(0);
+                order.setOrderStatus(OrderConstant.STATUS_REFUND_CONFIRM);
+                order.setRefundAmount(new BigDecimal(result.getRefundFee()));
+                order.setRefundTime(result.getGmtRefundPay());
+                order.setUpdateTime(new Date());
+                int count = orderMapper.updateByPrimaryKey(order);
 
 //            //异步短信通知用户
 //            //订单编号由于受腾讯云参数长度现在只保留后6位
@@ -147,9 +184,73 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 //
 //            //异步邮件通知管理员
 //            notifyService.notifyMail("新订单通知", order.toString());
-
-            return count;
+            }
         }
-        return 0;
+        return result.isSuccess();
     }
+
+    /**
+     * 确认退款
+     * @return
+     * @param id
+     */
+    @Override
+    public boolean refusedRefund(Long id) throws AlipayApiException {
+        //订单信息
+        OmsOrderExample orderExample = new OmsOrderExample();
+        orderExample.createCriteria().andIdEqualTo(id).andStatusEqualTo(1);
+        List<OmsOrder> orderList = orderMapper.selectByExample(orderExample);
+        if (orderList != null && orderList.size() > 0){
+            OmsOrder omsOrder = orderList.get(0);
+            //修改订单状态
+            omsOrder.setOrderStatus(OrderConstant.STATUS_REFUND_REFUSED);
+            omsOrder.setUpdateTime(new Date());
+            int count = orderMapper.updateByPrimaryKey(omsOrder);
+            return count > 0;
+        }
+
+
+//        //异步短信通知用户
+//        //订单编号由于受腾讯云参数长度现在只保留后6位
+//        notifyService.notifySmsTemplate(order.getMobile(), NotifyType.PAY_SUCCEED,
+//                new String[]{order.getOrderSn().substring(order.getOrderSn().length() - 6,order.getOrderSn().length())});
+//
+//        //异步邮件通知管理员
+//        notifyService.notifyMail("新订单通知", order.toString());
+
+        return false;
+    }
+
+//
+//    /**
+//     * 退款成功后修改订单状态
+//     * @param outTradeNo
+//     * @return
+//     */
+//    public Integer refundNotify(String outTradeNo) {
+//        //查询订单
+//        OmsOrderExample example = new OmsOrderExample();
+//        OmsOrderExample.Criteria criteria = example.createCriteria();
+//        criteria.andOrderSnEqualTo(outTradeNo);
+//        List<OmsOrder> orderList = orderMapper.selectByExample(example);
+//        if (orderList.size() > 0){
+//            //修改订单状态
+//            OmsOrder order = orderList.get(0);
+//            order.setOrderStatus(OrderConstant.STATUS_REFUND_CONFIRM);
+//            order.setRefundTime(Convert.toDate());
+//            order.setUpdateTime(new Date());
+//            int count = orderMapper.updateByPrimaryKey(order);
+//
+////            //异步短信通知用户
+////            //订单编号由于受腾讯云参数长度现在只保留后6位
+////            notifyService.notifySmsTemplate(order.getMobile(), NotifyType.PAY_SUCCEED,
+////                    new String[]{order.getOrderSn().substring(order.getOrderSn().length() - 6,order.getOrderSn().length())});
+////
+////            //异步邮件通知管理员
+////            notifyService.notifyMail("新订单通知", order.toString());
+//
+//            return count;
+//        }
+//        return 0;
+//    }
 }
