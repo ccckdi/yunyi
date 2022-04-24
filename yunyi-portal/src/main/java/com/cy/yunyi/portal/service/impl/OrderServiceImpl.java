@@ -1,5 +1,7 @@
 package com.cy.yunyi.portal.service.impl;
 
+import cn.hutool.Hutool;
+import cn.hutool.core.convert.Convert;
 import com.alipay.api.AlipayApiException;
 import com.cy.yunyi.common.vo.PayAsyncVo;
 import com.cy.yunyi.portal.vo.*;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -316,7 +319,7 @@ public class OrderServiceImpl implements OrderService {
             OmsOrder order = orderList.get(0);
             order.setOrderStatus(OrderUtil.STATUS_PAY);
             order.setPayId(vo.getTrade_no());
-            order.setPayTime(new Date(vo.getGmt_payment()));
+            order.setPayTime(Convert.toDate(vo.getGmt_payment()));
             int count = orderMapper.updateByPrimaryKey(order);
 
             //异步短信通知用户
