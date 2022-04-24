@@ -92,14 +92,14 @@ public class AlipayUtil {
      * @return
      * @throws AlipayApiException
      */
-    public boolean Refund(RefundVo vo) throws AlipayApiException {
+    public AlipayTradeRefundResponse Refund(RefundVo vo) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl,
                 appId, merchantPrivateKey, "json",
                 charset, alipayPublicKey, signType);
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         JSONObject bizContent = new JSONObject();
         //回调地址
-        bizContent.put("notify_url", notifyUrl);
+        request.setNotifyUrl(notifyUrl);
         // 商户订单号，商户网站订单系统中唯一订单号，必填
         bizContent.put("trade_no", vo.getTradeNo());
         // 退款金额，必填
@@ -119,6 +119,6 @@ public class AlipayUtil {
 //        } else {
 //            System.out.println("支付宝退款调用成功");
 //        }
-        return response.isSuccess();
+        return response;
     }
 }
