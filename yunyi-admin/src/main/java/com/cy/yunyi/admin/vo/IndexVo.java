@@ -18,7 +18,7 @@ public class IndexVo {
 
     //待处理事务
     private Integer pendingPayment;
-    private Integer pendingOrder;
+    private Integer pendingDelivered;
     private Integer pendingRefund;
 
     //商品总览

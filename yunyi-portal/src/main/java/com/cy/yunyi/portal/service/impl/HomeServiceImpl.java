@@ -1,6 +1,5 @@
 package com.cy.yunyi.portal.service.impl;
 
-import com.cy.yunyi.portal.service.HomeMapper;
 import com.cy.yunyi.portal.service.HomeService;
 import com.cy.yunyi.portal.vo.HomeContentVo;
 import com.cy.yunyi.mapper.PmsBrandMapper;
@@ -30,9 +29,6 @@ public class HomeServiceImpl implements HomeService {
     private PmsBrandMapper brandMapper;
     @Autowired
     private PmsGoodsMapper goodsMapper;
-
-    @Autowired
-    private HomeMapper homeMapper;
 
     @Override
     public HomeContentVo content() {
