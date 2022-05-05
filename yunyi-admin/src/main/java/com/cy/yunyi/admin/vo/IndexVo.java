@@ -17,8 +17,11 @@ public class IndexVo {
     private BigDecimal totalSalesYesterday;
 
     //待处理事务
+    //待支付
     private Integer pendingPayment;
+    //待收货
     private Integer pendingDelivered;
+    //待退款
     private Integer pendingRefund;
 
     //商品总览
@@ -32,7 +35,4 @@ public class IndexVo {
     private Integer addedYesterday;
     private Integer addedThisMonth;
     private Integer totalMembers;
-
-    //订单统计
-    private LineChartDataVo lineChartDataVo;
 }

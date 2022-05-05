@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "IndexController", description = "首页管理")
-@RequestMapping("/order")
+@RequestMapping("/index")
 @Slf4j
 public class IndexController {
 
@@ -30,7 +30,7 @@ public class IndexController {
 
     // TODO 数据存储到redis
     @ApiOperation("获取首页数据")
-    @GetMapping(value = "/index")
+    @GetMapping(value = "/info")
     public CommonResult<IndexVo> index() {
         IndexVo indexVo = indexService.index();
         return CommonResult.success(indexVo);
