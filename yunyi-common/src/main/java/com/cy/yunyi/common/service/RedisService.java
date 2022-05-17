@@ -22,6 +22,16 @@ public interface RedisService {
     void set(String key, Object value);
 
     /**
+     * set if not exist
+     */
+    Boolean setNx(String key, Object value, long time);
+
+    /**
+     * set if not exist
+     */
+    Boolean setNx(String key, Object value);
+
+    /**
      * 获取属性
      */
     Object get(String key);
