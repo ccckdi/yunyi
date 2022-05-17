@@ -3,6 +3,7 @@ package com.cy.yunyi.portal.service.impl;
 import cn.hutool.Hutool;
 import cn.hutool.core.convert.Convert;
 import com.alipay.api.AlipayApiException;
+import com.cy.yunyi.common.service.RedisService;
 import com.cy.yunyi.common.vo.PayAsyncVo;
 import com.cy.yunyi.portal.vo.*;
 import com.cy.yunyi.portal.dto.SubmitOrderDto;
@@ -18,9 +19,15 @@ import com.cy.yunyi.mapper.OmsOrderMapper;
 import com.cy.yunyi.mapper.UmsMemberMapper;
 import com.cy.yunyi.model.*;
 import com.github.pagehelper.PageHelper;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -60,6 +67,15 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private NotifyService notifyService;
 
+    @Autowired
+    private RedissonClient redisson;
+
+    @Value("${redis.database}")
+    private String REDIS_DATABASE;
+    @Value("${redis.key.score}")
+    private String REDIS_KEY_LOCKSTOCK;
+
+    @Transactional
     @Override
     public String submit(Long userId, SubmitOrderDto submitOrderDto) {
         // 收货地址
@@ -150,18 +166,29 @@ public class OrderServiceImpl implements OrderService {
             cartService.deleteById(cartId);
         }
 
-        // 商品货品数量减少
-        for (OmsCart checkGoods : checkedGoodsList) {
-            Long productId = checkGoods.getProductId();
-            PmsGoodsProduct product = goodsProductService.getById(productId);
+        /**
+         * 商品货品数量减少
+         * 使用redisson分布式锁解决超卖问题
+         */
+        RLock rLock = redisson.getLock(REDIS_DATABASE+":"+REDIS_KEY_LOCKSTOCK);
+        try {
+            for (OmsCart checkGoods : checkedGoodsList) {
+                Long productId = checkGoods.getProductId();
+                PmsGoodsProduct product = goodsProductService.getById(productId);
 
-            int remainNumber = product.getNumber() - checkGoods.getNumber();
-            if (remainNumber < 0) {
-                Asserts.fail("下单的商品货品数量大于库存量");
+                int remainNumber = product.getNumber() - checkGoods.getNumber();
+                if (remainNumber < 0) {
+                    Asserts.fail("下单的商品货品数量大于库存量");
+                }
+                if (goodsProductService.reduceStock(productId, checkGoods.getNumber()) == 0) {
+                    Asserts.fail("商品货品库存减少失败");
+                }
             }
-            if (goodsProductService.reduceStock(productId, checkGoods.getNumber()) == 0) {
-                Asserts.fail("商品货品库存减少失败");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //解锁
+            rLock.unlock();
         }
 
         return order.getOrderSn();

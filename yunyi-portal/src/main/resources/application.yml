@@ -63,9 +63,11 @@ redis:
     orderId: 'oms:orderId'
     member: 'ums:member'
     score: 'pms:score'
+    lockStock: 'lockStock'
   expire:
     authCode: 90 # 验证码超期时间
     common: 86400 # 24小时
+    stock: 10
 
 # 消息队列定义
 rabbitmq:
