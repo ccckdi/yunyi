@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import com.alipay.api.AlipayApiException;
 import com.cy.yunyi.common.service.RedisService;
 import com.cy.yunyi.common.vo.PayAsyncVo;
+import com.cy.yunyi.portal.component.CancelOrderSender;
 import com.cy.yunyi.portal.vo.*;
 import com.cy.yunyi.portal.dto.SubmitOrderDto;
 import com.cy.yunyi.common.notify.NotifyService;
@@ -74,6 +75,9 @@ public class OrderServiceImpl implements OrderService {
     private String REDIS_DATABASE;
     @Value("${redis.key.score}")
     private String REDIS_KEY_LOCKSTOCK;
+
+    @Autowired
+    private CancelOrderSender cancelOrderSender;
 
     @Transactional
     @Override
@@ -191,8 +195,15 @@ public class OrderServiceImpl implements OrderService {
             //解锁
             rLock.unlock();
         }
-
+        sendDelayMessageCancelOrder(order.getId());
         return order.getOrderSn();
+    }
+
+    private void sendDelayMessageCancelOrder(Long orderId) {
+        //获取订单超时时间，假设为60分钟
+        long delayTimes = 30 * 1000;
+        //发送延迟消息
+        cancelOrderSender.sendMessage(orderId, delayTimes);
     }
 
     /**
@@ -297,6 +308,22 @@ public class OrderServiceImpl implements OrderService {
         }
         //订单状态修改为用户取消
         order.setOrderStatus(OrderUtil.STATUS_CANCEL);
+        order.setUpdateTime(new Date());
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        return result;
+    }
+
+    @Override
+    public Integer cancel(Long orderId) {
+        OmsOrder order = orderMapper.selectByPrimaryKey(orderId);
+
+        //校验状态
+        OrderHandleOption handleOption = OrderUtil.build(order);
+        if (!handleOption.isCancel()) {
+            return -1;
+        }
+        //订单状态修改为用户取消
+        order.setOrderStatus(OrderUtil.STATUS_AUTO_CANCEL);
         order.setUpdateTime(new Date());
         int result = orderMapper.updateByPrimaryKeySelective(order);
         return result;

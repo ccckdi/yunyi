@@ -46,6 +46,13 @@ public interface OrderService {
     Integer cancel(Long userId, Long orderId);
 
     /**
+     * 系统超时取消
+     * @param orderId
+     * @return
+     */
+    Integer cancel(Long orderId);
+
+    /**
      * 支付宝支付
      * @param orderSn
      * @return
