@@ -22,11 +22,13 @@ public class RedisConfig extends BaseRedisConfig {
     private String host;
     @Value("${spring.redis.port}")
     private String port;
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     public RedissonClient RedissonClient(){
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://"+host+":"+port);
+        config.useSingleServer().setAddress("redis://"+host+":"+port).setPassword(password);
         return Redisson.create(config);
     }
 }

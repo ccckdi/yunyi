@@ -172,6 +172,7 @@ public class OrderServiceImpl implements OrderService {
          */
         RLock rLock = redisson.getLock(REDIS_DATABASE+":"+REDIS_KEY_LOCKSTOCK);
         try {
+            rLock.tryLock();
             for (OmsCart checkGoods : checkedGoodsList) {
                 Long productId = checkGoods.getProductId();
                 PmsGoodsProduct product = goodsProductService.getById(productId);
