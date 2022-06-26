@@ -28,7 +28,8 @@ public class RedisConfig extends BaseRedisConfig {
     @Bean
     public RedissonClient RedissonClient(){
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://"+host+":"+port).setPassword(password);
+        config.useSingleServer().setAddress("redis://"+host+":"+port).setPassword(password)
+                .setPingConnectionInterval(1000);
         return Redisson.create(config);
     }
 }

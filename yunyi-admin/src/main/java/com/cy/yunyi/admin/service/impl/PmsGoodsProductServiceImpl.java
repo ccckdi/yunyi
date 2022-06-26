@@ -17,13 +17,18 @@ import java.util.List;
  **/
 @Service
 public class PmsGoodsProductServiceImpl implements PmsGoodsProductService {
+
     @Autowired
     private PmsGoodsProductMapper productMapper;
+
+    //状态 1：上线 0：下线
+    private static final int ONLINE = 1;
+    private static final int OFFLINE = 0;
 
     @Override
     public int create(PmsGoodsProduct product) {
         product.setCreateTime(new Date());
-        product.setStatus(1);
+        product.setStatus(ONLINE);
         int count = productMapper.insert(product);
         return count;
     }

@@ -200,8 +200,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void sendDelayMessageCancelOrder(Long orderId) {
-        //获取订单超时时间，假设为60分钟
-        long delayTimes = 30 * 1000;
+        //获取订单超时时间，毫秒
+        long delayTimes = 60 * 1000;
         //发送延迟消息
         cancelOrderSender.sendMessage(orderId, delayTimes);
     }

@@ -53,9 +53,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Long addCart(Long userId, OmsCart cart) {
-
         Long productId = cart.getProductId();
-
         //判断购物车中是否存在该产品
         OmsCartExample example = new OmsCartExample();
         example.createCriteria()
@@ -63,7 +61,6 @@ public class CartServiceImpl implements CartService {
                 .andProductIdEqualTo(productId)
                 .andStatusEqualTo(1);
         List<OmsCart> cartList = cartMapper.selectByExample(example);
-
         if (cartList != null && cartList.size() > 0){
             OmsCart oldCart = cartList.get(0);
             //已存在购物车中,修改数量
@@ -85,9 +82,7 @@ public class CartServiceImpl implements CartService {
             cart.setStatus(1);
             cartMapper.insert(cart);
         }
-
         Long goodsCount = this.getGoodsCount(userId);
-
         return goodsCount;
     }
 
@@ -182,5 +177,15 @@ public class CartServiceImpl implements CartService {
         cart.setId(cartId);
         cart.setStatus(0);
         cartMapper.updateByPrimaryKeySelective(cart);
+    }
+
+    @Override
+    public void deleteCart(Long userId, List<Long> productIds) {
+        OmsCartExample example = new OmsCartExample();
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andProductIdIn(productIds)
+                .andStatusEqualTo(1);
+        cartMapper.deleteByExample(example);
     }
 }

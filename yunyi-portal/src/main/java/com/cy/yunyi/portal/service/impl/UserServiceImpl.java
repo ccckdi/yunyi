@@ -22,12 +22,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private OmsOrderMapper orderMapper;
 
+    private final static int ONLINE = 1;
+
     @Override
     public UserContentVo content(Long userId) {
 
         //查询该用户的订单
         OmsOrderExample example = new OmsOrderExample();
-        example.or().andUserIdEqualTo(userId).andStatusEqualTo(1);
+        example.or().andUserIdEqualTo(userId).andStatusEqualTo(ONLINE);
         List<OmsOrder> orders = orderMapper.selectByExample(example);
 
         int unpaid = 0;

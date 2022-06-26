@@ -172,7 +172,16 @@ public class CartController {
 
     @ApiOperation("移除购物车")
     @PostMapping("/delete")
-    public CommonResult delete(@LoginUser Long userId, @RequestBody String body) {
-        return CommonResult.success();
+    public CommonResult delete(@LoginUser Long userId,@RequestBody String body) {
+        if (userId == null) {
+            return CommonResult.unauthorized();
+        }
+        if (body == null) {
+            return CommonResult.validateFailed();
+        }
+        List<Long> productIds = JacksonUtil.parseLongList(body, "productIds");
+        cartService.deleteCart(userId,productIds);
+        CartContentVo cartContentVo = cartService.content(userId);
+        return CommonResult.success(cartContentVo);
     }
 }

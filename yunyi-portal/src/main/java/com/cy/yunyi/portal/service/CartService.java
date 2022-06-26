@@ -46,4 +46,6 @@ public interface CartService {
      * @param cartId
      */
     void deleteById(Long cartId);
+
+    void deleteCart(Long userId,List<Long> productIds);
 }

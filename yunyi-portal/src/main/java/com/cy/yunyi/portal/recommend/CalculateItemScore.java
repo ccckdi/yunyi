@@ -33,22 +33,18 @@ public class CalculateItemScore {
     private ItemBaseCacheService itemBaseCacheService;
 
     public List<PmsGoods> recommendByUserId(Long userId){
-        //计算推荐得分
+        // 计算推荐得分
         computeResultByUserId(userId);
-        //读取推荐得分
+        // 读取推荐得分
         List<ItemPreferencesDto> scoreList = itemBaseCacheService.getScore(userId);
-        scoreList = scoreList.stream()
-                .sorted(Comparator.comparing(ItemPreferencesDto::getScore).reversed())
-                .collect(Collectors.toList());
-        //已经推荐的分类
-//        Set<Long> categorySet = new HashSet<>();
-        //推荐总数
+        // 排序
+        scoreList = scoreList.stream().sorted(Comparator.comparing(ItemPreferencesDto::getScore).reversed()).collect(Collectors.toList());
+        // 推荐总数
         int size = 6;
-        //所有预推荐商品集合
+        // 所有预推荐商品集合
         Map<Long,List<PmsGoods>> preRecommendMap = new HashMap<>();
-        //推荐集合
+        // 推荐集合
         List<PmsGoods> recommendList = new ArrayList<>(size);
-        //TODO 数据不足时推荐数量达不到推荐总数
         //进行推荐
         for (int i = 0; i < scoreList.size(); i++) {
             ItemPreferencesDto itemPreferencesDto = scoreList.get(i);

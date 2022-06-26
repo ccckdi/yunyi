@@ -35,13 +35,13 @@ spring:
     database: 0 # Redis数据库索引（默认为0）
     port: 6379 # Redis服务器连接端口
     password: chxredis # Redis服务器连接密码（默认为空）
-    timeout: 3000ms # 连接超时时间（毫秒）
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    virtual-host: /mall
-#    username: yunyi
-#    password: yunyi
+    timeout: 10000ms # 连接超时时间（毫秒）
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /yunyi
+    username: yunyi
+    password: yunyi
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml

@@ -164,6 +164,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         OmsOrderExample orderExample = new OmsOrderExample();
         orderExample.createCriteria().andIdEqualTo(id).andStatusEqualTo(1);
         List<OmsOrder> orderList = orderMapper.selectByExample(orderExample);
+        // 订单退款参数
         RefundVo refundVo = new RefundVo();
         if (orderList != null && orderList.size() > 0){
             OmsOrder omsOrder = orderList.get(0);
@@ -171,6 +172,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
             refundVo.setRefundAmount(String.valueOf(omsOrder.getActualPrice()));
             refundVo.setOutRequestNo(String.valueOf(omsOrder.getUserId()));
         }
+        // 调用支付宝退款接口
         AlipayTradeRefundResponse result = alipayUtil.Refund(refundVo);
         if (result.isSuccess()){
             //查询订单
@@ -186,14 +188,6 @@ public class OmsOrderServiceImpl implements OmsOrderService {
                 order.setRefundTime(result.getGmtRefundPay());
                 order.setUpdateTime(new Date());
                 int count = orderMapper.updateByPrimaryKey(order);
-
-//            //异步短信通知用户
-//            //订单编号由于受腾讯云参数长度现在只保留后6位
-//            notifyService.notifySmsTemplate(order.getMobile(), NotifyType.PAY_SUCCEED,
-//                    new String[]{order.getOrderSn().substring(order.getOrderSn().length() - 6,order.getOrderSn().length())});
-//
-//            //异步邮件通知管理员
-//            notifyService.notifyMail("新订单通知", order.toString());
             }
         }
         return result.isSuccess();
