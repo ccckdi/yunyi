@@ -17,10 +17,10 @@ spring:
     username: root
     password: root
   redis:
-    host: 121.43.134.153 # Redis服务器地址
+    host: localhost # Redis服务器地址
     database: 0 # Redis数据库索引（默认为0）
     port: 6379 # Redis服务器连接端口
-    password: chxredis # Redis服务器连接密码（默认为空）
+#    password: chxredis # Redis服务器连接密码（默认为空）
 #    timeout: 300ms # 连接超时时间（毫秒）
 mybatis:
   mapper-locations:
